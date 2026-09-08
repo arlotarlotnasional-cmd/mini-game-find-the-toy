@@ -1352,12 +1352,6 @@ img{
     width:100%;
     height:100%;
 
-    /*
-       FIX:
-       Jangan gunakan cover.
-       contain menjaga SELURUH gambar.
-    */
-
     object-fit:contain;
 
     object-position:center center;
@@ -1403,11 +1397,6 @@ img{
 
     width:100%;
     height:100%;
-
-    /*
-       FIX:
-       Jangan potong cyber-horror juga.
-    */
 
     object-fit:contain;
 
@@ -1570,11 +1559,6 @@ img{
 
     animation:
         errorAppear .14s ease-out;
-
-    /*
-       Parent layer is pointer-events:none,
-       but each actual error box is interactive.
-    */
 
     pointer-events:auto;
 
@@ -2403,7 +2387,6 @@ img{
 
 /* =========================================================
    REDUCE MOTION
-   Accessibility / lower-powered devices.
 ========================================================= */
 
 @media(
@@ -2599,8 +2582,6 @@ img{
         id="roundMessage"
     ></div>
 
-
-    <!-- RESULT -->
 
     <div
         class="resultOverlay"
@@ -2920,16 +2901,6 @@ img{
 /* =========================================================
    FIND THE HIDDEN TOY
    RESPONSIVE FINAL EDITION
-
-   IMPORTANT ASSET PATHS:
-
-   game/cyber-horror.png
-   game/happy ending.png
-   game/jumpscare.png
-   game/level1.png
-   game/level2.png
-   game/level3.jpg
-   game/secret ending.png
 ========================================================= */
 
 
@@ -3081,8 +3052,6 @@ const playButton =
 
 /* =========================================================
    ASSETS
-   FIXED:
-   level3 = .jpg
 ========================================================= */
 
 const ASSETS = {
@@ -3109,6 +3078,71 @@ const ASSETS = {
         "game/secret%20ending.png"
 
 };
+
+
+/* =========================================================
+   INTRO MUSIC
+   ADDED ONLY FOR START SCREEN
+========================================================= */
+
+const introMusic =
+    new Audio("game/introgame.mp3");
+
+introMusic.loop =
+    true;
+
+introMusic.volume =
+    0.65;
+
+introMusic.preload =
+    "auto";
+
+
+function startIntroMusic(){
+
+    if(
+        !introMusic.paused
+    ){
+        return;
+    }
+
+    introMusic.currentTime =
+        0;
+
+    introMusic.volume =
+        0.65;
+
+    introMusic.play()
+        .catch(
+            ()=>{
+                /*
+                   Browser autoplay policy
+                   may block sound before
+                   user interaction.
+                */
+            }
+        );
+
+}
+
+
+function stopIntroMusic(){
+
+    if(
+        introMusic.paused
+    ){
+        return;
+    }
+
+    introMusic.pause();
+
+    introMusic.currentTime =
+        0;
+
+    introMusic.volume =
+        0.65;
+
+}
 
 
 /* =========================================================
@@ -3614,7 +3648,6 @@ function eyeSound(){
 
 /* =========================================================
    FULLSCREEN
-   Works on mobile when called from user interaction.
 ========================================================= */
 
 function fullscreen(){
@@ -3755,7 +3788,6 @@ function randomAnomaly(){
 
 /* =========================================================
    POSITIONING
-   Responsive-safe positioning.
 ========================================================= */
 
 function randomPosition(
@@ -4022,11 +4054,6 @@ function spawnDecoys(){
             }
         );
 
-        /*
-           Also explicitly handle touch.
-           prevent duplicate synthetic click.
-        */
-
         d.addEventListener(
             "pointerdown",
             e=>{
@@ -4166,12 +4193,6 @@ gameArea.addEventListener(
             return;
         }
 
-        /*
-           On touch devices, don't use
-           the cursor as an aggressive
-           toy escape mechanism.
-        */
-
         if(
             e.pointerType === "touch"
         ){
@@ -4230,10 +4251,6 @@ gameArea.addEventListener(
 
         const now =
             Date.now();
-
-        /*
-           Moderate escape only.
-        */
 
         if(
             distance<65 &&
@@ -4310,10 +4327,6 @@ function wrongTarget(d){
         "crit"
     );
 
-    /*
-       Immediate jumpscare.
-    */
-
     setTimeout(
         ()=>{
             startImmediateJumpscare();
@@ -4369,18 +4382,8 @@ function startLevel(){
 
     updateHUD();
 
-    /*
-       Reset glow.
-    */
-
     targetGlow.style.opacity =
         "0";
-
-    /*
-       Make sure game area
-       has dimensions before
-       positioning.
-    */
 
     requestAnimationFrame(
         ()=>{
@@ -4402,10 +4405,6 @@ function startLevel(){
     );
 
 
-    /* -----------------------------------------
-       TOY MOVEMENT
-    ----------------------------------------- */
-
     moveInterval =
         setInterval(
             ()=>{
@@ -4418,11 +4417,6 @@ function startLevel(){
                 }
 
                 moveToy();
-
-                /*
-                   Decoys move only
-                   from Level 2.
-                */
 
                 if(level>=2){
 
@@ -4450,10 +4444,6 @@ function startLevel(){
             cfg.moves
         );
 
-
-    /* -----------------------------------------
-       SECRET EYE MOVEMENT
-    ----------------------------------------- */
 
     eyeMoveInterval =
         setInterval(
@@ -4491,10 +4481,6 @@ function startLevel(){
             )
         );
 
-
-    /* -----------------------------------------
-       TIMER
-    ----------------------------------------- */
 
     timerInterval =
         setInterval(
@@ -4543,12 +4529,6 @@ function startLevel(){
 
                     roundLocked =
                         true;
-
-                    /*
-                       Timeout:
-                       BLACK → TERMINAL →
-                       ERROR SPAM → REVEAL
-                    */
 
                     startBadSequence();
 
@@ -4794,12 +4774,6 @@ function gameOver(
                 reason==="completed"
             ){
 
-                /*
-                   Normal completion:
-                   3 eyes = secret
-                   otherwise happy.
-                */
-
                 if(
                     eyesCollected>=3
                 ){
@@ -4876,10 +4850,6 @@ function startImmediateJumpscare(){
         80
     );
 
-    /*
-       Strong shake.
-    */
-
     jumpscare.classList.add(
         "glitch"
     );
@@ -4892,11 +4862,6 @@ function startImmediateJumpscare(){
         },
         850
     );
-
-    /*
-       Then:
-       black → terminal → error → reveal
-    */
 
     setTimeout(
         ()=>{
@@ -5261,12 +5226,6 @@ function startTerminal(){
             i>=logs.length
         ){
 
-            /*
-               IMPORTANT:
-               First ERROR SPAM appears
-               BEFORE cyber reveal.
-            */
-
             setTimeout(
                 startFirstErrorSpam,
                 700
@@ -5351,7 +5310,6 @@ function startTerminal(){
 
 /* =========================================================
    FIRST ERROR SPAM
-   This is the error spam BEFORE the 4x4 reveal.
 ========================================================= */
 
 function startFirstErrorSpam(){
@@ -5521,10 +5479,6 @@ function startReveal(){
     );
 
 
-    /*
-       Full image.
-    */
-
     const revealDuration =
         pieces.length *
         210;
@@ -5549,10 +5503,6 @@ function startReveal(){
         revealDuration+350
     );
 
-
-    /*
-       Then sudden cyber jumpscare.
-    */
 
     setTimeout(
         startFullCyberJumpscare,
@@ -5589,10 +5539,6 @@ function startFullCyberJumpscare(){
         "1";
 
     jumpSound();
-
-    /*
-       Multiple flashes.
-    */
 
     setTimeout(
         ()=>{
@@ -5641,11 +5587,6 @@ function startFullCyberJumpscare(){
     );
 
 
-    /*
-       Cyber image stays visible.
-       Then SECOND ERROR SPAM.
-    */
-
     setTimeout(
         ()=>{
 
@@ -5668,7 +5609,6 @@ function startFullCyberJumpscare(){
 
 /* =========================================================
    SECOND ERROR SPAM
-   This one attacks the cyber image.
 ========================================================= */
 
 function startCyberErrorSpam(){
@@ -5803,11 +5743,6 @@ function createError(){
         </button>
         `;
 
-    /*
-       Responsive position.
-       Keep boxes inside viewport.
-    */
-
     const left =
         5 +
         Math.random()*70;
@@ -5877,10 +5812,6 @@ function finishBadEndingTransition(){
     screen.style.display =
         "none";
 
-    /*
-       Strong black collapse.
-    */
-
     flash.style.background =
         "#000";
 
@@ -5926,10 +5857,6 @@ function showBadEnding(){
     badEnding.classList.add(
         "glitch"
     );
-
-    /*
-       Focus only when possible.
-    */
 
     setTimeout(
         ()=>{
@@ -6110,22 +6037,21 @@ badExit.addEventListener(
 
 function mulai(){
 
+    /*
+       INTRO MUSIC STOPS
+       EXACTLY WHEN PLAY NOW
+       IS PRESSED.
+    */
+
+    stopIntroMusic();
+
     initAudio();
 
     resumeAudio();
 
     clickSound();
 
-    /*
-       Fullscreen is requested directly
-       from the button interaction.
-    */
-
     fullscreen();
-
-    /*
-       Fresh session.
-    */
 
     sessionId =
         "#" +
@@ -6142,10 +6068,6 @@ function mulai(){
 
     game.style.display =
         "block";
-
-    /*
-       Reset state.
-    */
 
     sequenceStarted =
         false;
@@ -6173,10 +6095,6 @@ function mulai(){
 
     currentBadReason =
         "timeout";
-
-    /*
-       Reset overlays.
-    */
 
     resultOverlay.style.display =
         "none";
@@ -6338,6 +6256,19 @@ document.addEventListener(
     },
     {
         passive:true
+    }
+);
+
+
+/* =========================================================
+   START INTRO MUSIC
+   PLAY BEFORE ENTERING LEVEL 1
+========================================================= */
+
+window.addEventListener(
+    "load",
+    ()=>{
+        startIntroMusic();
     }
 );
 
