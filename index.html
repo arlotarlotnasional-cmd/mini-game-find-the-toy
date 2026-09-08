@@ -60,7 +60,11 @@ img{
     inset:0;
 
     width:100vw;
+    width:100dvw;
+
+    height:100vh;
     height:100dvh;
+
     min-height:100%;
 
     display:flex;
@@ -68,10 +72,10 @@ img{
     align-items:center;
 
     padding:
-        max(20px,env(safe-area-inset-top))
-        max(20px,env(safe-area-inset-right))
-        max(20px,env(safe-area-inset-bottom))
-        max(20px,env(safe-area-inset-left));
+        max(16px,env(safe-area-inset-top))
+        max(16px,env(safe-area-inset-right))
+        max(16px,env(safe-area-inset-bottom))
+        max(16px,env(safe-area-inset-left));
 
     background:
         radial-gradient(
@@ -118,11 +122,8 @@ img{
 .introMoon{
     position:absolute;
 
-    width:
-        clamp(70px,11vw,130px);
-
-    height:
-        clamp(70px,11vw,130px);
+    width:clamp(70px,11vw,130px);
+    height:clamp(70px,11vw,130px);
 
     border-radius:50%;
 
@@ -253,14 +254,10 @@ img{
     left:50%;
     bottom:17%;
 
-    width:
-        clamp(190px,31vw,430px);
+    width:clamp(190px,31vw,430px);
+    height:clamp(105px,18vw,220px);
 
-    height:
-        clamp(105px,18vw,220px);
-
-    transform:
-        translateX(-50%);
+    transform:translateX(-50%);
 
     background:
         linear-gradient(
@@ -270,8 +267,7 @@ img{
             #19150f 100%
         );
 
-    border:
-        2px solid #100e0a;
+    border:2px solid #100e0a;
 
     box-shadow:
         0 18px 50px #000c;
@@ -286,7 +282,6 @@ img{
     position:absolute;
 
     left:-10%;
-
     top:-36%;
 
     width:120%;
@@ -307,12 +302,8 @@ img{
             0 100%
         );
 
-    border-bottom:
-        5px solid #080806;
+    border-bottom:5px solid #080806;
 }
-
-
-/* roof ornament */
 
 .introRoof::after{
     content:"";
@@ -325,8 +316,7 @@ img{
     width:12px;
     height:38px;
 
-    transform:
-        translateX(-50%);
+    transform:translateX(-50%);
 
     background:#17140e;
 
@@ -334,7 +324,7 @@ img{
 }
 
 
-/* house window/light */
+/* house window */
 
 .introWindow{
     position:absolute;
@@ -353,8 +343,7 @@ img{
             #3b2811 100%
         );
 
-    border:
-        4px solid #090806;
+    border:4px solid #090806;
 
     box-shadow:
         0 0 22px #e9a83c88;
@@ -377,8 +366,7 @@ img{
     width:24%;
     height:63%;
 
-    transform:
-        translateX(-50%);
+    transform:translateX(-50%);
 
     background:
         linear-gradient(
@@ -388,8 +376,7 @@ img{
             #0e0c08
         );
 
-    border:
-        3px solid #080705;
+    border:3px solid #080705;
 }
 
 .introDoor::before{
@@ -398,7 +385,6 @@ img{
     position:absolute;
 
     right:12%;
-
     top:52%;
 
     width:6px;
@@ -491,7 +477,7 @@ img{
 }
 
 
-/* tiny warm particles */
+/* fireflies */
 
 .firefly{
     position:absolute;
@@ -540,7 +526,7 @@ img{
 }
 
 
-/* intro vignette */
+/* vignette */
 
 .introVignette{
     position:absolute;
@@ -556,7 +542,7 @@ img{
 }
 
 
-/* intro title decoration */
+/* intro label */
 
 .introLabel{
     position:absolute;
@@ -564,16 +550,13 @@ img{
     left:50%;
     top:9%;
 
-    transform:
-        translateX(-50%);
+    transform:translateX(-50%);
 
     color:#d7c995;
 
-    font:
-        10px/1 Consolas,monospace;
+    font:10px/1 Consolas,monospace;
 
-    letter-spacing:
-        clamp(3px,1vw,7px);
+    letter-spacing:clamp(3px,1vw,7px);
 
     text-transform:uppercase;
 
@@ -590,13 +573,20 @@ img{
 .box{
     position:relative;
 
-    width:min(450px,90vw);
+    width:min(450px,92vw);
 
-    max-height:90dvh;
+    max-width:100%;
+
+    max-height:calc(
+        100dvh -
+        env(safe-area-inset-top) -
+        env(safe-area-inset-bottom) -
+        24px
+    );
 
     overflow:auto;
 
-    padding:40px;
+    padding:clamp(22px,5vw,40px);
 
     background:
         linear-gradient(
@@ -605,10 +595,9 @@ img{
             #edf2ed
         );
 
-    border:
-        1px solid #ffffffaa;
+    border:1px solid #ffffffaa;
 
-    border-radius:25px;
+    border-radius:clamp(18px,4vw,25px);
 
     text-align:center;
 
@@ -622,9 +611,11 @@ img{
 .box h1{
     margin-top:0;
 
-    font-size:32px;
+    font-size:clamp(24px,6vw,32px);
 
     color:#202020;
+
+    line-height:1.2;
 }
 
 .box p{
@@ -632,42 +623,55 @@ img{
 
     line-height:1.5;
 
-    margin-bottom:25px;
+    margin-bottom:22px;
+
+    font-size:clamp(13px,3.5vw,16px);
 }
 
 .box small{
-    font-size:12px;
+    font-size:11px;
+
     color:#999;
 }
+
+
+/* start meta */
 
 .startMeta{
     display:flex;
 
     justify-content:center;
 
-    gap:10px;
+    gap:8px;
 
     flex-wrap:wrap;
 
-    margin:18px 0 10px;
+    margin:16px 0 10px;
 
     color:#555;
 
-    font-size:11px;
+    font-size:clamp(9px,2.5vw,11px);
 
     font-weight:bold;
 
     letter-spacing:1px;
 }
 
+
+/* warning */
+
 .startWarning{
-    display:inline-flex;
+    display:flex;
 
     align-items:center;
 
+    justify-content:center;
+
     gap:7px;
 
-    padding:8px 12px;
+    width:100%;
+
+    padding:8px 10px;
 
     border-radius:999px;
 
@@ -675,7 +679,7 @@ img{
 
     color:#718087;
 
-    font-size:10px;
+    font-size:clamp(8px,2.5vw,10px);
 
     letter-spacing:1px;
 }
@@ -694,10 +698,68 @@ img{
         0 0 9px #42c96b;
 }
 
-.play{
-    margin-top:18px;
 
-    padding:16px 42px;
+/* =========================================================
+   MUSIC BUTTON
+========================================================= */
+
+.musicButton{
+    display:block;
+
+    width:min(280px,80vw);
+
+    min-height:46px;
+
+    margin:10px auto 0;
+
+    padding:11px 20px;
+
+    border:1px solid #cfd6d2;
+
+    border-radius:25px;
+
+    background:#f7faf8;
+
+    color:#47534d;
+
+    font-size:13px;
+
+    font-weight:bold;
+
+    letter-spacing:1px;
+
+    cursor:pointer;
+
+    transition:
+        transform .18s,
+        background .18s,
+        box-shadow .18s;
+}
+
+.musicButton:hover{
+    transform:translateY(-2px);
+
+    background:#ffffff;
+
+    box-shadow:
+        0 7px 20px #0002;
+}
+
+.musicButton:active{
+    transform:scale(.97);
+}
+
+
+/* play */
+
+.play{
+    display:block;
+
+    width:min(280px,80vw);
+
+    margin:12px auto 0;
+
+    padding:14px 25px;
 
     min-height:52px;
 
@@ -714,7 +776,7 @@ img{
 
     color:#fff;
 
-    font-size:18px;
+    font-size:clamp(15px,4vw,18px);
 
     font-weight:bold;
 
@@ -723,8 +785,6 @@ img{
     transition:
         transform .2s,
         box-shadow .2s;
-
-    touch-action:manipulation;
 }
 
 .play:hover{
@@ -750,6 +810,9 @@ img{
     inset:0;
 
     width:100vw;
+    width:100dvw;
+
+    height:100vh;
     height:100dvh;
 
     min-height:100%;
@@ -778,9 +841,9 @@ img{
     min-height:75px;
 
     padding:
-        20px
+        max(12px,env(safe-area-inset-top))
         max(20px,env(safe-area-inset-right))
-        20px
+        12px
         max(20px,env(safe-area-inset-left));
 
     display:flex;
@@ -795,8 +858,7 @@ img{
     backdrop-filter:blur(8px);
     -webkit-backdrop-filter:blur(8px);
 
-    border-bottom:
-        1px solid #ffffff12;
+    border-bottom:1px solid #ffffff12;
 
     z-index:50;
 
@@ -809,7 +871,7 @@ img{
 .hudRight{
     display:flex;
 
-    gap:20px;
+    gap:clamp(7px,2vw,20px);
 
     align-items:center;
 
@@ -882,8 +944,7 @@ img{
 
     background-size:cover;
 
-    transition:
-        filter .25s;
+    transition:filter .25s;
 
     touch-action:none;
 }
@@ -977,21 +1038,24 @@ img{
     position:absolute;
 
     bottom:
-        max(25px,calc(15px + env(safe-area-inset-bottom)));
+        max(
+            25px,
+            calc(15px + env(safe-area-inset-bottom))
+        );
 
     left:50%;
 
     transform:translateX(-50%);
 
-    max-width:
-        calc(100% - 30px);
+    width:max-content;
+
+    max-width:calc(100% - 30px);
 
     padding:12px 20px;
 
     background:#0009;
 
-    border:
-        1px solid #ffffff12;
+    border:1px solid #ffffff12;
 
     border-radius:20px;
 
@@ -1004,6 +1068,10 @@ img{
     pointer-events:none;
 
     text-align:center;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
 }
 
 
@@ -1076,9 +1144,7 @@ img{
 }
 
 
-/* =========================================================
-   TARGET GLOW
-========================================================= */
+/* target glow */
 
 .targetGlow{
     position:absolute;
@@ -1286,8 +1352,7 @@ img{
 
     max-width:min(360px,70vw);
 
-    font:
-        10px/1.5 monospace;
+    font:10px/1.5 monospace;
 
     letter-spacing:1px;
 
@@ -1333,12 +1398,12 @@ img{
     pointer-events:none;
 
     width:max-content;
+
     max-width:90vw;
 
     padding:16px 24px;
 
-    border:
-        1px solid #ffffff35;
+    border:1px solid #ffffff35;
 
     background:#07100bdd;
 
@@ -1385,8 +1450,7 @@ img{
         max(20px,env(safe-area-inset-bottom))
         max(20px,env(safe-area-inset-left));
 
-    background:
-        rgba(0,0,0,.86);
+    background:rgba(0,0,0,.86);
 
     display:none;
 
@@ -1401,16 +1465,15 @@ img{
 }
 
 .resultCard{
-    width:min(430px,88vw);
+    width:min(430px,92vw);
 
     max-height:90dvh;
 
     overflow:auto;
 
-    padding:28px;
+    padding:clamp(20px,5vw,28px);
 
-    border:
-        1px solid #4cff72;
+    border:1px solid #4cff72;
 
     background:#071009;
 
@@ -1429,7 +1492,7 @@ img{
 }
 
 .resultCard h2{
-    font-size:22px;
+    font-size:clamp(18px,5vw,22px);
 
     margin:
         12px 0 20px;
@@ -1440,8 +1503,7 @@ img{
 .resultGrid{
     display:grid;
 
-    grid-template-columns:
-        1fr auto;
+    grid-template-columns:1fr auto;
 
     gap:9px 24px;
 
@@ -1482,8 +1544,7 @@ img{
 }
 
 .resultCard p{
-    font:
-        11px/1.6 Arial;
+    font:11px/1.6 Arial;
 
     color:#aeb8b0;
 }
@@ -1534,12 +1595,11 @@ img{
 
     color:#555;
 
-    font-size:
-        clamp(14px,4vw,18px);
+    font-size:clamp(12px,4vw,18px);
 
     text-align:center;
 
-    letter-spacing:3px;
+    letter-spacing:clamp(1px,1vw,3px);
 
     padding:20px;
 }
@@ -1579,7 +1639,7 @@ img{
         max(35px,env(safe-area-inset-bottom))
         max(25px,env(safe-area-inset-left));
 
-    font-size:17px;
+    font-size:clamp(11px,2vw,17px);
 
     line-height:1.75;
 
@@ -1588,27 +1648,15 @@ img{
     overflow:hidden;
 
     overflow-wrap:anywhere;
+
+    word-break:break-word;
 }
 
-.red{
-    color:#ff2222;
-}
-
-.yellow{
-    color:#ffd000;
-}
-
-.green{
-    color:#32ff65;
-}
-
-.white{
-    color:#fff;
-}
-
-.dim{
-    color:#777;
-}
+.red{color:#ff2222;}
+.yellow{color:#ffd000;}
+.green{color:#32ff65;}
+.white{color:#fff;}
+.dim{color:#777;}
 
 
 /* =========================================================
@@ -1661,11 +1709,9 @@ img{
 
     display:grid;
 
-    grid-template-columns:
-        repeat(4,1fr);
+    grid-template-columns:repeat(4,1fr);
 
-    grid-template-rows:
-        repeat(4,1fr);
+    grid-template-rows:repeat(4,1fr);
 
     z-index:10;
 
@@ -1676,8 +1722,7 @@ img{
     background-image:
         url("game/cyber-horror.png");
 
-    background-size:
-        400% 400%;
+    background-size:400% 400%;
 
     background-repeat:no-repeat;
 
@@ -1725,18 +1770,15 @@ img{
 #loadingImage{
     position:absolute;
 
-    top:
-        max(25px,env(safe-area-inset-top));
+    top:max(25px,env(safe-area-inset-top));
 
     left:50%;
 
-    transform:
-        translateX(-50%);
+    transform:translateX(-50%);
 
     color:#ff2222;
 
-    font-size:
-        clamp(11px,3vw,18px);
+    font-size:clamp(9px,3vw,18px);
 
     z-index:30;
 
@@ -1759,38 +1801,17 @@ img{
 }
 
 @keyframes glitch{
-    0%{
-        transform:translate(0);
-    }
-
-    20%{
-        transform:
-            translate(-9px,4px);
-    }
-
-    40%{
-        transform:
-            translate(8px,-5px);
-    }
-
-    60%{
-        transform:
-            translate(-5px,-3px);
-    }
-
-    80%{
-        transform:
-            translate(7px,4px);
-    }
-
-    100%{
-        transform:translate(0);
-    }
+    0%{transform:translate(0);}
+    20%{transform:translate(-9px,4px);}
+    40%{transform:translate(8px,-5px);}
+    60%{transform:translate(-5px,-3px);}
+    80%{transform:translate(7px,4px);}
+    100%{transform:translate(0);}
 }
 
 
 /* =========================================================
-   IMMEDIATE WRONG-CLICK JUMPSCARE
+   IMMEDIATE JUMPSCARE
 ========================================================= */
 
 #jumpscare{
@@ -1936,9 +1957,9 @@ img{
     color:#fff;
 
     font:
-        bold clamp(24px,5vw,70px) Arial;
+        bold clamp(20px,5vw,70px) Arial;
 
-    letter-spacing:5px;
+    letter-spacing:clamp(2px,1vw,5px);
 
     text-align:center;
 
@@ -1993,15 +2014,13 @@ img{
 
     width:280px;
 
-    max-width:
-        min(280px,82vw);
+    max-width:min(280px,82vw);
 
     padding:18px;
 
     background:#111;
 
-    border:
-        2px solid #777;
+    border:2px solid #777;
 
     color:#fff;
 
@@ -2029,8 +2048,7 @@ img{
 
     cursor:pointer;
 
-    border:
-        1px solid #777;
+    border:1px solid #777;
 
     background:#222;
 
@@ -2134,8 +2152,7 @@ img{
 .badBadge{
     padding:8px 15px;
 
-    border:
-        1px solid #ff3333aa;
+    border:1px solid #ff3333aa;
 
     border-radius:999px;
 
@@ -2159,9 +2176,9 @@ img{
     color:#ff2222;
 
     font:
-        bold clamp(40px,8vw,100px) Arial;
+        bold clamp(32px,8vw,100px) Arial;
 
-    letter-spacing:6px;
+    letter-spacing:clamp(2px,1vw,6px);
 
     text-shadow:
         0 0 10px red,
@@ -2180,9 +2197,9 @@ img{
     margin-top:15px;
 
     font:
-        bold 17px Arial;
+        bold clamp(11px,3vw,17px) Arial;
 
-    letter-spacing:4px;
+    letter-spacing:clamp(1px,1vw,4px);
 
     color:#fff;
 }
@@ -2198,6 +2215,8 @@ img{
     color:#aaa;
 
     letter-spacing:2px;
+
+    overflow-wrap:anywhere;
 }
 
 .badButtons{
@@ -2210,6 +2229,8 @@ img{
     flex-wrap:wrap;
 
     justify-content:center;
+
+    max-width:100%;
 }
 
 .endingBtn{
@@ -2217,8 +2238,7 @@ img{
 
     min-height:46px;
 
-    border:
-        1px solid #ff3333;
+    border:1px solid #ff3333;
 
     background:#090909;
 
@@ -2244,19 +2264,9 @@ img{
 }
 
 @keyframes endingGlitch{
-    0%{
-        transform:translate(0);
-    }
-
-    50%{
-        transform:
-            translate(4px,-2px);
-    }
-
-    100%{
-        transform:
-            translate(-3px,2px);
-    }
+    0%{transform:translate(0);}
+    50%{transform:translate(4px,-2px);}
+    100%{transform:translate(-3px,2px);}
 }
 
 
@@ -2331,8 +2341,7 @@ img{
 .normalBadge{
     padding:7px 13px;
 
-    border:
-        1px solid #fff8;
+    border:1px solid #fff8;
 
     border-radius:999px;
 
@@ -2350,7 +2359,7 @@ img{
         15px 0 8px;
 
     font:
-        bold clamp(36px,7vw,80px) Arial;
+        bold clamp(30px,7vw,80px) Arial;
 
     color:#fff;
 
@@ -2388,8 +2397,7 @@ img{
 
     min-height:46px;
 
-    border:
-        1px solid #fff;
+    border:1px solid #fff;
 
     background:#000a;
 
@@ -2457,76 +2465,154 @@ img{
 
 
 /* =========================================================
+   TABLET
+========================================================= */
+
+@media(max-width:900px){
+
+    .gameHeader{
+        min-height:64px;
+
+        padding:
+            max(9px,env(safe-area-inset-top))
+            max(14px,env(safe-area-inset-right))
+            9px
+            max(14px,env(safe-area-inset-left));
+
+        gap:10px;
+
+        font-size:10px;
+    }
+
+    .hudLeft,
+    .hudRight{
+        gap:9px;
+    }
+
+    .gameArea{
+        top:64px;
+    }
+
+    .gameInstruction{
+        max-width:calc(100% - 20px);
+    }
+}
+
+
+/* =========================================================
    MOBILE
 ========================================================= */
 
 @media(max-width:600px){
 
     #awal{
-        align-items:center;
+        padding:
+            max(12px,env(safe-area-inset-top))
+            max(12px,env(safe-area-inset-right))
+            max(12px,env(safe-area-inset-bottom))
+            max(12px,env(safe-area-inset-left));
+    }
+
+    .introMoon{
+        right:8%;
+        top:7%;
+
+        width:clamp(58px,18vw,95px);
+        height:clamp(58px,18vw,95px);
+    }
+
+    .introHouse{
+        bottom:18%;
+
+        width:min(78vw,360px);
+        height:min(32vw,190px);
+    }
+
+    .introLabel{
+        top:4%;
+
+        font-size:7px;
+
+        letter-spacing:2px;
+
+        max-width:90vw;
+
+        overflow:hidden;
+
+        text-overflow:ellipsis;
     }
 
     .box{
-        width:min(450px,92vw);
+        width:min(450px,94vw);
 
         padding:
-            28px 20px;
+            24px 16px;
 
         border-radius:20px;
     }
 
     .box h1{
-        font-size:25px;
+        font-size:clamp(22px,7vw,28px);
     }
 
     .box p{
-        font-size:14px;
+        font-size:13px;
+
+        margin-bottom:18px;
     }
 
     .startMeta{
         font-size:9px;
-        gap:7px;
+
+        gap:6px;
     }
 
     .startWarning{
-        font-size:9px;
-        padding:7px 10px;
+        font-size:8px;
+
+        padding:7px 8px;
+    }
+
+    .musicButton{
+        width:min(280px,86vw);
+
+        min-height:44px;
+
+        font-size:11px;
     }
 
     .play{
-        width:min(280px,80vw);
+        width:min(280px,86vw);
 
-        padding:14px 25px;
+        min-height:50px;
+
+        padding:13px 20px;
 
         font-size:16px;
-    }
-
-    .introHouse{
-        bottom:18%;
-    }
-
-    .introLabel{
-        top:5%;
-        font-size:8px;
     }
 
     .gameHeader{
         min-height:62px;
 
         padding:
-            10px
-            max(10px,env(safe-area-inset-right))
-            10px
-            max(10px,env(safe-area-inset-left));
+            max(8px,env(safe-area-inset-top))
+            max(8px,env(safe-area-inset-right))
+            8px
+            max(8px,env(safe-area-inset-left));
 
-        gap:8px;
+        gap:6px;
 
-        font-size:9px;
+        font-size:8px;
     }
 
     .hudLeft,
     .hudRight{
-        gap:7px;
+        gap:6px;
+    }
+
+    .hudLeft > div,
+    .hudRight > div{
+        white-space:nowrap;
     }
 
     .gameArea{
@@ -2557,14 +2643,83 @@ img{
     .gameInstruction{
         bottom:
             max(
-                14px,
-                calc(10px + env(safe-area-inset-bottom))
+                13px,
+                calc(9px + env(safe-area-inset-bottom))
             );
 
         padding:
-            10px 14px;
+            9px 12px;
 
+        font-size:9px;
+
+        max-width:88vw;
+    }
+
+    .anomalyFeed{
+        bottom:
+            max(
+                50px,
+                calc(46px + env(safe-area-inset-bottom))
+            );
+
+        left:
+            max(8px,env(safe-area-inset-left));
+
+        max-width:52vw;
+
+        font-size:7px;
+    }
+
+    .roundMessage{
         font-size:10px;
+
+        letter-spacing:1px;
+
+        padding:12px 14px;
+
+        max-width:85vw;
+    }
+
+    .resultCard{
+        width:94vw;
+
+        max-height:88dvh;
+
+        padding:20px 15px;
+    }
+
+    .resultCard h2{
+        font-size:18px;
+    }
+
+    .resultGrid{
+        gap:8px 12px;
+
+        font-size:9px;
+    }
+
+    #terminal{
+        padding:
+            max(20px,env(safe-area-inset-top))
+            max(13px,env(safe-area-inset-right))
+            max(20px,env(safe-area-inset-bottom))
+            max(13px,env(safe-area-inset-left));
+
+        font-size:11px;
+
+        line-height:1.55;
+    }
+
+    #loadingImage{
+        top:
+            max(
+                15px,
+                env(safe-area-inset-top)
+            );
+
+        font-size:9px;
+
+        letter-spacing:1px;
 
         max-width:90vw;
 
@@ -2573,154 +2728,114 @@ img{
         text-overflow:ellipsis;
     }
 
-    .anomalyFeed{
-        bottom:
-            max(
-                55px,
-                calc(50px + env(safe-area-inset-bottom))
-            );
-
-        left:
-            max(10px,env(safe-area-inset-left));
-
-        max-width:55vw;
-
-        font-size:8px;
-    }
-
-    .roundMessage{
-        font-size:11px;
-
-        letter-spacing:1px;
-
-        padding:13px 17px;
-    }
-
-    .resultCard{
-        width:92vw;
-
-        padding:22px 18px;
-    }
-
-    .resultCard h2{
-        font-size:19px;
-    }
-
-    .resultGrid{
-        gap:8px 14px;
-
-        font-size:10px;
-    }
-
-    #terminal{
-        padding:
-            max(22px,env(safe-area-inset-top))
-            max(16px,env(safe-area-inset-right))
-            max(22px,env(safe-area-inset-bottom))
-            max(16px,env(safe-area-inset-left));
-
-        font-size:12px;
-
-        line-height:1.6;
-    }
-
-    #loadingImage{
-        top:
-            max(
-                18px,
-                env(safe-area-inset-top)
-            );
-
-        font-size:11px;
-    }
-
     .errorBox{
-        width:240px;
+        width:220px;
 
-        max-width:78vw;
+        max-width:76vw;
 
-        padding:14px;
+        padding:12px;
 
-        font-size:12px;
+        font-size:11px;
     }
 
     .errorBox .errorClose{
-        min-height:34px;
+        min-height:32px;
 
-        padding:5px 15px;
+        padding:5px 14px;
     }
 
     .badOverlay{
         justify-content:center;
 
         padding:
-            20px
-            max(20px,env(safe-area-inset-right))
-            max(30px,env(safe-area-inset-bottom))
-            max(20px,env(safe-area-inset-left));
+            16px
+            max(15px,env(safe-area-inset-right))
+            max(22px,env(safe-area-inset-bottom))
+            max(15px,env(safe-area-inset-left));
     }
 
     .badBadge{
-        font-size:8px;
+        font-size:7px;
 
-        letter-spacing:2px;
+        letter-spacing:1.5px;
 
-        padding:7px 10px;
+        padding:6px 9px;
 
-        margin-bottom:14px;
+        margin-bottom:12px;
     }
 
     .badTitle{
         font-size:
-            clamp(34px,10vw,60px);
-
-        letter-spacing:3px;
-    }
-
-    .badSub{
-        font-size:12px;
+            clamp(28px,10vw,55px);
 
         letter-spacing:2px;
     }
 
+    .badSub{
+        font-size:10px;
+
+        letter-spacing:1.5px;
+    }
+
     .badSystem{
         max-width:90vw;
+
+        font-size:8px;
+
+        letter-spacing:.7px;
+
+        line-height:1.6;
+    }
+
+    .endingBtn{
+        padding:
+            10px 14px;
+
+        min-height:42px;
 
         font-size:9px;
 
         letter-spacing:1px;
     }
 
-    .endingBtn{
-        padding:
-            11px 17px;
-
-        font-size:10px;
-    }
-
     .normalOverlay{
         padding:
-            20px
-            max(15px,env(safe-area-inset-right))
-            max(35px,env(safe-area-inset-bottom))
-            max(15px,env(safe-area-inset-left));
+            18px
+            max(12px,env(safe-area-inset-right))
+            max(28px,env(safe-area-inset-bottom))
+            max(12px,env(safe-area-inset-left));
     }
 
     .normalBadge{
-        font-size:8px;
+        font-size:7px;
 
-        letter-spacing:2px;
+        letter-spacing:1.5px;
+
+        padding:6px 10px;
     }
 
     .normalTitle{
         font-size:
-            clamp(30px,9vw,55px);
+            clamp(28px,9vw,52px);
+
+        margin:
+            12px 0 6px;
     }
 
     .normalText{
         max-width:90vw;
 
-        font-size:11px;
+        font-size:10px;
+
+        line-height:1.55;
+    }
+
+    .normalBtn{
+        min-height:42px;
+
+        padding:10px 18px;
+
+        font-size:10px;
     }
 }
 
@@ -2731,13 +2846,32 @@ img{
 
 @media(max-width:380px){
 
+    .box{
+        padding:
+            20px 13px;
+    }
+
+    .box h1{
+        font-size:21px;
+    }
+
+    .box p{
+        font-size:12px;
+    }
+
     .gameHeader{
-        font-size:8px;
+        font-size:7px;
+
+        min-height:58px;
     }
 
     .hudLeft,
     .hudRight{
-        gap:5px;
+        gap:4px;
+    }
+
+    .gameArea{
+        top:58px;
     }
 
     .toy{
@@ -2755,16 +2889,20 @@ img{
     }
 
     .gameInstruction{
-        font-size:9px;
+        font-size:8px;
 
         padding:
-            9px 11px;
+            8px 9px;
     }
 
     .badTitle{
-        font-size:30px;
+        font-size:27px;
 
-        letter-spacing:2px;
+        letter-spacing:1px;
+    }
+
+    .badSystem{
+        font-size:7px;
     }
 }
 
@@ -2779,56 +2917,206 @@ img{
     orientation:landscape
 ){
 
-    .gameHeader{
-        min-height:54px;
+    #awal{
+        align-items:center;
+    }
+
+    .introHouse{
+        bottom:8%;
+
+        width:min(360px,42vw);
+        height:min(150px,22vh);
+    }
+
+    .introLabel{
+        top:4%;
+    }
+
+    .box{
+        width:min(620px,82vw);
+
+        max-height:88dvh;
 
         padding:
-            8px 12px;
+            16px 24px;
+    }
 
-        font-size:9px;
+    .box h1{
+        font-size:22px;
+
+        margin-bottom:8px;
+    }
+
+    .box p{
+        margin:8px 0;
+    }
+
+    .startMeta{
+        margin:8px 0;
+    }
+
+    .startWarning{
+        width:auto;
+
+        display:inline-flex;
+
+        padding:6px 10px;
+    }
+
+    .musicButton,
+    .play{
+        display:inline-block;
+
+        width:auto;
+
+        min-width:190px;
+
+        min-height:42px;
+
+        margin:
+            6px 4px 0;
+
+        padding:
+            10px 18px;
+    }
+
+    .gameHeader{
+        min-height:52px;
+
+        padding:
+            7px 10px;
+
+        font-size:8px;
+    }
+
+    .hudLeft,
+    .hudRight{
+        gap:7px;
     }
 
     .gameArea{
-        top:54px;
+        top:52px;
     }
 
     .toy{
-        width:56px;
-        height:56px;
-
-        font-size:37px;
-    }
-
-    .decoy{
         width:54px;
         height:54px;
 
-        font-size:32px;
+        font-size:36px;
+    }
+
+    .decoy{
+        width:52px;
+        height:52px;
+
+        font-size:31px;
+    }
+
+    .secretEye{
+        width:44px;
+        height:44px;
+
+        font-size:25px;
     }
 
     .gameInstruction{
-        bottom:8px;
+        bottom:6px;
 
-        font-size:9px;
+        font-size:8px;
 
         padding:
-            8px 12px;
+            7px 10px;
     }
 
     .anomalyFeed{
-        bottom:38px;
+        bottom:34px;
+
+        font-size:7px;
     }
 
     .badOverlay{
         justify-content:center;
+
+        padding:10px 20px;
+    }
+
+    .badBadge{
+        margin-bottom:7px;
     }
 
     .badSystem{
-        margin-top:12px;
+        margin-top:8px;
+
+        line-height:1.4;
     }
 
     .badButtons{
-        margin-top:15px;
+        margin-top:10px;
+    }
+
+    .normalOverlay{
+        padding:
+            10px 20px 22px;
+    }
+
+    .normalTitle{
+        margin:
+            7px 0 4px;
+    }
+
+    .normalText{
+        font-size:9px;
+
+        line-height:1.4;
+    }
+
+    .normalButtons{
+        margin-top:8px;
+    }
+}
+
+
+/* =========================================================
+   ULTRA SHORT SCREENS
+========================================================= */
+
+@media(max-height:500px){
+
+    .box{
+        max-height:92dvh;
+
+        padding:
+            14px 20px;
+    }
+
+    .box h1{
+        font-size:20px;
+
+        margin-bottom:6px;
+    }
+
+    .box p{
+        margin:
+            6px 0;
+    }
+
+    .startMeta{
+        margin:
+            6px 0;
+    }
+
+    .startWarning{
+        padding:5px 8px;
+    }
+
+    .musicButton,
+    .play{
+        min-height:38px;
+
+        padding:
+            8px 16px;
+
+        margin-top:5px;
     }
 }
 
@@ -2845,6 +3133,7 @@ img{
     *::before,
     *::after{
         animation-duration:.001ms !important;
+
         animation-iteration-count:1 !important;
 
         scroll-behavior:auto !important;
@@ -2865,8 +3154,6 @@ img{
 ========================================================= -->
 
 <div id="awal">
-
-    <!-- SUNDA/JAWA CINEMATIC INTRO -->
 
     <div class="introScene">
 
@@ -2908,8 +3195,6 @@ img{
     </div>
 
 
-    <!-- START CARD -->
-
     <div class="box">
 
         <h1>
@@ -2926,21 +3211,15 @@ img{
 
         <div class="startMeta">
 
-            <span>
-                ⏱ 15 SEC
-            </span>
+            <span>⏱ 15 SEC</span>
 
             <span>•</span>
 
-            <span>
-                🎯 3 LEVELS
-            </span>
+            <span>🎯 3 LEVELS</span>
 
             <span>•</span>
 
-            <span>
-                👁️ SECRET
-            </span>
+            <span>👁️ SECRET</span>
 
         </div>
 
@@ -2953,6 +3232,15 @@ img{
         </div>
 
         <br>
+
+        <button
+            class="musicButton"
+            id="musicButton"
+            type="button"
+            aria-pressed="false"
+        >
+            🔊 MUSIC ON
+        </button>
 
         <button
             class="play"
@@ -2979,23 +3267,17 @@ img{
 
             <div>
                 GUEST SESSION
-                <span id="playerName">
-                    #----
-                </span>
+                <span id="playerName">#----</span>
             </div>
 
             <div class="levelHud">
                 LEVEL
-                <span id="level">
-                    1
-                </span>/3
+                <span id="level">1</span>/3
             </div>
 
             <div>
                 👁️
-                <span id="eyes">
-                    0
-                </span>/3
+                <span id="eyes">0</span>/3
             </div>
 
         </div>
@@ -3004,23 +3286,17 @@ img{
 
             <div>
                 SCORE:
-                <span id="score">
-                    0
-                </span>
+                <span id="score">0</span>
             </div>
 
             <div>
                 TIME:
-                <span id="timer">
-                    15
-                </span>
+                <span id="timer">15</span>
             </div>
 
             <div>
                 MISS:
-                <span id="miss">
-                    0
-                </span>
+                <span id="miss">0</span>
             </div>
 
         </div>
@@ -3093,34 +3369,19 @@ img{
             <div class="resultGrid">
 
                 <span>LEVEL</span>
-
-                <b id="resultLevel">
-                    3/3
-                </b>
+                <b id="resultLevel">3/3</b>
 
                 <span>SCORE</span>
-
-                <b id="resultScore">
-                    0
-                </b>
+                <b id="resultScore">0</b>
 
                 <span>WRONG CLICKS</span>
-
-                <b id="resultMiss">
-                    0
-                </b>
+                <b id="resultMiss">0</b>
 
                 <span>SECRET EYES</span>
-
-                <b id="resultEyes">
-                    0/3
-                </b>
+                <b id="resultEyes">0/3</b>
 
                 <span>SESSION</span>
-
-                <b id="resultSession">
-                    #----
-                </b>
+                <b id="resultSession">#----</b>
 
             </div>
 
@@ -3388,7 +3649,7 @@ img{
 
 /* =========================================================
    FIND THE HIDDEN TOY
-   FINAL STABLE EDITION
+   RESPONSIVE FINAL EDITION
 ========================================================= */
 
 
@@ -3537,6 +3798,9 @@ const normalPlayAgain =
 const playButton =
     document.getElementById("playButton");
 
+const musicButton =
+    document.getElementById("musicButton");
+
 
 /* =========================================================
    ASSETS
@@ -3560,7 +3824,6 @@ const ASSETS = {
         "game/level2.png",
 
     /*
-       IMPORTANT:
        LEVEL 3 IS JPG
     */
 
@@ -3591,8 +3854,8 @@ introMusic.volume =
 introMusic.preload =
     "auto";
 
-let introFadeTimer =
-    null;
+let musicEnabled =
+    true;
 
 let introMusicStarted =
     false;
@@ -3602,17 +3865,34 @@ let gameHasStarted =
 
 
 /* =========================================================
-   START INTRO MUSIC
+   MUSIC BUTTON
 ========================================================= */
+
+function updateMusicButton(){
+
+    if(!musicButton){
+        return;
+    }
+
+    musicButton.textContent =
+        musicEnabled
+            ? "🔊 MUSIC ON"
+            : "🔇 MUSIC OFF";
+
+    musicButton.setAttribute(
+        "aria-pressed",
+        String(!musicEnabled)
+    );
+
+}
+
 
 function startIntroMusic(){
 
-    /*
-       Never start intro music after
-       the actual game has started.
-    */
-
-    if(gameHasStarted){
+    if(
+        gameHasStarted ||
+        !musicEnabled
+    ){
         return;
     }
 
@@ -3620,19 +3900,6 @@ function startIntroMusic(){
         !introMusic.paused
     ){
         return;
-    }
-
-    if(
-        introFadeTimer
-    ){
-
-        clearInterval(
-            introFadeTimer
-        );
-
-        introFadeTimer =
-            null;
-
     }
 
     introMusic.currentTime =
@@ -3655,11 +3922,6 @@ function startIntroMusic(){
             )
             .catch(
                 ()=>{
-                    /*
-                       Browser autoplay may be blocked.
-                       A later user interaction will retry.
-                    */
-
                     introMusicStarted =
                         false;
                 }
@@ -3675,100 +3937,52 @@ function startIntroMusic(){
 }
 
 
-/* =========================================================
-   STOP INTRO MUSIC WITH FADE
-========================================================= */
-
 function stopIntroMusic(){
 
-    if(
-        introFadeTimer
-    ){
+    introMusic.pause();
 
-        clearInterval(
-            introFadeTimer
-        );
-
-        introFadeTimer =
-            null;
-
-    }
-
-    if(
-        introMusic.paused
-    ){
-
-        introMusic.currentTime =
-            0;
-
-        introMusic.volume =
-            0.65;
-
-        introMusicStarted =
-            false;
-
-        return;
-
-    }
-
-    const originalVolume =
-        introMusic.volume || 0.65;
-
-    const steps =
-        12;
-
-    let step =
+    introMusic.currentTime =
         0;
 
-    introFadeTimer =
-        setInterval(
-            ()=>{
+    introMusic.volume =
+        0.65;
 
-                step++;
+    introMusicStarted =
+        false;
 
-                introMusic.volume =
-                    Math.max(
-                        0,
-                        originalVolume *
-                        (
-                            1 -
-                            step / steps
-                        )
-                    );
+}
 
-                if(
-                    step>=steps
-                ){
 
-                    clearInterval(
-                        introFadeTimer
-                    );
+function toggleMusic(){
 
-                    introFadeTimer =
-                        null;
+    musicEnabled =
+        !musicEnabled;
 
-                    introMusic.pause();
+    if(
+        musicEnabled
+    ){
 
-                    introMusic.currentTime =
-                        0;
+        if(
+            !gameHasStarted
+        ){
 
-                    introMusic.volume =
-                        0.65;
+            startIntroMusic();
 
-                    introMusicStarted =
-                        false;
+        }
 
-                }
+    }else{
 
-            },
-            45
-        );
+        stopIntroMusic();
+
+    }
+
+    updateMusicButton();
 
 }
 
 
 /* =========================================================
-   RETRY AUDIO AFTER USER INTERACTION
+   RETRY INTRO MUSIC
 ========================================================= */
 
 document.addEventListener(
@@ -3776,7 +3990,8 @@ document.addEventListener(
     e=>{
 
         if(
-            gameHasStarted
+            gameHasStarted ||
+            !musicEnabled
         ){
             return;
         }
@@ -3784,6 +3999,9 @@ document.addEventListener(
         if(
             e.target.closest(
                 "#playButton"
+            ) ||
+            e.target.closest(
+                "#musicButton"
             )
         ){
             return;
@@ -3797,12 +4015,14 @@ document.addEventListener(
     }
 );
 
+
 document.addEventListener(
     "keydown",
     e=>{
 
         if(
-            gameHasStarted
+            gameHasStarted ||
+            !musicEnabled
         ){
             return;
         }
@@ -4471,13 +4691,9 @@ function randomAnomaly(){
     const events = [
 
         "Rendering latency detected.",
-
         "Input response variance detected.",
-
         "Session clock drift detected.",
-
         "Visual process resynchronized.",
-
         "Signal interruption detected."
 
     ];
@@ -4532,7 +4748,13 @@ function randomPosition(
         el.offsetHeight || 60;
 
     const margin =
-        10;
+        Math.max(
+            8,
+            Math.min(
+                16,
+                areaWidth*.025
+            )
+        );
 
     const safeBottom =
         Math.max(
@@ -6735,9 +6957,8 @@ function mulai(){
 
     /*
        IMPORTANT:
-       Game state is marked BEFORE
-       stopping intro music so that
-       autoplay retry cannot restart it.
+       Mark game as started FIRST.
+       Intro music then stops completely.
     */
 
     gameHasStarted =
@@ -6846,12 +7067,17 @@ function mulai(){
 
 
 /* =========================================================
-   START BUTTON
+   BUTTONS
 ========================================================= */
 
 playButton.addEventListener(
     "click",
     mulai
+);
+
+musicButton.addEventListener(
+    "click",
+    toggleMusic
 );
 
 
@@ -6906,7 +7132,6 @@ document.addEventListener(
 
 /* =========================================================
    ASSET PRELOAD
-   IMAGE FILES ONLY
 ========================================================= */
 
 Object.entries(
@@ -6944,7 +7169,6 @@ Object.entries(
 
 /* =========================================================
    AUDIO PRELOAD
-   MP3 IS NOT PART OF IMAGE PRELOAD
 ========================================================= */
 
 introMusic.load();
@@ -6962,14 +7186,16 @@ jumpPreload.src =
 
 
 /* =========================================================
-   INITIAL HUD
+   INITIAL STATE
 ========================================================= */
 
 updateHUD();
 
+updateMusicButton();
+
 
 /* =========================================================
-   GLOBAL TOUCH AUDIO RESUME
+   GLOBAL TOUCH AUDIO
 ========================================================= */
 
 document.addEventListener(
@@ -6978,7 +7204,8 @@ document.addEventListener(
         resumeAudio();
 
         if(
-            !gameHasStarted
+            !gameHasStarted &&
+            musicEnabled
         ){
             startIntroMusic();
         }
@@ -6998,13 +7225,6 @@ window.addEventListener(
     "load",
     ()=>{
 
-        /*
-           Start intro music immediately.
-           Browser policy may block it,
-           so pointer/keyboard interaction
-           will retry automatically.
-        */
-
         startIntroMusic();
 
     }
@@ -7012,7 +7232,7 @@ window.addEventListener(
 
 
 /* =========================================================
-   VISIBILITY HANDLING
+   VISIBILITY
 ========================================================= */
 
 document.addEventListener(
@@ -7022,11 +7242,6 @@ document.addEventListener(
         if(
             document.hidden
         ){
-
-            /*
-               Don't allow music to continue
-               when the user leaves the page.
-            */
 
             if(
                 !gameHasStarted &&
@@ -7040,7 +7255,8 @@ document.addEventListener(
         }else{
 
             if(
-                !gameHasStarted
+                !gameHasStarted &&
+                musicEnabled
             ){
 
                 startIntroMusic();
