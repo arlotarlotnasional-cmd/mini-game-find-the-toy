@@ -6,110 +6,92 @@
 <title>Find The Hidden Toy</title>
 
 <style>
-*{box-sizing:border-box}
+*{
+    box-sizing:border-box;
+}
 
-html,body{
+html,
+body{
     margin:0;
     width:100%;
     height:100%;
     overflow:hidden;
     background:#000;
-    font-family:Consolas,monospace;
+    font-family:Arial,Helvetica,sans-serif;
 }
 
-button,input{font:inherit}
+button{
+    font-family:inherit;
+}
 
 /* =========================================================
-   START
+   START SCREEN
 ========================================================= */
 
 #awal{
     position:fixed;
     inset:0;
     display:flex;
-    justify-content:center;
     align-items:center;
+    justify-content:center;
     background:
-        radial-gradient(circle at 50% 30%,#ffffff 0,#eafaff 55%,#d9eef3 100%);
-    font-family:Arial,sans-serif;
-    z-index:100;
+        radial-gradient(circle at 50% 20%,#ffffff 0%,#e8edf4 45%,#cfd6df 100%);
+    z-index:10000;
 }
 
-.box{
-    width:min(450px,90%);
-    padding:42px;
-    background:rgba(255,255,255,.96);
-    border-radius:25px;
+.startBox{
+    width:min(520px,90%);
+    padding:42px 35px;
     text-align:center;
+    border-radius:24px;
+    background:rgba(255,255,255,.94);
     box-shadow:
-        0 20px 80px #0003,
-        inset 0 1px #fff;
+        0 30px 80px rgba(0,0,0,.25),
+        inset 0 1px rgba(255,255,255,.9);
 }
 
-.box h1{
-    margin:0;
-    font-size:32px;
-    color:#202020;
+.startBox h1{
+    margin:0 0 14px;
+    font-size:clamp(30px,5vw,52px);
+    color:#111;
 }
 
-.box p{
-    color:#777;
+.startBox p{
+    color:#555;
     line-height:1.6;
-    margin-bottom:25px;
 }
 
-.startMeta{
+.startStats{
     display:flex;
     justify-content:center;
-    gap:10px;
-    margin:18px 0 10px;
-    color:#555;
-    font-size:12px;
-    font-weight:700;
-    letter-spacing:1px;
+    gap:12px;
+    margin:24px 0;
+    flex-wrap:wrap;
 }
 
-.startWarning{
-    display:inline-flex;
-    align-items:center;
-    gap:7px;
-    padding:8px 12px;
+.startStats span{
+    padding:9px 14px;
     border-radius:999px;
-    background:#f3f7f8;
-    color:#718087;
-    font-size:10px;
-    letter-spacing:1px;
+    background:#edf1f5;
+    color:#333;
+    font-size:13px;
+    font-weight:bold;
 }
 
-.statusDot{
-    width:7px;
-    height:7px;
-    border-radius:50%;
-    background:#42c96b;
-    box-shadow:0 0 9px #42c96b;
-}
-
-.box small{
-    font-size:12px;
-    color:#999;
-}
-
-.play{
-    margin-top:20px;
-    padding:16px 44px;
+#playButton{
     border:0;
-    border-radius:30px;
-    background:#5878ff;
+    padding:15px 32px;
+    border-radius:999px;
+    background:#111;
     color:#fff;
-    font-size:18px;
+    font-size:16px;
     font-weight:bold;
     cursor:pointer;
-    box-shadow:0 10px 30px #5878ff55;
     transition:.2s;
 }
 
-.play:hover{
-    transform:translateY(-2px) scale(1.02);
+#playButton:hover{
+    transform:scale(1.05);
 }
 
 /* =========================================================
@@ -117,12 +99,12 @@ button,input{font:inherit}
 ========================================================= */
 
 #game{
-    display:none;
     position:fixed;
     inset:0;
-    background:#080b09;
+    display:none;
+    background:#050505;
     color:#fff;
-    font-family:Arial,sans-serif;
+    z-index:100;
 }
 
 .gameHeader{
@@ -130,555 +112,573 @@ button,input{font:inherit}
     top:0;
     left:0;
     right:0;
-    height:74px;
-    padding:18px 22px;
+    height:76px;
+    z-index:500;
     display:flex;
+    align-items:center;
     justify-content:space-between;
-    align-items:center;
-    background:rgba(0,0,0,.72);
-    backdrop-filter:blur(12px);
-    border-bottom:1px solid #ffffff15;
-    z-index:30;
+    gap:15px;
+    padding:12px 20px;
+    background:
+        linear-gradient(
+            180deg,
+            rgba(0,0,0,.95),
+            rgba(0,0,0,.62)
+        );
+    border-bottom:1px solid rgba(255,255,255,.08);
 }
 
-.hudLeft,
-.hudRight{
+#playerName{
+    font-size:13px;
+    font-weight:bold;
+    letter-spacing:1px;
+    opacity:.75;
+}
+
+.hud{
     display:flex;
-    gap:20px;
     align-items:center;
+    gap:9px;
+    flex-wrap:wrap;
+    justify-content:flex-end;
 }
 
-.levelHud{color:#8fb7a0}
-#score{color:#ffe36e}
-#level{color:#7dff9a}
-#timer{color:#ff5555;font-weight:bold}
-#miss{color:#ff7777}
+.hudItem{
+    min-width:75px;
+    padding:7px 10px;
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:10px;
+    background:rgba(255,255,255,.045);
+    text-align:center;
+    font-size:12px;
+}
 
-.secretEye{
-    position:absolute;
-    right:50%;
-    top:22px;
-    transform:translateX(50%);
-    border:0;
-    background:transparent;
+.hudItem b{
+    display:block;
+    margin-top:2px;
+    font-size:16px;
+}
+
+/* =========================================================
+   SECRET EYE
+========================================================= */
+
+#secretEye{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,.10);
+    background:rgba(255,255,255,.035);
     color:#fff;
-    font-size:17px;
-    line-height:1;
-    padding:3px;
+    font-size:20px;
     cursor:pointer;
 
-    /* SECRET:
-       deliberately almost invisible */
-    opacity:.025;
-    filter:blur(.1px);
-    z-index:100;
+    /*
+       DIBUAT TERLIHAT.
+       Tidak terlalu terang supaya tetap terasa secret.
+    */
+    opacity:.65;
+
+    transition:
+        opacity .2s,
+        transform .2s,
+        background .2s,
+        border-color .2s;
 }
 
-.secretEye:hover{
-    opacity:.18;
+#secretEye:hover{
+    opacity:1;
+    transform:scale(1.08);
+    background:rgba(255,255,255,.10);
 }
 
-.secretEye.activated{
-    opacity:.4;
+#secretEye.activated{
+    opacity:1;
+    border-color:rgba(255,70,70,.7);
+    background:rgba(255,0,0,.15);
+    box-shadow:
+        0 0 15px rgba(255,0,0,.35),
+        inset 0 0 15px rgba(255,0,0,.12);
+    animation:eyePulse 1s infinite;
 }
+
+@keyframes eyePulse{
+    0%,100%{transform:scale(1)}
+    50%{transform:scale(1.08)}
+}
+
+/* =========================================================
+   GAME AREA
+========================================================= */
 
 .gameArea{
     position:absolute;
-    inset:74px 0 0;
+    inset:76px 0 0;
     overflow:hidden;
 
     background-image:
-        linear-gradient(#0005,#0005),
+        linear-gradient(
+            rgba(0,0,0,.28),
+            rgba(0,0,0,.55)
+        ),
         url("game/level1.png");
 
     background-size:cover;
     background-position:center;
-    background-repeat:no-repeat;
-
     transition:
-        background-image .7s ease,
-        filter .5s ease;
+        background-image .4s,
+        filter .4s;
 }
 
-.gameArea::before{
-    content:"";
-    position:absolute;
-    inset:0;
-    background:
-        radial-gradient(
-            circle at 50% 45%,
-            transparent 0 20%,
-            #00000022 55%,
-            #00000088 100%
-        );
-    pointer-events:none;
-    z-index:1;
+.gameArea.level3{
+    filter:
+        brightness(.78)
+        contrast(1.12);
 }
 
-.gameArea::after{
-    content:"";
-    position:absolute;
-    inset:0;
-    pointer-events:none;
-    background:
-        repeating-linear-gradient(
-            0deg,
-            rgba(255,255,255,.018) 0,
-            rgba(255,255,255,.018) 1px,
-            transparent 2px,
-            transparent 5px
-        );
-    z-index:2;
+.gameArea.panic{
+    animation:panicScreen .13s infinite;
+}
+
+@keyframes panicScreen{
+    0%{transform:translate(0,0)}
+    25%{transform:translate(3px,-2px)}
+    50%{transform:translate(-3px,2px)}
+    75%{transform:translate(2px,2px)}
+    100%{transform:translate(0,0)}
 }
 
 .ambientNoise{
     position:absolute;
     inset:0;
     pointer-events:none;
-    opacity:.13;
-    background-image:
-        radial-gradient(#fff 1px,transparent 1px);
-    background-size:47px 53px;
-    animation:drift 18s linear infinite;
-    z-index:3;
+    opacity:.17;
+    background:
+        radial-gradient(circle at 20% 30%,#fff 0 1px,transparent 2px),
+        radial-gradient(circle at 70% 70%,#fff 0 1px,transparent 2px),
+        radial-gradient(circle at 40% 80%,#fff 0 1px,transparent 2px);
+    background-size:130px 130px;
+    animation:noiseMove 5s linear infinite;
 }
 
-@keyframes drift{
-    to{background-position:180px 120px}
+@keyframes noiseMove{
+    from{transform:translate(0,0)}
+    to{transform:translate(30px,-20px)}
+}
+
+.gameInstruction{
+    position:absolute;
+    top:20px;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:50;
+    text-align:center;
+    pointer-events:none;
+}
+
+#hintText{
+    padding:9px 15px;
+    border-radius:999px;
+    background:rgba(0,0,0,.6);
+    border:1px solid rgba(255,255,255,.15);
+    font-size:13px;
+    letter-spacing:.4px;
+}
+
+#targetGlow{
+    position:absolute;
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    pointer-events:none;
+    transform:translate(-50%,-50%);
+    background:radial-gradient(
+        circle,
+        rgba(255,255,255,.18),
+        transparent 65%
+    );
+    filter:blur(5px);
+    opacity:.65;
+    z-index:5;
 }
 
 /* =========================================================
    TOYS
 ========================================================= */
 
-.toy{
+.toy,
+.decoy{
     position:absolute;
-    width:64px;
-    height:64px;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    font-size:42px;
-    cursor:pointer;
+    z-index:20;
     user-select:none;
+    cursor:pointer;
+    transform:translate(-50%,-50%);
+    transition:transform .12s;
+}
 
-    z-index:10;
-
-    transition:
-        transform .15s,
-        left .15s,
-        top .15s;
-
-    filter:drop-shadow(0 0 10px #fff4);
+.toy{
+    font-size:clamp(38px,6vw,65px);
+    filter:drop-shadow(0 0 12px rgba(255,255,255,.4));
+    animation:toyPulse 1s infinite;
 }
 
 .toy:hover{
-    transform:scale(1.15);
-}
-
-.toy.hunted{
-    animation:
-        toyPulse .45s ease-out;
+    transform:translate(-50%,-50%) scale(1.15);
 }
 
 @keyframes toyPulse{
-    50%{
-        transform:scale(1.35) rotate(-6deg);
-        filter:drop-shadow(0 0 25px #fff);
+    0%,100%{
+        filter:drop-shadow(0 0 8px rgba(255,255,255,.2));
     }
-}
-
-.toy.evade{
-    transform:scale(1.04) translate(-8px,3px) rotate(-4deg);
+    50%{
+        filter:drop-shadow(0 0 20px rgba(255,255,255,.7));
+    }
 }
 
 .decoy{
-    position:absolute;
-    width:60px;
-    height:60px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    font-size:35px;
-    opacity:.58;
-    cursor:pointer;
-    user-select:none;
-
-    z-index:9;
-
-    transition:
-        transform .12s,
-        opacity .12s;
-
-    filter:grayscale(.45)
-           drop-shadow(0 0 5px #000);
+    font-size:clamp(30px,5vw,52px);
+    filter:
+        grayscale(.7)
+        brightness(.7);
+    opacity:.82;
 }
 
 .decoy:hover{
-    transform:scale(1.12);
-    opacity:.9;
+    transform:translate(-50%,-50%) scale(1.15);
 }
 
 .decoy.wrong{
-    animation:wrongHit .22s ease-out;
+    animation:wrongTarget .35s;
 }
 
-@keyframes wrongHit{
-    50%{
-        transform:scale(1.5) rotate(18deg);
-        opacity:.2;
-    }
-    100%{
-        transform:scale(1);
-    }
-}
-
-.targetGlow{
-    position:absolute;
-    width:120px;
-    height:120px;
-    border-radius:50%;
-    pointer-events:none;
-    opacity:0;
-    filter:blur(25px);
-    background:#b9ffd0;
-    transition:opacity .2s;
-    z-index:5;
-}
-
-.gameInstruction{
-    position:absolute;
-    bottom:25px;
-    left:50%;
-    transform:translateX(-50%);
-
-    padding:12px 20px;
-
-    background:#000b;
-    border:1px solid #ffffff12;
-    border-radius:20px;
-
-    font-size:14px;
-    white-space:nowrap;
-
-    z-index:20;
-}
-
-.roundMessage{
-    position:fixed;
-    left:50%;
-    top:50%;
-    transform:translate(-50%,-50%) scale(.85);
-
-    z-index:40;
-    opacity:0;
-    pointer-events:none;
-
-    padding:16px 24px;
-
-    border:1px solid #ffffff35;
-    background:#07100bdd;
-    border-radius:12px;
-
-    color:#fff;
-    font-weight:bold;
-    letter-spacing:2px;
-
-    transition:.25s;
-    box-shadow:0 15px 60px #0008;
-}
-
-.roundMessage.show{
-    opacity:1;
-    transform:translate(-50%,-50%) scale(1);
+@keyframes wrongTarget{
+    0%{transform:translate(-50%,-50%)}
+    25%{transform:translate(-45%,-50%) rotate(-10deg)}
+    50%{transform:translate(-55%,-50%) rotate(10deg)}
+    75%{transform:translate(-45%,-50%) rotate(-10deg)}
+    100%{transform:translate(-50%,-50%)}
 }
 
 /* =========================================================
-   ANOMALY
+   ROUND MESSAGE
 ========================================================= */
 
-.anomalyFeed{
+#roundMessage{
     position:absolute;
-    left:16px;
-    bottom:18px;
-    max-width:360px;
-
-    font:10px/1.5 monospace;
-    letter-spacing:1px;
-    color:#8cff9b;
-    opacity:.72;
-
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%) scale(.8);
+    z-index:200;
+    padding:18px 28px;
+    border-radius:15px;
+    background:rgba(0,0,0,.85);
+    border:1px solid rgba(255,255,255,.2);
+    font-size:22px;
+    font-weight:bold;
+    opacity:0;
     pointer-events:none;
-    text-shadow:0 0 8px #0f0;
-
-    z-index:25;
 }
 
-.anomalyFeed .warn{color:#ffd166}
-.anomalyFeed .crit{color:#ff6b6b}
+#roundMessage.show{
+    animation:messagePop .65s forwards;
+}
+
+@keyframes messagePop{
+    0%{
+        opacity:0;
+        transform:translate(-50%,-50%) scale(.8);
+    }
+    25%{
+        opacity:1;
+        transform:translate(-50%,-50%) scale(1);
+    }
+    75%{
+        opacity:1;
+    }
+    100%{
+        opacity:0;
+        transform:translate(-50%,-50%) scale(1.04);
+    }
+}
+
+/* =========================================================
+   ANOMALY FEED
+========================================================= */
+
+#anomalyFeed{
+    position:absolute;
+    left:15px;
+    bottom:15px;
+    width:min(360px,45%);
+    z-index:60;
+    pointer-events:none;
+}
+
+.anomaly{
+    margin-top:4px;
+    padding:5px 8px;
+    border-left:2px solid #fff;
+    background:rgba(0,0,0,.55);
+    color:rgba(255,255,255,.68);
+    font-family:monospace;
+    font-size:10px;
+}
 
 /* =========================================================
    RESULT
 ========================================================= */
 
-.resultOverlay{
+#resultOverlay{
     position:fixed;
     inset:0;
-
-    background:rgba(0,0,0,.88);
-
+    z-index:9000;
     display:none;
     align-items:center;
     justify-content:center;
-
-    z-index:70;
+    background:rgba(0,0,0,.92);
 }
 
-.resultCard{
-    width:min(430px,88vw);
-    padding:28px;
-
-    border:1px solid #4cff72;
-    background:#071009;
-
-    box-shadow:
-        0 0 35px #0f52,
-        inset 0 0 40px #0f21;
-
+.resultBox{
+    width:min(560px,90%);
+    padding:32px;
+    border:1px solid rgba(255,255,255,.15);
+    border-radius:20px;
+    background:#101010;
     text-align:center;
 }
 
-.resultTag{
-    font-size:10px;
-    letter-spacing:3px;
-    color:#6aff8a;
+.resultBox h2{
+    margin-top:0;
 }
 
-.resultCard h2{
-    font-size:22px;
-    margin:12px 0 20px;
-    color:#fff;
-}
-
-.resultGrid{
-    display:grid;
-    grid-template-columns:1fr auto;
-    gap:9px 24px;
-    text-align:left;
-    font-size:11px;
-}
-
-.resultGrid span{color:#7c8b82}
-.resultGrid b{color:#fff}
-
-.resultBar{
-    height:5px;
-    background:#17251a;
-    margin:24px 0 14px;
+#progressBar{
+    height:8px;
+    margin:20px 0;
     overflow:hidden;
+    border-radius:999px;
+    background:#292929;
 }
 
-.resultBar span{
-    display:block;
+#progressFill{
+    width:0%;
+    height:100%;
+    background:#fff;
+    transition:width .5s;
+}
+
+#continueHorror{
+    padding:12px 25px;
+    border:0;
+    border-radius:999px;
+    background:#fff;
+    color:#000;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* =========================================================
+   FAKE PHONE
+========================================================= */
+
+#phoneAlert{
+    position:fixed;
+    inset:0;
+    z-index:9200;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    background:rgba(0,0,0,.94);
+}
+
+.phoneCard{
+    width:min(360px,88%);
+    padding:28px;
+    border-radius:28px;
+    background:#111;
+    border:1px solid rgba(255,255,255,.12);
+    box-shadow:0 20px 80px rgba(0,0,0,.7);
+    text-align:center;
+}
+
+.phoneIcon{
+    font-size:55px;
+    margin-bottom:15px;
+    animation:phoneShake .25s infinite;
+}
+
+@keyframes phoneShake{
+    0%,100%{transform:rotate(0)}
+    25%{transform:rotate(-7deg)}
+    75%{transform:rotate(7deg)}
+}
+
+.phoneCard h2{
+    margin:5px 0;
+}
+
+.phoneProgress{
+    height:6px;
+    margin-top:20px;
+    border-radius:10px;
+    overflow:hidden;
+    background:#292929;
+}
+
+.phoneProgress div{
     width:0;
     height:100%;
-    background:#55ff66;
-    transition:width 1.2s;
+    background:#fff;
+    animation:phoneProgress 3.2s linear forwards;
 }
 
-.resultCard p{
-    font:11px/1.6 Arial;
-    color:#aeb8b0;
+@keyframes phoneProgress{
+    to{width:100%}
 }
 
-.resultCard button{
-    margin-top:12px;
-    background:#55ff66;
-    color:#041006;
-    border:0;
-    padding:11px 24px;
-    font-weight:800;
+/* =========================================================
+   BLACK SCREEN
+========================================================= */
+
+#black{
+    position:fixed;
+    inset:0;
+    z-index:9300;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    background:#000;
+    color:#ddd;
+    font-family:monospace;
+}
+
+#blackText{
+    text-align:center;
+    font-size:clamp(15px,3vw,28px);
     letter-spacing:2px;
-    cursor:pointer;
 }
 
 /* =========================================================
    TERMINAL
 ========================================================= */
 
-#screen{
-    display:none;
+#terminal{
     position:fixed;
     inset:0;
-
-    background:#000;
-    color:#ddd;
-
+    z-index:9400;
+    display:none;
+    padding:30px;
     overflow:hidden;
-
-    z-index:200;
+    background:#020202;
+    color:#ddd;
+    font-family:monospace;
+    font-size:13px;
 }
 
-#terminal{
-    position:absolute;
-    inset:0;
-    padding:35px;
-
-    font-size:17px;
-    line-height:1.75;
-
-    color:#ddd;
-    overflow:hidden;
+.termLine{
+    margin:4px 0;
+    white-space:pre-wrap;
 }
 
-.red{color:#ff2222}
-.yellow{color:#ffd000}
-.green{color:#32ff65}
+.red{color:#ff3333}
+.yellow{color:#ffd447}
+.green{color:#57ff76}
 .white{color:#fff}
-.dim{color:#777}
+.dim{opacity:.45}
 
 .glitch{
-    animation:glitch .07s infinite;
+    animation:glitch .08s infinite;
 }
 
 @keyframes glitch{
     0%{transform:translate(0)}
-    20%{transform:translate(-9px,4px)}
-    40%{transform:translate(8px,-5px)}
-    60%{transform:translate(-5px,-3px)}
-    80%{transform:translate(7px,4px)}
-    100%{transform:translate(0)}
+    50%{transform:translate(4px,-1px)}
+    100%{transform:translate(-3px,1px)}
+}
+
+#terminalProgress{
+    width:100%;
+    height:8px;
+    margin:20px 0;
+    background:#161616;
+}
+
+#terminalFill{
+    width:0;
+    height:100%;
+    background:#fff;
 }
 
 /* =========================================================
-   BLACK
-========================================================= */
-
-#black{
-    display:none;
-
-    position:fixed;
-    inset:0;
-
-    background:#000;
-
-    z-index:300;
-
-    justify-content:center;
-    align-items:center;
-
-    color:#555;
-
-    font-size:18px;
-    text-align:center;
-}
-
-/* =========================================================
-   HORROR REVEAL
+   CYBER HORROR REVEAL
 ========================================================= */
 
 #reveal{
-    display:none;
-
     position:fixed;
     inset:0;
-
+    z-index:9500;
+    display:none;
     background:#000;
-
-    z-index:400;
-    overflow:hidden;
 }
 
 #image{
     position:absolute;
     inset:0;
-
     width:100%;
     height:100%;
-
     object-fit:cover;
     opacity:0;
-
-    transition:opacity .4s;
+    transition:opacity .5s;
 }
 
 #pieces{
     position:absolute;
     inset:0;
-
     display:grid;
     grid-template-columns:repeat(4,1fr);
     grid-template-rows:repeat(4,1fr);
-
-    z-index:10;
 }
 
 .piece{
-    background-image:url("game/cyber-horror.png");
-
-    background-size:400% 400%;
-    background-repeat:no-repeat;
-
     opacity:0;
-
-    transform:
-        scale(.15)
-        rotate(12deg);
-
-    transition:
-        opacity .12s,
-        transform .35s cubic-bezier(.2,.8,.2,1);
+    background-image:url("game/cyber-horror.png");
+    background-size:400% 400%;
+    transition:opacity .15s;
 }
 
 .piece.show{
     opacity:1;
-
-    transform:
-        scale(1)
-        rotate(0deg);
 }
 
 .piece:nth-child(1){background-position:0% 0%}
-.piece:nth-child(2){background-position:33.33% 0%}
-.piece:nth-child(3){background-position:66.66% 0%}
+.piece:nth-child(2){background-position:33.333% 0%}
+.piece:nth-child(3){background-position:66.666% 0%}
 .piece:nth-child(4){background-position:100% 0%}
 
-.piece:nth-child(5){background-position:0% 33.33%}
-.piece:nth-child(6){background-position:33.33% 33.33%}
-.piece:nth-child(7){background-position:66.66% 33.33%}
-.piece:nth-child(8){background-position:100% 33.33%}
+.piece:nth-child(5){background-position:0% 33.333%}
+.piece:nth-child(6){background-position:33.333% 33.333%}
+.piece:nth-child(7){background-position:66.666% 33.333%}
+.piece:nth-child(8){background-position:100% 33.333%}
 
-.piece:nth-child(9){background-position:0% 66.66%}
-.piece:nth-child(10){background-position:33.33% 66.66%}
-.piece:nth-child(11){background-position:66.66% 66.66%}
-.piece:nth-child(12){background-position:100% 66.66%}
+.piece:nth-child(9){background-position:0% 66.666%}
+.piece:nth-child(10){background-position:33.333% 66.666%}
+.piece:nth-child(11){background-position:66.666% 66.666%}
+.piece:nth-child(12){background-position:100% 66.666%}
 
 .piece:nth-child(13){background-position:0% 100%}
-.piece:nth-child(14){background-position:33.33% 100%}
-.piece:nth-child(15){background-position:66.66% 100%}
+.piece:nth-child(14){background-position:33.333% 100%}
+.piece:nth-child(15){background-position:66.666% 100%}
 .piece:nth-child(16){background-position:100% 100%}
 
 #loadingImage{
     position:absolute;
-
-    top:25px;
     left:50%;
-
+    bottom:35px;
     transform:translateX(-50%);
-
-    color:#ff2222;
-
-    font-size:18px;
-
-    z-index:30;
-
-    text-shadow:0 0 12px red;
-
-    white-space:nowrap;
+    z-index:10;
+    color:#fff;
+    font-family:monospace;
+    font-size:13px;
+    letter-spacing:2px;
 }
 
 /* =========================================================
@@ -688,163 +688,32 @@ button,input{font:inherit}
 #jumpscare{
     position:fixed;
     inset:0;
-
-    background:#000;
-
-    z-index:500;
-
+    z-index:9700;
     display:none;
+    background:#000;
 }
 
-#jumpscare img{
-    position:absolute;
-    inset:0;
-
+#jumpImage{
     width:100%;
     height:100%;
-
     object-fit:cover;
 }
 
 #hacked{
     position:absolute;
     inset:0;
-
-    z-index:550;
-
-    display:flex;
-
-    flex-direction:column;
-
-    justify-content:center;
-    align-items:center;
-
-    background:rgba(0,0,0,.16);
-
-    text-align:center;
-
-    opacity:0;
-}
-
-#hacked.show{
-    opacity:1;
-}
-
-#hacked h1{
-    margin:0;
-
-    color:#ff1111;
-
-    font-size:clamp(40px,8vw,110px);
-
-    text-shadow:
-        0 0 10px red,
-        0 0 30px red;
-
-    animation:textGlitch .08s infinite;
-}
-
-#hacked p{
-    color:#fff;
-
-    font-size:23px;
-    letter-spacing:4px;
-}
-
-@keyframes textGlitch{
-    0%{transform:translate(0)}
-    50%{transform:translate(8px,-3px)}
-    100%{transform:translate(-6px,3px)}
-}
-
-/* =========================================================
-   PHONE
-========================================================= */
-
-#phoneAlert{
-    position:fixed;
-    inset:0;
-
     display:none;
-
-    justify-content:center;
     align-items:center;
-
-    background:#000;
-
-    z-index:600;
-
-    color:#fff;
-
-    text-align:center;
-    font-family:Arial,sans-serif;
-}
-
-.phoneCard{
-    width:min(390px,88%);
-    padding:30px;
-
-    background:#101010;
-
-    border:1px solid #444;
-    border-radius:18px;
-
-    box-shadow:0 0 50px #000;
-
-    animation:phoneIn .35s ease-out;
-}
-
-.phoneIcon{
-    font-size:55px;
-    animation:ring .5s infinite alternate;
-}
-
-@keyframes ring{
-    from{transform:rotate(-8deg)}
-    to{transform:rotate(8deg)}
-}
-
-.calling{
-    color:#55ff66;
+    justify-content:center;
+    background:rgba(0,0,0,.18);
+    color:#ff2222;
+    font-family:monospace;
+    font-size:clamp(25px,7vw,80px);
     font-weight:bold;
-    letter-spacing:2px;
-}
-
-.fakeNumber{
-    margin-top:12px;
-    color:#aaa;
-    word-break:break-all;
-}
-
-.callProgress{
-    height:3px;
-    background:#333;
-    margin-top:18px;
-    border-radius:4px;
-    overflow:hidden;
-}
-
-.callProgress span{
-    display:block;
-    width:0;
-    height:100%;
-    background:#55ff66;
-    animation:callLoad 3.2s linear forwards;
-}
-
-@keyframes callLoad{
-    to{width:100%}
-}
-
-@keyframes phoneIn{
-    from{
-        transform:translateY(20px) scale(.96);
-        opacity:0;
-    }
-    to{
-        transform:none;
-        opacity:1;
-    }
+    text-align:center;
+    text-shadow:
+        4px 0 #00ffff,
+        -4px 0 #ff00ff;
 }
 
 /* =========================================================
@@ -854,175 +723,115 @@ button,input{font:inherit}
 #errorSpam{
     position:fixed;
     inset:0;
-
-    z-index:700;
-
+    z-index:9800;
     display:none;
-
     pointer-events:none;
 }
 
 .errorBox{
     position:absolute;
-
-    width:280px;
-
-    padding:20px;
-
-    background:#111;
-
-    border:2px solid #777;
-
-    color:#fff;
-
-    box-shadow:0 0 20px #000;
-
-    font-family:Arial;
-
-    animation:errorAppear .14s ease-out;
+    width:230px;
+    padding:13px;
+    border:2px solid #ff3030;
+    background:#080808;
+    color:#ff4040;
+    font-family:monospace;
+    font-size:11px;
+    box-shadow:0 0 20px rgba(255,0,0,.25);
+    pointer-events:auto;
 }
 
-.errorBox b{color:#ff3333}
-
-.errorClose{
-    padding:6px 18px;
+.errorBox button{
+    margin-top:10px;
+    padding:3px 12px;
+    background:#111;
+    border:1px solid #ff4040;
+    color:#ff4040;
     cursor:pointer;
 }
 
-@keyframes errorAppear{
-    from{
-        transform:scale(.75);
-        opacity:0;
-    }
-    to{
-        transform:scale(1);
-        opacity:1;
-    }
-}
-
 /* =========================================================
-   NORMAL + SECRET ENDINGS
+   ENDING
 ========================================================= */
 
 #ending{
     position:fixed;
     inset:0;
-
+    z-index:9900;
     display:none;
-
-    z-index:1000;
-
-    justify-content:center;
-    align-items:center;
-
     background:#000;
-    text-align:center;
-
-    overflow:hidden;
 }
 
-#ending img{
+#endingImage{
     position:absolute;
     inset:0;
-
     width:100%;
     height:100%;
-
     object-fit:cover;
-
     opacity:0;
-    transition:opacity 1.4s;
+    transition:opacity 1s;
 }
 
 .endingShade{
     position:absolute;
     inset:0;
-
     background:
         linear-gradient(
-            to bottom,
+            180deg,
             rgba(0,0,0,.25),
-            rgba(0,0,0,.72)
+            rgba(0,0,0,.85)
         );
-
-    z-index:2;
 }
 
 .endingContent{
-    position:relative;
-
+    position:absolute;
+    inset:auto 20px 55px;
     z-index:5;
-
-    width:min(700px,90%);
-
-    padding:30px;
-
-    color:#fff;
+    text-align:center;
 }
 
-.endingBadge{
+#endingBadge{
     display:inline-block;
-
-    padding:8px 14px;
-
-    border:1px solid #ffffff55;
+    padding:7px 13px;
+    border:1px solid rgba(255,255,255,.35);
     border-radius:999px;
-
-    font:11px Arial;
-    letter-spacing:3px;
-
-    margin-bottom:18px;
+    background:rgba(0,0,0,.5);
+    font-family:monospace;
+    font-size:11px;
+    letter-spacing:2px;
 }
 
 #endingTitle{
-    margin:0;
-
-    font-family:Arial,sans-serif;
-
-    font-size:clamp(
-        40px,
-        8vw,
-        82px
-    );
-
-    text-shadow:
-        0 0 20px #000,
-        0 0 40px #000;
+    margin:14px 0 8px;
+    font-size:clamp(32px,7vw,75px);
 }
 
 #endingText{
-    font:18px/1.6 Arial;
-    color:#ddd;
+    margin:0 auto 25px;
+    max-width:700px;
+    font-size:16px;
+    opacity:.8;
 }
 
 .endingButtons{
     display:flex;
     justify-content:center;
-    gap:12px;
-    flex-wrap:wrap;
-    margin-top:25px;
+    gap:10px;
 }
 
 .endingButtons button{
-    padding:13px 25px;
-
-    border-radius:8px;
-
-    cursor:pointer;
-
+    padding:12px 22px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.25);
+    background:#fff;
+    color:#000;
     font-weight:bold;
+    cursor:pointer;
 }
 
-.playAgain{
-    border:1px solid #55ff66;
-    background:#071009cc;
-    color:#55ff66;
-}
-
-.exitButton{
-    border:1px solid #aaa;
-    background:#222c;
-    color:#ddd;
+.endingButtons button:last-child{
+    background:transparent;
+    color:#fff;
 }
 
 /* =========================================================
@@ -1032,35 +841,24 @@ button,input{font:inherit}
 #flash{
     position:fixed;
     inset:0;
-
-    background:red;
-
-    opacity:0;
-
     z-index:9999;
-
+    display:none;
+    background:rgba(255,0,0,.65);
     pointer-events:none;
 }
-
-/* =========================================================
-   SCANLINES
-========================================================= */
 
 .scanlines{
     position:fixed;
     inset:0;
-
-    z-index:900;
-
+    z-index:9998;
     pointer-events:none;
-
+    opacity:.08;
     background:
         repeating-linear-gradient(
-            0deg,
-            rgba(255,255,255,.025) 0,
-            rgba(255,255,255,.025) 1px,
-            transparent 2px,
-            transparent 5px
+            to bottom,
+            transparent 0px,
+            transparent 3px,
+            #fff 4px
         );
 }
 
@@ -1068,81 +866,47 @@ button,input{font:inherit}
    MOBILE
 ========================================================= */
 
-@media(max-width:600px){
-
-    .box{
-        padding:30px 22px;
-    }
-
-    .box h1{
-        font-size:26px;
-    }
+@media(max-width:650px){
 
     .gameHeader{
-        height:60px;
-        padding:12px;
-        font-size:11px;
-    }
-
-    .hudLeft,
-    .hudRight{
-        gap:9px;
+        height:92px;
+        padding:8px 10px;
     }
 
     .gameArea{
-        inset:60px 0 0;
+        inset:92px 0 0;
     }
 
-    .toy{
-        width:60px;
-        height:60px;
-        font-size:40px;
+    .hud{
+        gap:4px;
     }
 
-    .gameInstruction{
-        bottom:15px;
-        font-size:12px;
+    .hudItem{
+        min-width:55px;
+        padding:5px;
     }
 
-    #terminal{
-        padding:22px;
-        font-size:14px;
-        line-height:1.65;
-    }
-
-    #hacked h1{
-        font-size:42px;
-    }
-
-    #hacked p{
-        font-size:16px;
-    }
-
-    .errorBox{
-        width:240px;
-        font-size:14px;
-    }
-
-    .roundMessage{
-        width:80%;
-        text-align:center;
+    .hudItem b{
         font-size:13px;
     }
 
-    .anomalyFeed{
-        left:10px;
-        bottom:12px;
-        font-size:9px;
-        max-width:260px;
+    #secretEye{
+        width:36px;
+        height:36px;
+        font-size:17px;
     }
 
-    .secretEye{
-        top:19px;
-        font-size:15px;
+    #anomalyFeed{
+        width:70%;
     }
 
-    #endingText{
-        font-size:15px;
+    #terminal{
+        padding:15px;
+        font-size:10px;
+    }
+
+    .endingContent{
+        bottom:30px;
     }
 }
 </style>
@@ -1150,38 +914,29 @@ button,input{font:inherit}
 
 <body>
 
-<!-- ======================================================
+<!-- =======================================================
      START
-====================================================== -->
+======================================================= -->
 
 <div id="awal">
 
-    <div class="box">
+    <div class="startBox">
 
         <h1>🧸 Find The Hidden Toy!</h1>
 
         <p>
-            Find the hidden toy before time runs out.
-            <br>
-            <small>It gets faster. Stay focused.</small>
+            Find the hidden toy before the time runs out.
+            Be careful... some things aren't what they seem.
         </p>
 
-        <div class="startMeta">
-            <span>⏱ 15 SEC</span>
-            <span>•</span>
-            <span>🎯 3 LEVELS</span>
+        <div class="startStats">
+            <span>15 SEC</span>
+            <span>3 LEVELS</span>
+            <span>NO ACCOUNT</span>
+            <span>NO DATA</span>
         </div>
 
-        <div class="startWarning">
-            <span class="statusDot"></span>
-            NO ACCOUNT • NO DATA REQUIRED
-        </div>
-
-        <button
-            class="play"
-            id="playButton"
-            type="button"
-        >
+        <button id="playButton">
             PLAY NOW
         </button>
 
@@ -1190,56 +945,43 @@ button,input{font:inherit}
 </div>
 
 
-<!-- ======================================================
+<!-- =======================================================
      GAME
-====================================================== -->
+======================================================= -->
 
 <div id="game">
 
     <div class="gameHeader">
 
-        <div class="hudLeft">
-
-            <div>
-                GUEST SESSION
-                <span id="playerName">#----</span>
-            </div>
-
-            <div class="levelHud">
-                LEVEL
-                <span id="level">1</span>/3
-            </div>
-
+        <div id="playerName">
+            PLAYER
         </div>
 
-        <!--
-            SECRET CONTROL
-            Tidak ada teks petunjuk.
-        -->
+        <div class="hud">
 
-        <button
-            id="secretEye"
-            class="secretEye"
-            type="button"
-            aria-label=""
-            title=""
-        >👁️</button>
-
-        <div class="hudRight">
-
-            <div>
-                SCORE:
-                <span id="score">0</span>
+            <div class="hudItem">
+                LEVEL
+                <b id="level">1</b>
             </div>
 
-            <div>
-                TIME:
-                <span id="timer">15</span>
+            <!-- SECRET EYE -->
+            <button id="secretEye" title="...">
+                👁️
+            </button>
+
+            <div class="hudItem">
+                SCORE
+                <b id="score">0</b>
             </div>
 
-            <div>
-                MISS:
-                <span id="miss">0</span>
+            <div class="hudItem">
+                TIME
+                <b id="timer">15</b>
+            </div>
+
+            <div class="hudItem">
+                MISS
+                <b id="miss">0</b>
             </div>
 
         </div>
@@ -1255,86 +997,78 @@ button,input{font:inherit}
         <div class="ambientNoise"></div>
 
         <div class="gameInstruction">
-            🧸 Find the hidden toy!
-            <span id="hintText">
+            <div id="hintText">
                 Watch carefully...
-            </span>
+            </div>
         </div>
 
-        <div
-            class="targetGlow"
-            id="targetGlow"
-        ></div>
+        <div id="targetGlow"></div>
 
         <div
             class="toy"
             id="toy"
-            title="Find me!"
         >
             🧸
         </div>
 
+        <div id="anomalyFeed"></div>
+
+        <div id="roundMessage"></div>
+
     </div>
 
-
-    <div
-        class="anomalyFeed"
-        id="anomalyFeed"
-    ></div>
+</div>
 
 
-    <div
-        class="roundMessage"
-        id="roundMessage"
-    ></div>
+<!-- =======================================================
+     RESULT
+======================================================= -->
+
+<div id="resultOverlay">
+
+    <div class="resultBox">
+
+        <h2 id="resultTitle">
+            SESSION COMPLETE
+        </h2>
+
+        <p id="resultText"></p>
+
+        <div id="progressBar">
+            <div id="progressFill"></div>
+        </div>
+
+        <p id="sessionReport"></p>
+
+        <button id="continueHorror">
+            CONTINUE
+        </button>
+
+    </div>
+
+</div>
 
 
-    <div
-        class="resultOverlay"
-        id="resultOverlay"
-    >
+<!-- =======================================================
+     FAKE PHONE
+======================================================= -->
 
-        <div class="resultCard">
+<div id="phoneAlert">
 
-            <div class="resultTag">
-                SESSION REPORT
-            </div>
+    <div class="phoneCard">
 
-            <h2 id="resultTitle">
-                SESSION COMPLETE
-            </h2>
+        <div class="phoneIcon">
+            📱
+        </div>
 
-            <div class="resultGrid">
+        <h2>INCOMING SESSION</h2>
 
-                <span>LEVEL</span>
-                <b id="resultLevel">3/3</b>
+        <p>
+            Unexpected response detected.
+        </p>
 
-                <span>SCORE</span>
-                <b id="resultScore">0</b>
-
-                <span>WRONG CLICKS</span>
-                <b id="resultMiss">0</b>
-
-                <span>SESSION</span>
-                <b id="resultSession">#----</b>
-
-            </div>
-
-            <div class="resultBar">
-                <span id="resultBarFill"></span>
-            </div>
-
-            <p id="resultText">
-                Browser simulation complete.
-            </p>
-
-            <button
-                id="continueHorror"
-                type="button"
-            >
-                CONTINUE
-            </button>
-
+        <div class="phoneProgress">
+            <div></div>
         </div>
 
     </div>
@@ -1342,33 +1076,39 @@ button,input{font:inherit}
 </div>
 
 
-<!-- ======================================================
-     TERMINAL
-====================================================== -->
-
-<div id="screen">
-    <div id="terminal"></div>
-</div>
-
-
-<!-- ======================================================
+<!-- =======================================================
      BLACK
-====================================================== -->
+======================================================= -->
 
 <div id="black">
-    CONNECTION LOST...
+
+    <div id="blackText">
+        CONNECTION LOST...
+    </div>
+
 </div>
 
 
-<!-- ======================================================
-     HORROR REVEAL
-====================================================== -->
+<!-- =======================================================
+     TERMINAL
+======================================================= -->
+
+<div id="terminal">
+
+    <div id="terminalOutput"></div>
+
+    <div id="terminalProgress">
+        <div id="terminalFill"></div>
+    </div>
+
+</div>
+
+
+<!-- =======================================================
+     CYBER HORROR IMAGE REVEAL
+======================================================= -->
 
 <div id="reveal">
-
-    <div id="loadingImage">
-        LOADING IMAGE... 0%
-    </div>
 
     <img
         id="image"
@@ -1400,91 +1140,42 @@ button,input{font:inherit}
 
     </div>
 
+    <div id="loadingImage">
+        LOADING 0%
+    </div>
+
 </div>
 
 
-<!-- ======================================================
+<!-- =======================================================
      JUMPSCARE
-====================================================== -->
+======================================================= -->
 
 <div id="jumpscare">
 
     <img
+        id="jumpImage"
         src="game/jumpscare.png"
         alt=""
     >
 
     <div id="hacked">
-
-        <h1>
-            YOUR SYSTEM
-            <br>
-            HAS BEEN HACKED
-        </h1>
-
-        <p>
-            CONNECTION LOST...
-        </p>
-
+        SYSTEM BREACHED
     </div>
 
 </div>
 
 
-<!-- ======================================================
-     FAKE PHONE
-====================================================== -->
-
-<div id="phoneAlert">
-
-    <div class="phoneCard">
-
-        <div class="phoneIcon">
-            📞
-        </div>
-
-        <h2>
-            INCOMING CALL
-        </h2>
-
-        <div class="calling">
-            CALLING...
-        </div>
-
-        <h3 id="callName">
-            UNKNOWN CALLER
-        </h3>
-
-        <div
-            class="fakeNumber"
-            id="callNumber"
-        >
-            PRIVATE • SESSION ALERT
-        </div>
-
-        <p>
-            Unusual browser activity detected.
-        </p>
-
-        <div class="callProgress">
-            <span></span>
-        </div>
-
-    </div>
-
-</div>
-
-
-<!-- ======================================================
-     ERROR
-====================================================== -->
+<!-- =======================================================
+     ERROR SPAM
+======================================================= -->
 
 <div id="errorSpam"></div>
 
 
-<!-- ======================================================
+<!-- =======================================================
      ENDING
-====================================================== -->
+======================================================= -->
 
 <div id="ending">
 
@@ -1498,11 +1189,8 @@ button,input{font:inherit}
 
     <div class="endingContent">
 
-        <div
-            class="endingBadge"
-            id="endingBadge"
-        >
-            SESSION COMPLETE
+        <div id="endingBadge">
+            ENDING
         </div>
 
         <h1 id="endingTitle">
@@ -1510,24 +1198,16 @@ button,input{font:inherit}
         </h1>
 
         <p id="endingText">
-            The session has ended.
+            The session ended.
         </p>
 
         <div class="endingButtons">
 
-            <button
-                class="playAgain"
-                id="playAgain"
-                type="button"
-            >
-                🎮 PLAY AGAIN
+            <button id="playAgain">
+                PLAY AGAIN
             </button>
 
-            <button
-                class="exitButton"
-                id="exitButton"
-                type="button"
-            >
+            <button id="exitButton">
                 EXIT
             </button>
 
@@ -1546,179 +1226,61 @@ button,input{font:inherit}
 <script>
 
 /* =========================================================
-   FIND THE HIDDEN TOY
-   MAX HORROR EDITION
+   DOM
 ========================================================= */
 
+const awal = document.getElementById("awal");
+const game = document.getElementById("game");
+const gameArea = document.getElementById("gameArea");
 
-/* =========================================================
-   ELEMENTS
-========================================================= */
+const toy = document.getElementById("toy");
 
-const awal =
-    document.getElementById("awal");
+const levelEl = document.getElementById("level");
+const scoreEl = document.getElementById("score");
+const timerEl = document.getElementById("timer");
+const missEl = document.getElementById("miss");
 
-const game =
-    document.getElementById("game");
+const hintText = document.getElementById("hintText");
+const targetGlow = document.getElementById("targetGlow");
 
-const gameArea =
-    document.getElementById("gameArea");
+const anomalyFeed = document.getElementById("anomalyFeed");
+const roundMessage = document.getElementById("roundMessage");
 
-const toy =
-    document.getElementById("toy");
+const resultOverlay = document.getElementById("resultOverlay");
+const resultTitle = document.getElementById("resultTitle");
+const resultText = document.getElementById("resultText");
+const sessionReport = document.getElementById("sessionReport");
+const progressFill = document.getElementById("progressFill");
+const continueHorror = document.getElementById("continueHorror");
 
-const timerEl =
-    document.getElementById("timer");
+const phoneAlert = document.getElementById("phoneAlert");
 
-const playerName =
-    document.getElementById("playerName");
+const black = document.getElementById("black");
+const blackText = document.getElementById("blackText");
 
-const levelEl =
-    document.getElementById("level");
+const terminal = document.getElementById("terminal");
+const terminalOutput = document.getElementById("terminalOutput");
+const terminalFill = document.getElementById("terminalFill");
 
-const scoreEl =
-    document.getElementById("score");
+const reveal = document.getElementById("reveal");
+const image = document.getElementById("image");
+const pieces = [...document.querySelectorAll(".piece")];
+const loadingImage = document.getElementById("loadingImage");
 
-const hintText =
-    document.getElementById("hintText");
+const jumpscare = document.getElementById("jumpscare");
+const hacked = document.getElementById("hacked");
 
-const targetGlow =
-    document.getElementById("targetGlow");
+const errorSpam = document.getElementById("errorSpam");
 
-const roundMessage =
-    document.getElementById("roundMessage");
+const ending = document.getElementById("ending");
+const endingImage = document.getElementById("endingImage");
+const endingBadge = document.getElementById("endingBadge");
+const endingTitle = document.getElementById("endingTitle");
+const endingText = document.getElementById("endingText");
 
-const missEl =
-    document.getElementById("miss");
+const flash = document.getElementById("flash");
 
-const anomalyFeed =
-    document.getElementById("anomalyFeed");
-
-const resultOverlay =
-    document.getElementById("resultOverlay");
-
-const resultTitle =
-    document.getElementById("resultTitle");
-
-const resultLevel =
-    document.getElementById("resultLevel");
-
-const resultScore =
-    document.getElementById("resultScore");
-
-const resultMiss =
-    document.getElementById("resultMiss");
-
-const resultSession =
-    document.getElementById("resultSession");
-
-const resultBarFill =
-    document.getElementById("resultBarFill");
-
-const resultText =
-    document.getElementById("resultText");
-
-const continueHorror =
-    document.getElementById("continueHorror");
-
-const screen =
-    document.getElementById("screen");
-
-const terminal =
-    document.getElementById("terminal");
-
-const black =
-    document.getElementById("black");
-
-const reveal =
-    document.getElementById("reveal");
-
-const image =
-    document.getElementById("image");
-
-const pieces =
-    document.querySelectorAll(".piece");
-
-const loadingImage =
-    document.getElementById("loadingImage");
-
-const jumpscare =
-    document.getElementById("jumpscare");
-
-const hacked =
-    document.getElementById("hacked");
-
-const phoneAlert =
-    document.getElementById("phoneAlert");
-
-const callName =
-    document.getElementById("callName");
-
-const callNumber =
-    document.getElementById("callNumber");
-
-const errorSpam =
-    document.getElementById("errorSpam");
-
-const flash =
-    document.getElementById("flash");
-
-const playButton =
-    document.getElementById("playButton");
-
-const playAgain =
-    document.getElementById("playAgain");
-
-const exitButton =
-    document.getElementById("exitButton");
-
-const secretEye =
-    document.getElementById("secretEye");
-
-const ending =
-    document.getElementById("ending");
-
-const endingImage =
-    document.getElementById("endingImage");
-
-const endingBadge =
-    document.getElementById("endingBadge");
-
-const endingTitle =
-    document.getElementById("endingTitle");
-
-const endingText =
-    document.getElementById("endingText");
-
-
-/* =========================================================
-   STATE
-========================================================= */
-
-let audioCtx = null;
-let masterGain = null;
-
-let timer = 15;
-
-let timerInterval = null;
-let moveInterval = null;
-
-let decoys = [];
-
-let sequenceStarted = false;
-
-let level = 1;
-let score = 0;
-let wrongClicks = 0;
-
-let secretUnlocked = false;
-
-let sessionId =
-    "#" +
-    Math.random()
-        .toString(16)
-        .slice(2,6)
-        .toUpperCase();
+const secretEye = document.getElementById("secretEye");
 
 
 /* =========================================================
@@ -1782,46 +1344,86 @@ const levelConfig = {
 
 
 /* =========================================================
+   STATE
+========================================================= */
+
+let audioCtx = null;
+let masterGain = null;
+
+let timer = 0;
+
+let timerInterval = null;
+let moveInterval = null;
+
+let decoys = [];
+
+let level = 1;
+let score = 0;
+let wrongClicks = 0;
+
+let secretUnlocked = false;
+
+/*
+    Ini adalah LOCK utama.
+
+    false = permainan masih berjalan
+    true  = permainan sudah masuk proses akhir
+
+    Ini mencegah double-click / double-ending.
+*/
+let sequenceStarted = false;
+
+let sessionId =
+    "#" +
+    Math.random()
+        .toString(16)
+        .slice(2,6)
+        .toUpperCase();
+
+
+/* =========================================================
    AUDIO
+   Semua suara dibuat menggunakan Web Audio API.
 ========================================================= */
 
 function initAudio(){
 
-    if(audioCtx) return;
+    if(audioCtx){
+        if(audioCtx.state === "suspended"){
+            audioCtx.resume();
+        }
+        return;
+    }
 
-    const Ctx =
+    const AudioContext =
         window.AudioContext ||
         window.webkitAudioContext;
 
-    if(!Ctx) return;
+    if(!AudioContext) return;
 
-    audioCtx = new Ctx();
+    audioCtx = new AudioContext();
 
     masterGain =
         audioCtx.createGain();
-
-    /*
-       Dibuat lebih keras.
-    */
 
     masterGain.gain.value = .42;
 
     masterGain.connect(
         audioCtx.destination
     );
+
 }
 
 
 function tone(
-    freq=440,
-    duration=.08,
+    freq,
+    duration,
     type="sine",
-    volume=.12,
+    volume=.2,
     when=0
 ){
 
-    if(!audioCtx || !masterGain)
-        return;
+    if(!audioCtx) return;
 
     const osc =
         audioCtx.createOscillator();
@@ -1830,11 +1432,7 @@ function tone(
         audioCtx.createGain();
 
     osc.type = type;
-
-    osc.frequency.setValueAtTime(
-        freq,
-        audioCtx.currentTime + when
-    );
+    osc.frequency.value = freq;
 
     gain.gain.setValueAtTime(
         .0001,
@@ -1842,8 +1440,8 @@ function tone(
     );
 
     gain.gain.exponentialRampToValueAtTime(
-        Math.max(.001,volume),
-        audioCtx.currentTime + when + .008
+        volume,
+        audioCtx.currentTime + when + .01
     );
 
     gain.gain.exponentialRampToValueAtTime(
@@ -1862,19 +1460,19 @@ function tone(
         audioCtx.currentTime +
         when +
         duration +
-        .03
+        .02
     );
+
 }
 
 
 function noise(
-    duration=.12,
-    volume=.08,
+    duration=.15,
+    volume=.15,
     when=0
 ){
 
-    if(!audioCtx || !masterGain)
-        return;
+    if(!audioCtx) return;
 
     const buffer =
         audioCtx.createBuffer(
@@ -1887,170 +1485,142 @@ function noise(
         buffer.getChannelData(0);
 
     for(let i=0;i<data.length;i++){
-
         data[i] =
-            (Math.random()*2-1) *
-            (1-i/data.length);
+            Math.random()*2-1;
     }
 
-    const src =
+    const source =
         audioCtx.createBufferSource();
 
     const gain =
         audioCtx.createGain();
 
+    source.buffer = buffer;
+
     gain.gain.value = volume;
 
-    src.buffer = buffer;
-
-    src.connect(gain);
+    source.connect(gain);
     gain.connect(masterGain);
 
-    src.start(
+    source.start(
         audioCtx.currentTime + when
     );
+
 }
 
 
 function clickSound(){
-    tone(520,.045,"square",.09);
+
+    tone(500,.06,"square",.10);
 }
 
 
 function wrongSound(){
 
-    tone(95,.18,"sawtooth",.16);
+    tone(80,.35,"sawtooth",.28);
 
     tone(
-        55,
-        .28,
+        45,
+        .5,
         "square",
-        .12,
-        .05
+        .18,
+        .08
     );
 
-    noise(.12,.12,.02);
 }
 
 
 function tickSound(){
 
-    tone(
-        timer <= 3 ? 210 : 300,
-        .045,
-        "square",
-        timer <= 3 ? .12 : .055
-    );
+    tone(700,.04,"square",.07);
 }
 
 
 function successSound(){
 
-    tone(660,.08,"sine",.11);
+    tone(500,.08,"sine",.12);
 
     tone(
-        880,
+        750,
         .12,
         "sine",
-        .10,
+        .12,
         .08
     );
+
+    tone(
+        1000,
+        .16,
+        "sine",
+        .14,
+        .16
+    );
+
 }
 
 
 function glitchSound(){
 
-    noise(.18,.15);
+    noise(.15,.16);
 
     tone(
-        70,
-        .22,
+        120,
+        .12,
         "sawtooth",
-        .09
+        .12
     );
+
 }
 
 
 function alarmSound(){
 
-    tone(180,.18,"square",.13);
+    tone(850,.15,"square",.17);
 
     tone(
-        120,
-        .18,
+        500,
+        .15,
         "square",
-        .12,
-        .19
+        .17,
+        .17
     );
 
-    tone(
-        180,
-        .18,
-        "square",
-        .13,
-        .38
-    );
 }
 
 
 function revealSound(){
 
+    tone(120,.5,"sawtooth",.13);
+
     tone(
-        90,
-        .5,
-        "sawtooth",
-        .12
+        240,
+        .7,
+        "square",
+        .08,
+        .2
     );
 
-    noise(.5,.10,.05);
 }
 
 
 function jumpSound(){
 
-    /*
-       Jumpscare sound dibuat lebih besar.
-    */
+    noise(.35,.35);
 
     tone(
-        48,
-        .65,
+        55,
+        .7,
         "sawtooth",
-        .28
+        .35
     );
 
-    tone(
-        95,
-        .32,
-        "square",
-        .16,
-        .04
-    );
-
-    tone(
-        180,
-        .15,
-        "sawtooth",
-        .10,
-        .10
-    );
-
-    noise(
-        .48,
-        .24,
-        .02
-    );
 }
 
 
 function typingSound(){
 
-    tone(
-        680,
-        .025,
-        "square",
-        .045
-    );
+    tone(850,.025,"square",.035);
+
 }
 
 
@@ -2060,66 +1630,19 @@ function typingSound(){
 
 function fullscreen(){
 
-    if(
-        document.documentElement.requestFullscreen
-    ){
+    try{
 
-        document
-            .documentElement
-            .requestFullscreen()
-            .catch(()=>{});
+        if(
+            document.documentElement.requestFullscreen
+        ){
 
-    }
-}
+            document.documentElement
+                .requestFullscreen();
 
+        }
 
-/* =========================================================
-   START GAME
-========================================================= */
+    }catch(e){}
 
-function mulai(){
-
-    initAudio();
-
-    if(
-        audioCtx &&
-        audioCtx.state === "suspended"
-    ){
-
-        audioCtx.resume();
-
-    }
-
-    clickSound();
-
-    playerName.textContent =
-        sessionId;
-
-    awal.style.display =
-        "none";
-
-    game.style.display =
-        "block";
-
-    sequenceStarted = false;
-
-    level = 1;
-
-    score = 0;
-
-    wrongClicks = 0;
-
-    secretUnlocked = false;
-
-    secretEye.classList.remove(
-        "activated"
-    );
-
-    updateHUD();
-
-    fullscreen();
-
-    startLevel();
 }
 
 
@@ -2129,17 +1652,11 @@ function mulai(){
 
 function updateHUD(){
 
-    levelEl.textContent =
-        level;
+    levelEl.textContent = level;
+    scoreEl.textContent = score;
+    timerEl.textContent = timer;
+    missEl.textContent = wrongClicks;
 
-    scoreEl.textContent =
-        score;
-
-    timerEl.textContent =
-        timer;
-
-    missEl.textContent =
-        wrongClicks;
 }
 
 
@@ -2147,80 +1664,63 @@ function updateHUD(){
    ANOMALY
 ========================================================= */
 
-function pushAnomaly(
-    text,
-    type=""
-){
+function pushAnomaly(text){
 
-    const line =
+    const div =
         document.createElement("div");
 
-    line.className = type;
+    div.className = "anomaly";
 
-    line.textContent =
-        "[" +
-        (
-            type==="crit"
-            ? "CRITICAL"
-            : type==="warn"
-            ? "WARNING"
-            : "NOTICE"
-        ) +
-        "] " +
-        text;
+    div.textContent = text;
 
-    anomalyFeed.appendChild(line);
+    anomalyFeed.appendChild(div);
 
     while(
-        anomalyFeed.children.length > 3
+        anomalyFeed.children.length > 5
     ){
 
-        anomalyFeed
-            .firstChild
-            .remove();
+        anomalyFeed.firstChild.remove();
 
     }
+
 }
 
 
 function randomAnomaly(){
 
-    if(
-        sequenceStarted ||
-        Math.random() > .32
-    )
-        return;
+    const list = [
 
-    const events = [
+        "TARGET POSITION UPDATED",
 
-        "Rendering latency detected.",
+        "MOTION PATTERN UNSTABLE",
 
-        "Input response variance detected.",
+        "SIGNAL FLUCTUATION",
 
-        "Session clock drift detected.",
+        "UNKNOWN OBJECT DETECTED",
 
-        "Visual process resynchronized.",
+        "VISUAL DESYNC",
 
-        "Signal interruption detected."
+        "TRACKING ERROR",
+
+        "FRAME ANOMALY",
+
+        "OBJECT MOVEMENT DETECTED"
 
     ];
 
-    const t =
-        events[
-            Math.floor(
-                Math.random() *
-                events.length
-            )
-        ];
+    if(Math.random() < .22){
 
-    pushAnomaly(
-        t,
-        Math.random()<.28
-            ? "warn"
-            : ""
-    );
+        pushAnomaly(
+            "[SYSTEM] " +
+            list[
+                Math.floor(
+                    Math.random()*list.length
+                )
+            ]
+        );
 
-    glitchSound();
+    }
+
 }
 
 
@@ -2230,144 +1730,59 @@ function randomAnomaly(){
 
 function clearDecoys(){
 
-    decoys.forEach(
-        d => d.remove()
-    );
+    decoys.forEach(d => {
+
+        if(d && d.parentNode){
+            d.remove();
+        }
+
+    });
 
     decoys = [];
+
 }
 
-
-/* =========================================================
-   POSITION
-========================================================= */
 
 function randomPosition(
     el,
     bottomSafe=80
 ){
 
-    const areaWidth =
-        gameArea.clientWidth;
+    const rect =
+        gameArea.getBoundingClientRect();
 
-    const areaHeight =
-        gameArea.clientHeight;
+    const x =
+        Math.random() *
+        (rect.width - 100) +
+        50;
 
-    const w =
-        el.offsetWidth || 60;
+    const y =
+        Math.random() *
+        (rect.height - bottomSafe - 80) +
+        70;
 
-    const h =
-        el.offsetHeight || 60;
+    el.style.left = x + "px";
+    el.style.top = y + "px";
 
-    const maxX =
-        Math.max(
-            10,
-            areaWidth-w-10
-        );
-
-    const maxY =
-        Math.max(
-            10,
-            areaHeight-h-bottomSafe
-        );
-
-    el.style.left =
-        Math.random()*maxX +
-        "px";
-
-    el.style.top =
-        Math.random()*maxY +
-        "px";
 }
 
-
-/* =========================================================
-   LEVEL BACKGROUND
-========================================================= */
-
-function setLevelBackground(){
-
-    let bg =
-        ASSETS.level1;
-
-    if(level===2)
-        bg = ASSETS.level2;
-
-    if(level===3)
-        bg = ASSETS.level3;
-
-    gameArea.style.backgroundImage =
-        `
-        linear-gradient(
-            rgba(0,0,0,.28),
-            rgba(0,0,0,.45)
-        ),
-        url("${bg}")
-        `;
-
-    /*
-       Level 3 dibuat sedikit lebih gelap.
-    */
-
-    if(level===3){
-
-        gameArea.style.filter =
-            "brightness(.82) contrast(1.12)";
-
-    }else{
-
-        gameArea.style.filter =
-            "brightness(.95)";
-
-    }
-}
-
-
-/* =========================================================
-   MOVE TARGET
-========================================================= */
 
 function moveToy(){
 
-    randomPosition(
-        toy,
-        90
-    );
+    if(sequenceStarted) return;
 
-    toy.classList.toggle(
-        "evade",
-        Math.random()<.22
-    );
+    randomPosition(toy);
+
+    targetGlow.style.left =
+        toy.style.left;
+
+    targetGlow.style.top =
+        toy.style.top;
 
     randomAnomaly();
 
-    const x =
-        parseFloat(
-            toy.style.left
-        ) || 0;
-
-    const y =
-        parseFloat(
-            toy.style.top
-        ) || 0;
-
-    targetGlow.style.left =
-        (x-30) + "px";
-
-    targetGlow.style.top =
-        (y-30) + "px";
-
-    targetGlow.style.opacity =
-        level===3 &&
-        Math.random()<.12
-        ? ".22"
-        : "0";
 }
 
-
-/* =========================================================
-   SPAWN DECOYS
-========================================================= */
 
 function spawnDecoys(){
 
@@ -2387,231 +1802,181 @@ function spawnDecoys(){
     const count =
         levelConfig[level].decoys;
 
-    for(
-        let i=0;
-        i<count;
-        i++
-    ){
+    for(let i=0;i<count;i++){
 
         const d =
             document.createElement("div");
 
-        d.className =
-            "decoy";
+        d.className = "decoy";
 
         d.textContent =
             icons[
-                (i+level) %
-                icons.length
+                Math.floor(
+                    Math.random()*icons.length
+                )
             ];
 
-        d.setAttribute(
-            "aria-label",
-            "Decoy"
-        );
-
-        randomPosition(
-            d,
-            90
-        );
+        randomPosition(d);
 
         d.addEventListener(
             "click",
-            () => wrongTarget(d)
+            function(e){
+
+                e.stopPropagation();
+
+                wrongTarget(d);
+
+            }
         );
 
         gameArea.appendChild(d);
 
         decoys.push(d);
+
     }
+
 }
 
 
 /* =========================================================
-   CURSOR BEHAVIOR
+   CURSOR
 ========================================================= */
 
 gameArea.addEventListener(
     "pointermove",
-    e => {
+    function(e){
 
-        if(sequenceStarted)
-            return;
+        if(sequenceStarted) return;
 
-        const r =
+        const rect =
             gameArea.getBoundingClientRect();
 
-        if(!window.cursorTrace){
+        const x =
+            e.clientX - rect.left;
 
-            const c =
-                document.createElement("div");
+        const y =
+            e.clientY - rect.top;
 
-            c.style.position =
-                "absolute";
+        const tx =
+            parseFloat(toy.style.left) || 0;
 
-            c.style.width =
-                "14px";
+        const ty =
+            parseFloat(toy.style.top) || 0;
 
-            c.style.height =
-                "14px";
-
-            c.style.border =
-                "1px solid #ffffff18";
-
-            c.style.borderRadius =
-                "50%";
-
-            c.style.pointerEvents =
-                "none";
-
-            c.style.zIndex =
-                "7";
-
-            gameArea.appendChild(c);
-
-            window.cursorTrace = c;
-        }
-
-        cursorTrace.style.left =
-            (e.clientX-r.left) +
-            "px";
-
-        cursorTrace.style.top =
-            (e.clientY-r.top) +
-            "px";
-
-        const tr =
-            toy.getBoundingClientRect();
-
-        const dx =
-            e.clientX -
-            (tr.left+tr.width/2);
-
-        const dy =
-            e.clientY -
-            (tr.top+tr.height/2);
+        const distance =
+            Math.hypot(
+                x-tx,
+                y-ty
+            );
 
         if(
-            Math.hypot(dx,dy)<90 &&
-            Math.random()<.08
+            distance < 90 &&
+            Math.random() < .08
         ){
 
-            randomPosition(
-                toy,
-                90
-            );
+            moveToy();
 
-            pushAnomaly(
-                "Target displacement detected."
-            );
         }
+
     }
 );
 
 
 /* =========================================================
    WRONG CLICK
-   =========================================================
-
-   PENTING:
-   Salah klik = LANGSUNG JUMPSCARE.
+   -> JUMPSCARE
+   -> CYBER HORROR ENDING
 ========================================================= */
 
 function wrongTarget(d){
 
-    if(sequenceStarted)
-        return;
+    if(sequenceStarted) return;
 
     sequenceStarted = true;
 
-    clearInterval(
-        timerInterval
-    );
-
-    clearInterval(
-        moveInterval
-    );
-
-    clearDecoys();
+    clearInterval(timerInterval);
+    clearInterval(moveInterval);
 
     wrongClicks++;
 
     updateHUD();
 
-    d.classList.add(
-        "wrong"
-    );
-
-    gameArea.classList.add(
-        "panic"
-    );
-
-    wrongSound();
-
-    alarmSound();
-
-    flash.style.opacity =
-        "1";
-
-    setTimeout(
-        () => {
-            flash.style.opacity =
-                "0";
-        },
-        80
-    );
-
     /*
-       Sangat cepat:
-       game hilang
-       jumpscare langsung.
+        Animasi dulu sebelum decoy dibuang.
     */
 
-    setTimeout(
-        () => {
+    if(d){
 
-            game.style.display =
-                "none";
+        d.classList.add("wrong");
 
-            jumpscareNow();
+    }
 
-        },
-        130
-    );
+    wrongSound();
+    alarmSound();
+
+    flash.style.display = "block";
+
+    setTimeout(() => {
+
+        flash.style.display = "none";
+
+    },80);
+
+    gameArea.classList.add("panic");
+
+    setTimeout(() => {
+
+        game.style.display = "none";
+
+        /*
+            JUMPSCARE DULU.
+        */
+
+        jumpscareNow(
+            true
+        );
+
+    },150);
+
 }
 
 
 /* =========================================================
-   PANIC ANIMATION
+   LEVEL BACKGROUND
 ========================================================= */
 
-const panicStyle =
-document.createElement("style");
+function setLevelBackground(){
 
-panicStyle.textContent = `
-.gameArea.panic{
-    animation:
-        areaShake .07s linear 4;
+    gameArea.classList.remove(
+        "level3"
+    );
+
+    if(level === 1){
+
+        gameArea.style.backgroundImage =
+            'linear-gradient(rgba(0,0,0,.28),rgba(0,0,0,.55)),url("game/level1.png")';
+
+    }
+
+    if(level === 2){
+
+        gameArea.style.backgroundImage =
+            'linear-gradient(rgba(0,0,0,.30),rgba(0,0,0,.58)),url("game/level2.png")';
+
+    }
+
+    if(level === 3){
+
+        gameArea.style.backgroundImage =
+            'linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.62)),url("game/level3.jpeg")';
+
+        gameArea.classList.add(
+            "level3"
+        );
+
+    }
+
 }
-
-@keyframes areaShake{
-    25%{
-        transform:translate(-5px,2px)
-    }
-
-    50%{
-        transform:translate(5px,-3px)
-    }
-
-    75%{
-        transform:translate(-4px,-2px)
-    }
-}
-`;
-
-document.head.appendChild(
-    panicStyle
-);
 
 
 /* =========================================================
@@ -2620,28 +1985,22 @@ document.head.appendChild(
 
 function startLevel(){
 
-    clearInterval(
-        timerInterval
-    );
+    /*
+        LOCK DIBUKA LAGI untuk level baru.
+    */
 
-    clearInterval(
-        moveInterval
-    );
+    sequenceStarted = false;
+
+    clearInterval(timerInterval);
+    clearInterval(moveInterval);
 
     clearDecoys();
 
-    const cfg =
-        levelConfig[level];
-
     timer =
-        cfg.time;
+        levelConfig[level].time;
 
     hintText.textContent =
-        cfg.label;
-
-    game.classList.remove(
-        "timerDanger"
-    );
+        levelConfig[level].label;
 
     setLevelBackground();
 
@@ -2651,140 +2010,148 @@ function startLevel(){
 
     spawnDecoys();
 
+
+    /*
+        TARGET BERPINDAH.
+    */
+
     moveInterval =
         setInterval(
-            () => {
-
-                moveToy();
-
-                if(level>=2){
-
-                    decoys.forEach(
-                        d =>
-                        randomPosition(
-                            d,
-                            90
-                        )
-                    );
-
-                }
-
-            },
-            cfg.moves
+            moveToy,
+            levelConfig[level].moves
         );
+
+
+    /*
+        TIMER.
+    */
 
     timerInterval =
-        setInterval(
-            () => {
+        setInterval(() => {
 
-                timer--;
+            if(sequenceStarted) return;
 
-                updateHUD();
+            timer--;
 
+            updateHUD();
+
+            if(timer <= 5){
+                timerEl.parentElement
+                    .classList.add("timerDanger");
+            }
+
+            if(timer > 0){
                 tickSound();
+            }
 
-                if(timer<=5){
+            if(timer <= 0){
 
-                    game.classList.add(
-                        "timerDanger"
-                    );
+                clearInterval(
+                    timerInterval
+                );
 
-                }
+                clearInterval(
+                    moveInterval
+                );
 
-                if(timer<=0){
+                /*
+                    WAKTU HABIS =
+                    BAD ENDING / CYBER HORROR
+                */
 
-                    clearInterval(
-                        timerInterval
-                    );
+                gameOver(
+                    "timeout"
+                );
 
-                    clearInterval(
-                        moveInterval
-                    );
+            }
 
-                    gameOver(
-                        "timeout"
-                    );
+        },1000);
 
-                }
-
-            },
-            1000
-        );
 }
 
 
 /* =========================================================
-   FIND TARGET
+   FOUND TOY
 ========================================================= */
 
 toy.addEventListener(
     "click",
-    foundToy
+    function(e){
+
+        e.stopPropagation();
+
+        foundToy();
+
+    }
 );
 
 
 function foundToy(){
 
-    if(sequenceStarted)
-        return;
+    if(sequenceStarted) return;
 
-    clearInterval(
-        timerInterval
-    );
+    /*
+        LOCK LANGSUNG.
+        Jadi tidak bisa klik berkali-kali.
+    */
 
-    clearInterval(
-        moveInterval
-    );
+    sequenceStarted = true;
+
+    clearInterval(timerInterval);
+    clearInterval(moveInterval);
 
     const gained =
         100 +
-        timer*10;
+        timer * 10;
 
     score += gained;
 
     updateHUD();
 
-    toy.classList.add(
-        "hunted"
-    );
+    toy.style.transform =
+        "translate(-50%,-50%) scale(1.5)";
 
     successSound();
 
     clearDecoys();
 
     showRoundMessage(
-        level<3
-        ? `TARGET FOUND • +${gained}`
-        : "TARGET FOUND • SESSION COMPLETE"
+        "FOUND! +" + gained
     );
 
-    setTimeout(
-        () =>
-        toy.classList.remove(
-            "hunted"
-        ),
-        500
-    );
 
-    if(level<3){
+    /*
+        LEVEL 1 -> LEVEL 2
+        LEVEL 2 -> LEVEL 3
+    */
+
+    if(level < 3){
 
         level++;
 
-        setTimeout(
-            startLevel,
-            900
-        );
+        setTimeout(() => {
 
-    }else{
+            startLevel();
 
-        setTimeout(
-            () =>
-            gameOver(
-                "completed"
-            ),
-            1100
-        );
+        },900);
+
+        return;
+
     }
+
+
+    /*
+        SEMUA LEVEL BERHASIL.
+    */
+
+    setTimeout(() => {
+
+        gameOver(
+            "completed"
+        );
+
+    },1000);
+
 }
 
 
@@ -2797,17 +2164,16 @@ function showRoundMessage(text){
     roundMessage.textContent =
         text;
 
+    roundMessage.classList.remove(
+        "show"
+    );
+
+    void roundMessage.offsetWidth;
+
     roundMessage.classList.add(
         "show"
     );
 
-    setTimeout(
-        () =>
-        roundMessage.classList.remove(
-            "show"
-        ),
-        650
-    );
 }
 
 
@@ -2817,746 +2183,54 @@ function showRoundMessage(text){
 
 function gameOver(reason){
 
-    if(sequenceStarted)
+    if(
+        reason === "completed"
+    ){
+
+        /*
+            SUCCESS TOTAL.
+        */
+
+        clearInterval(timerInterval);
+        clearInterval(moveInterval);
+        clearDecoys();
+
+        showEndingByResult();
+
         return;
+
+    }
+
+
+    /*
+        TIMEOUT / GAGAL
+
+        LANGSUNG CYBER HORROR.
+    */
 
     sequenceStarted = true;
 
-    clearInterval(
-        timerInterval
-    );
-
-    clearInterval(
-        moveInterval
-    );
-
+    clearInterval(timerInterval);
+    clearInterval(moveInterval);
     clearDecoys();
 
-    resultTitle.textContent =
-        reason === "completed"
-        ? "SESSION COMPLETE"
-        : "SESSION INTERRUPTED";
+    showCyberEnding();
 
-    resultLevel.textContent =
-        level + "/3";
-
-    resultScore.textContent =
-        score;
-
-    resultMiss.textContent =
-        wrongClicks;
-
-    resultSession.textContent =
-        playerName.textContent;
-
-    resultText.textContent =
-        reason === "completed"
-        ? "Performance recorded locally. Proceed when ready."
-        : "The session ended before all targets were found.";
-
-    resultOverlay.style.display =
-        "flex";
-
-    requestAnimationFrame(
-        () => {
-
-            resultBarFill.style.width =
-                Math.min(
-                    100,
-                    Math.max(
-                        8,
-                        score/10
-                    )
-                ) + "%";
-        }
-    );
-
-    continueHorror.onclick =
-        () => {
-
-            resultOverlay.style.display =
-                "none";
-
-            game.style.display =
-                "none";
-
-            glitchSound();
-
-            showPhoneSimulation(
-                reason
-            );
-        };
 }
 
 
 /* =========================================================
-   PHONE
+   SUCCESS RESULT
 ========================================================= */
 
-function showPhoneSimulation(reason){
-
-    callName.textContent =
-        "UNKNOWN CALLER";
-
-    callNumber.textContent =
-        reason === "completed"
-        ? "PRIVATE • SESSION COMPLETE"
-        : "PRIVATE • ACTIVITY DETECTED";
-
-    phoneAlert.style.display =
-        "flex";
-
-    alarmSound();
-
-    setTimeout(
-        () => {
-
-            phoneAlert.style.display =
-                "none";
-
-            startBlack();
-
-        },
-        3200
-    );
-}
-
-
-/* =========================================================
-   BLACK SCREEN
-========================================================= */
-
-function startBlack(){
-
-    black.style.display =
-        "flex";
-
-    black.textContent =
-        "CONNECTION LOST...";
-
-    glitchSound();
-
-    setTimeout(
-        () =>
-        black.textContent =
-            "RECONNECTING...",
-        800
-    );
-
-    setTimeout(
-        () =>
-        black.textContent =
-            "VERIFYING SESSION...",
-        1500
-    );
-
-    setTimeout(
-        () =>
-        black.textContent =
-            "UNEXPECTED RESPONSE",
-        2200
-    );
-
-    setTimeout(
-        () => {
-
-            black.style.display =
-                "none";
-
-            startTerminal();
-
-        },
-        3100
-    );
-}
-
-
-/* =========================================================
-   TERMINAL LOGS
-========================================================= */
-
-function getLogs(){
-
-    return [
-
-        ["SYSTEM INITIALIZATION...","white"],
-
-        ["> Browser runtime detected.","dim"],
-
-        ["> Local session handshake...","dim"],
-
-        ["> Connection established.","green"],
-
-        ["",""],
-
-        ["SESSION STATE","yellow"],
-
-        ["> Guest session: "+sessionId,"yellow"],
-
-        ["> Game progress: "+score+" points","dim"],
-
-        ["> External data access: NONE","green"],
-
-        ["",""],
-
-        ["ANOMALY SCAN STARTED","red"],
-
-        ["> Checking active page state...","dim"],
-
-        ["> Checking event listeners...","dim"],
-
-        ["> Checking rendering context...","dim"],
-
-        ["> Unexpected pattern detected.","yellow"],
-
-        ["",""],
-
-        ["WARNING: UNKNOWN ACTIVITY DETECTED","yellow"],
-
-        ["> Attempting to isolate event...","dim"],
-
-        ["> Isolation failed.","red"],
-
-        ["",""],
-
-        ["!!! SECURITY BREACH DETECTED !!!","red"],
-
-        ["> Control state: UNKNOWN","yellow"],
-
-        ["> Recovery channel: UNAVAILABLE","red"],
-
-        ["",""],
-
-        ["CRITICAL ERROR","red"],
-
-        ["> Visual subsystem unstable.","red"],
-
-        ["> Emergency shutdown sequence...","red"],
-
-        ["",""],
-
-        ["SYSTEM FAILURE","red"],
-
-        ["> Connection lost.","red"]
-
-    ];
-}
-
-
-/* =========================================================
-   TERMINAL
-========================================================= */
-
-function startTerminal(){
-
-    screen.style.display =
-        "block";
-
-    terminal.innerHTML =
-        "";
-
-    const logs =
-        getLogs();
-
-    let i=0;
-
-    const progress =
-        document.createElement("div");
-
-    progress.className =
-        "dim";
-
-    progress.textContent =
-        "> Processing: [                    ] 0%";
-
-    terminal.appendChild(
-        progress
-    );
-
-    let p=0;
-
-    const pInt =
-        setInterval(
-            () => {
-
-                p+=5;
-
-                const bars =
-                    Math.floor(
-                        p/5
-                    );
-
-                progress.textContent =
-                    `> Processing: [` +
-                    `${"█".repeat(bars)}` +
-                    `${" ".repeat(20-bars)}` +
-                    `] ${p}%`;
-
-                typingSound();
-
-                if(p>=100)
-                    clearInterval(
-                        pInt
-                    );
-
-            },
-            55
-        );
-
-
-    function next(){
-
-        if(i>=logs.length){
-
-            setTimeout(
-                startReveal,
-                900
-            );
-
-            return;
-        }
-
-        const [text,cls] =
-            logs[i++];
-
-        const div =
-            document.createElement(
-                "div"
-            );
-
-        div.className =
-            cls;
-
-        div.textContent =
-            text || " ";
-
-        terminal.appendChild(
-            div
-        );
-
-        terminal.scrollTop =
-            terminal.scrollHeight;
-
-        typingSound();
-
-        let delay=145;
-
-        if(
-            text.includes(
-                "BREACH"
-            )
-        ){
-
-            delay=700;
-
-            alarmSound();
-
-        }
-        else if(
-            text.includes(
-                "ERROR"
-            ) ||
-            text.includes(
-                "FAILURE"
-            )
-        ){
-
-            delay=500;
-
-            glitchSound();
-
-        }
-
-        setTimeout(
-            next,
-            delay
-        );
-    }
-
-    setTimeout(
-        next,
-        650
-    );
-}
-
-
-/* =========================================================
-   HORROR REVEAL
-========================================================= */
-
-function startReveal(){
-
-    screen.style.display =
-        "none";
-
-    reveal.style.display =
-        "block";
-
-    image.src =
-        ASSETS.cyber;
-
-    image.style.opacity =
-        "0";
-
-    loadingImage.textContent =
-        "LOADING IMAGE... 0%";
-
-    reveal.classList.remove(
-        "glitch"
-    );
-
-    revealSound();
-
-    pieces.forEach(
-        piece => {
-
-            piece.classList.remove(
-                "show"
-            );
-
-            piece.style.opacity =
-                "";
-
-        }
-    );
-
-    const shuffled =
-        Array.from(
-            pieces
-        ).sort(
-            () =>
-            Math.random()-.5
-        );
-
-    shuffled.forEach(
-        (piece,index) => {
-
-            setTimeout(
-                () => {
-
-                    piece.classList.add(
-                        "show"
-                    );
-
-                    const percent =
-                        Math.round(
-                            ((index+1) /
-                            pieces.length) *
-                            100
-                        );
-
-                    loadingImage.textContent =
-                        "LOADING IMAGE... " +
-                        percent +
-                        "%";
-
-                    if(index%3===0){
-
-                        reveal.classList.add(
-                            "glitch"
-                        );
-
-                        glitchSound();
-
-                        setTimeout(
-                            () =>
-                            reveal.classList.remove(
-                                "glitch"
-                            ),
-                            120
-                        );
-                    }
-
-                },
-                index*220
-            );
-        }
-    );
-
-    setTimeout(
-        () => {
-
-            image.style.opacity =
-                "1";
-
-            pieces.forEach(
-                piece =>
-                piece.style.opacity =
-                    "0"
-            );
-
-            loadingImage.textContent =
-                "IMAGE LOAD COMPLETE";
-
-        },
-        pieces.length*220+400
-    );
-
-    setTimeout(
-        jumpscareNow,
-        pieces.length*220+1100
-    );
-}
-
-
-/* =========================================================
-   JUMPSCARE
-========================================================= */
-
-function jumpscareNow(){
-
-    reveal.style.display =
-        "none";
-
-    jumpscare.style.display =
-        "block";
-
-    flash.style.opacity =
-        "1";
-
-    jumpSound();
-
-    setTimeout(
-        () =>
-        flash.style.opacity =
-            "0",
-        90
-    );
-
-    jumpscare.classList.add(
-        "glitch"
-    );
-
-    setTimeout(
-        () =>
-        jumpscare.classList.remove(
-            "glitch"
-        ),
-        900
-    );
-
-    setTimeout(
-        () =>
-        hacked.classList.add(
-            "show"
-        ),
-        450
-    );
-
-    setTimeout(
-        startErrorSpam,
-        2400
-    );
-}
-
-
-/* =========================================================
-   ERROR SPAM
-========================================================= */
-
-function startErrorSpam(){
-
-    hacked.classList.remove(
-        "show"
-    );
-
-    errorSpam.innerHTML =
-        "";
-
-    errorSpam.style.display =
-        "block";
-
-    let count=0;
-
-    const interval =
-        setInterval(
-            () => {
-
-                createError();
-
-                count++;
-
-                if(count%3===0)
-                    glitchSound();
-
-                if(count>=20){
-
-                    clearInterval(
-                        interval
-                    );
-
-                    setTimeout(
-                        () => {
-
-                            errorSpam.style.display =
-                                "none";
-
-                            jumpscare.style.display =
-                                "none";
-
-                            prankEnding();
-
-                        },
-                        1900
-                    );
-                }
-
-            },
-            155
-        );
-}
-
-
-/* =========================================================
-   ERROR WINDOW
-========================================================= */
-
-function createError(){
-
-    const box =
-        document.createElement(
-            "div"
-        );
-
-    box.className =
-        "errorBox";
-
-    const codes = [
-
-        "0x00000005",
-        "0x00000013",
-        "0x0000001F",
-        "0x80004005",
-        "0xDEAD0001"
-
-    ];
-
-    const messages = [
-
-        "Browser process has stopped responding.",
-
-        "Rendering context returned an unexpected state.",
-
-        "Session handshake could not be verified.",
-
-        "Recovery service failed to respond.",
-
-        "Visual subsystem timeout detected."
-
-    ];
-
-    box.innerHTML =
-        `
-        <b>⚠ CRITICAL ERROR</b>
-        <br><br>
-        ${
-            messages[
-                Math.floor(
-                    Math.random() *
-                    messages.length
-                )
-            ]
-        }
-        <br><br>
-        Error Code:
-        ${
-            codes[
-                Math.floor(
-                    Math.random() *
-                    codes.length
-                )
-            ]
-        }
-        <br><br>
-        <button
-            type="button"
-            class="errorClose"
-        >
-            OK
-        </button>
-        `;
-
-    box.style.left =
-        Math.random()*76 +
-        "%";
-
-    box.style.top =
-        Math.random()*76 +
-        "%";
-
-    box.style.zIndex =
-        700 +
-        Math.floor(
-            Math.random()*100
-        );
-
-    box
-        .querySelector(
-            ".errorClose"
-        )
-        .addEventListener(
-            "click",
-            () => {
-
-                clickSound();
-
-                box.remove();
-
-            }
-        );
-
-    errorSpam.appendChild(
-        box
-    );
-}
-
-
-/* =========================================================
-   SECRET EYE
-   =========================================================
-
-   Tidak ada petunjuk visual/text.
-   User yang menemukan sendiri akan unlock.
-========================================================= */
-
-secretEye.addEventListener(
-    "click",
-    () => {
-
-        if(sequenceStarted)
-            return;
-
-        secretUnlocked = true;
-
-        secretEye.classList.add(
-            "activated"
-        );
-
-        /*
-           Tidak ada message.
-           Tidak ada popup.
-           Tidak ada teks.
-        */
-
-        glitchSound();
-
-    }
-);
-
-
-/* =========================================================
-   FINAL ENDING ROUTER
-========================================================= */
-
-function prankEnding(){
+function showEndingByResult(){
 
     /*
-       SECRET:
-       Kalau mata pernah diklik,
-       gunakan secret ending.
+        Kalau mata dibuka:
+        SECRET ENDING
 
-       Kalau tidak:
-       gunakan happy ending.
+        Kalau tidak:
+        HAPPY ENDING
     */
 
     if(secretUnlocked){
@@ -3565,18 +2239,142 @@ function prankEnding(){
             ASSETS.secret,
             "SECRET ENDING",
             "YOU FOUND WHAT WAS HIDDEN",
-            "Some things were never meant to be found."
+            "You noticed something that was never meant to be noticed."
         );
 
     }else{
 
         showEnding(
             ASSETS.happy,
-            "ENDING 01 • CLEAN",
-            "YOU MADE IT",
-            "The session ended safely. Or at least... it looked that way."
+            "ENDING 02 • HAPPY",
+            "YOU MADE IT!",
+            "You found the toy and completed all three levels."
         );
+
     }
+
+}
+
+
+/* =========================================================
+   CYBER HORROR ENDING
+   Untuk:
+   1. Timeout
+   2. Gagal
+   3. Setelah jumpscare
+========================================================= */
+
+function showCyberEnding(){
+
+    sequenceStarted = true;
+
+    clearInterval(timerInterval);
+    clearInterval(moveInterval);
+    clearDecoys();
+
+    game.style.display = "none";
+
+    resultOverlay.style.display =
+        "none";
+
+    phoneAlert.style.display =
+        "none";
+
+    black.style.display =
+        "none";
+
+    terminal.style.display =
+        "none";
+
+    reveal.style.display =
+        "none";
+
+    errorSpam.style.display =
+        "none";
+
+    /*
+        LANGSUNG tampilkan Ending 1.
+    */
+
+    showEnding(
+        ASSETS.cyber,
+        "ENDING 01 • BAD ENDING",
+        "YOU FAILED",
+        "Something was waiting behind the game."
+    );
+
+}
+
+
+/* =========================================================
+   JUMPSCARE
+   Setelah selesai -> CYBER HORROR ENDING
+========================================================= */
+
+function jumpscareNow(
+
+    goToCyberEnding=true
+
+){
+
+    jumpscare.style.display =
+        "block";
+
+    hacked.style.display =
+        "none";
+
+    jumpSound();
+
+    flash.style.display =
+        "block";
+
+    setTimeout(() => {
+
+        flash.style.display =
+            "none";
+
+    },120);
+
+
+    setTimeout(() => {
+
+        hacked.style.display =
+            "flex";
+
+        hacked.classList.add(
+            "glitch"
+        );
+
+        glitchSound();
+
+    },400);
+
+
+    /*
+        Setelah jumpscare selesai:
+        Cyber Horror Ending
+    */
+
+    setTimeout(() => {
+
+        jumpscare.style.display =
+            "none";
+
+        hacked.style.display =
+            "none";
+
+        hacked.classList.remove(
+            "glitch"
+        );
+
+        if(goToCyberEnding){
+
+            showCyberEnding();
+
+        }
+
+    },2600);
+
 }
 
 
@@ -3592,7 +2390,7 @@ function showEnding(
 ){
 
     ending.style.display =
-        "flex";
+        "block";
 
     endingImage.style.opacity =
         "0";
@@ -3609,25 +2407,57 @@ function showEnding(
     endingText.textContent =
         text;
 
-    setTimeout(
-        () => {
+    setTimeout(() => {
 
-            endingImage.style.opacity =
-                "1";
+        endingImage.style.opacity =
+            "1";
 
-        },
-        100
-    );
+    },80);
+
 }
+
+
+/* =========================================================
+   SECRET EYE
+========================================================= */
+
+secretEye.addEventListener(
+    "click",
+    function(e){
+
+        e.stopPropagation();
+
+        if(sequenceStarted) return;
+
+        /*
+            SECRET UNLOCK.
+        */
+
+        secretUnlocked = true;
+
+        secretEye.classList.add(
+            "activated"
+        );
+
+        glitchSound();
+
+        pushAnomaly(
+            "[???] SOMETHING NOTICED YOU"
+        );
+
+    }
+);
 
 
 /* =========================================================
    PLAY AGAIN
 ========================================================= */
 
-playAgain.addEventListener(
+document
+.getElementById("playAgain")
+.addEventListener(
     "click",
-    () => {
+    function(){
 
         location.reload();
 
@@ -3639,95 +2469,166 @@ playAgain.addEventListener(
    EXIT
 ========================================================= */
 
-exitButton.addEventListener(
+document
+.getElementById("exitButton")
+.addEventListener(
     "click",
-    () => {
+    function(){
 
-        ending.innerHTML =
-            `
-            <div class="endingShade"></div>
+        endingImage.style.display =
+            "none";
 
-            <div
-                class="endingContent"
-                style="z-index:5"
-            >
+        ending.querySelector(
+            ".endingContent"
+        ).innerHTML = `
 
-                <div class="endingBadge">
-                    SIMULATION CLOSED
-                </div>
+            <div id="endingBadge">
+                SIMULATION CLOSED
+            </div>
 
-                <h1>
-                    THANKS FOR PLAYING 👋
-                </h1>
+            <h1 id="endingTitle">
+                THANKS FOR PLAYING 👋
+            </h1>
 
-                <p id="endingText">
-                    You can safely close this tab.
-                    <br>
-                    <b>No files were accessed.</b>
-                    <br>
-                    <b>No personal data was sent anywhere.</b>
-                </p>
+            <p id="endingText">
+                You can safely close this tab.
+                <br><br>
+                No files were accessed.
+                <br>
+                No personal data was sent anywhere.
+            </p>
 
-                <div class="endingButtons">
+            <div class="endingButtons">
 
-                    <button
-                        class="playAgain"
-                        type="button"
-                        onclick="location.reload()"
-                    >
-                        🎮 PLAY AGAIN
-                    </button>
-
-                </div>
+                <button onclick="location.reload()">
+                    PLAY AGAIN
+                </button>
 
             </div>
-            `;
 
-        clickSound();
+        `;
 
     }
 );
 
 
 /* =========================================================
+   START GAME
+========================================================= */
+
+function mulai(){
+
+    initAudio();
+
+    if(audioCtx){
+
+        audioCtx.resume();
+
+    }
+
+    clickSound();
+
+    sessionId =
+        "#" +
+        Math.random()
+            .toString(16)
+            .slice(2,6)
+            .toUpperCase();
+
+    level = 1;
+    score = 0;
+    wrongClicks = 0;
+
+    secretUnlocked = false;
+
+    sequenceStarted = false;
+
+    secretEye.classList.remove(
+        "activated"
+    );
+
+    awal.style.display =
+        "none";
+
+    game.style.display =
+        "block";
+
+    resultOverlay.style.display =
+        "none";
+
+    ending.style.display =
+        "none";
+
+    jumpscare.style.display =
+        "none";
+
+    errorSpam.style.display =
+        "none";
+
+    updateHUD();
+
+    fullscreen();
+
+    startLevel();
+
+}
+
+
+/* =========================================================
    PLAY BUTTON
 ========================================================= */
 
-playButton.addEventListener(
+document
+.getElementById("playButton")
+.addEventListener(
     "click",
     mulai
 );
 
 
 /* =========================================================
-   KEYBOARD
+   ENTER
 ========================================================= */
 
 document.addEventListener(
     "keydown",
-    e => {
+    function(e){
 
         if(
-            e.key==="Enter" &&
-            awal.style.display!=="none"
+            e.key === "Enter" &&
+            awal.style.display !== "none"
         ){
 
             mulai();
 
         }
 
-        if(e.key==="Escape"){
+    }
+);
 
-            if(document.fullscreenElement){
 
-                document
-                    .exitFullscreen()
-                    .catch(()=>{});
+/* =========================================================
+   ESC
+========================================================= */
 
-            }
+document.addEventListener(
+    "keydown",
+    function(e){
 
-            location.reload();
+        if(e.key === "Escape"){
+
+            try{
+
+                if(document.fullscreenElement){
+
+                    document.exitFullscreen();
+
+                }
+
+            }catch(err){}
+
         }
+
     }
 );
 
@@ -3737,32 +2638,27 @@ document.addEventListener(
 ========================================================= */
 
 const dangerStyle =
-document.createElement(
-    "style"
-);
+document.createElement("style");
 
 dangerStyle.textContent = `
 
-.timerDanger #timer{
-
-    animation:
-        timerPulse .45s
-        infinite alternate;
-
+.timerDanger{
+    border-color:rgba(255,50,50,.55)!important;
+    animation:timerDanger .5s infinite;
 }
 
-@keyframes timerPulse{
+@keyframes timerDanger{
 
-    to{
+    0%,100%{
+        transform:scale(1);
+    }
 
-        transform:scale(1.18);
-
-        text-shadow:
-            0 0 15px red;
-
+    50%{
+        transform:scale(1.08);
     }
 
 }
+
 `;
 
 document.head.appendChild(
