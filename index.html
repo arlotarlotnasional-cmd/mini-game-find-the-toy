@@ -8,10 +8,7 @@
     content="width=device-width, initial-scale=1.0, viewport-fit=cover"
 >
 
-<meta
-    name="theme-color"
-    content="#000000"
->
+<meta name="theme-color" content="#000000">
 
 <title>Find The Hidden Toy</title>
 
@@ -71,34 +68,555 @@ img{
     align-items:center;
 
     padding:
-        max(20px, env(safe-area-inset-top))
-        max(20px, env(safe-area-inset-right))
-        max(20px, env(safe-area-inset-bottom))
-        max(20px, env(safe-area-inset-left));
+        max(20px,env(safe-area-inset-top))
+        max(20px,env(safe-area-inset-right))
+        max(20px,env(safe-area-inset-bottom))
+        max(20px,env(safe-area-inset-left));
 
-    background:#eafaff;
+    background:
+        radial-gradient(
+            circle at 50% 40%,
+            #19362d 0%,
+            #0b1714 35%,
+            #020504 75%,
+            #000 100%
+        );
 
     font-family:Arial,sans-serif;
+
+    overflow:hidden;
 
     z-index:100;
 }
 
+
+/* =========================================================
+   SUNDA / JAWA INTRO ATMOSPHERE
+========================================================= */
+
+.introScene{
+    position:absolute;
+    inset:0;
+
+    overflow:hidden;
+
+    pointer-events:none;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #061014 0%,
+            #0a1717 42%,
+            #14231b 67%,
+            #050806 100%
+        );
+}
+
+
+/* moon */
+
+.introMoon{
+    position:absolute;
+
+    width:
+        clamp(70px,11vw,130px);
+
+    height:
+        clamp(70px,11vw,130px);
+
+    border-radius:50%;
+
+    right:13%;
+    top:11%;
+
+    background:
+        radial-gradient(
+            circle at 35% 30%,
+            #fffdf0,
+            #d9d7b8 65%,
+            #99987e 100%
+        );
+
+    box-shadow:
+        0 0 35px #d9e8d855,
+        0 0 90px #9fb8a522;
+
+    opacity:.75;
+}
+
+
+/* fog */
+
+.introFog{
+    position:absolute;
+
+    left:-10%;
+    right:-10%;
+
+    height:24%;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            ellipse,
+            #b8d2c322 0%,
+            #a8c7ba12 40%,
+            transparent 72%
+        );
+
+    filter:blur(15px);
+
+    animation:
+        fogMove 12s ease-in-out infinite alternate;
+}
+
+.introFog.one{
+    bottom:23%;
+}
+
+.introFog.two{
+    bottom:8%;
+
+    animation-delay:-5s;
+
+    opacity:.65;
+}
+
+@keyframes fogMove{
+    from{
+        transform:translateX(-5%);
+    }
+
+    to{
+        transform:translateX(5%);
+    }
+}
+
+
+/* distant hills */
+
+.introHill{
+    position:absolute;
+
+    left:-10%;
+    right:-10%;
+
+    bottom:0;
+
+    height:42%;
+
+    background:
+        linear-gradient(
+            145deg,
+            transparent 0 20%,
+            #0b1a14 21% 38%,
+            transparent 39%
+        ),
+        linear-gradient(
+            210deg,
+            transparent 0 26%,
+            #07130f 27% 48%,
+            transparent 49%
+        );
+
+    opacity:.85;
+}
+
+
+/* ground */
+
+.introGround{
+    position:absolute;
+
+    left:0;
+    right:0;
+    bottom:0;
+
+    height:31%;
+
+    background:
+        linear-gradient(
+            to top,
+            #020402,
+            #07100b 70%,
+            transparent
+        );
+}
+
+
+/* traditional house */
+
+.introHouse{
+    position:absolute;
+
+    left:50%;
+    bottom:17%;
+
+    width:
+        clamp(190px,31vw,430px);
+
+    height:
+        clamp(105px,18vw,220px);
+
+    transform:
+        translateX(-50%);
+
+    background:
+        linear-gradient(
+            to bottom,
+            #211c14 0%,
+            #33291c 35%,
+            #19150f 100%
+        );
+
+    border:
+        2px solid #100e0a;
+
+    box-shadow:
+        0 18px 50px #000c;
+
+    opacity:.94;
+}
+
+
+/* house roof */
+
+.introRoof{
+    position:absolute;
+
+    left:-10%;
+
+    top:-36%;
+
+    width:120%;
+    height:60%;
+
+    background:
+        linear-gradient(
+            160deg,
+            #090a08,
+            #28251c 50%,
+            #080908
+        );
+
+    clip-path:
+        polygon(
+            50% 0,
+            100% 100%,
+            0 100%
+        );
+
+    border-bottom:
+        5px solid #080806;
+}
+
+
+/* roof ornament */
+
+.introRoof::after{
+    content:"";
+
+    position:absolute;
+
+    left:50%;
+    top:9%;
+
+    width:12px;
+    height:38px;
+
+    transform:
+        translateX(-50%);
+
+    background:#17140e;
+
+    border-radius:5px;
+}
+
+
+/* house window/light */
+
+.introWindow{
+    position:absolute;
+
+    width:22%;
+    height:32%;
+
+    left:16%;
+    top:27%;
+
+    background:
+        radial-gradient(
+            circle,
+            #ffd978 0%,
+            #d19d3c 50%,
+            #3b2811 100%
+        );
+
+    border:
+        4px solid #090806;
+
+    box-shadow:
+        0 0 22px #e9a83c88;
+}
+
+.introWindow.two{
+    left:auto;
+    right:16%;
+}
+
+
+/* door */
+
+.introDoor{
+    position:absolute;
+
+    left:50%;
+    bottom:0;
+
+    width:24%;
+    height:63%;
+
+    transform:
+        translateX(-50%);
+
+    background:
+        linear-gradient(
+            90deg,
+            #17120b,
+            #302519,
+            #0e0c08
+        );
+
+    border:
+        3px solid #080705;
+}
+
+.introDoor::before{
+    content:"";
+
+    position:absolute;
+
+    right:12%;
+
+    top:52%;
+
+    width:6px;
+    height:6px;
+
+    border-radius:50%;
+
+    background:#d5ad52;
+
+    box-shadow:
+        0 0 7px #d5ad52;
+}
+
+
+/* bamboo */
+
+.bamboo{
+    position:absolute;
+
+    bottom:8%;
+
+    width:18px;
+    height:65%;
+
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            #152d20 0 45px,
+            #284a31 46px 50px
+        );
+
+    border-radius:10px;
+
+    opacity:.9;
+}
+
+.bamboo::before,
+.bamboo::after{
+    content:"";
+
+    position:absolute;
+
+    width:90px;
+    height:22px;
+
+    border-radius:100%;
+
+    background:
+        linear-gradient(
+            160deg,
+            #183522,
+            #0b1c12
+        );
+}
+
+.bamboo::before{
+    left:-72px;
+    top:18%;
+    transform:rotate(-18deg);
+}
+
+.bamboo::after{
+    right:-72px;
+    top:42%;
+    transform:rotate(20deg);
+}
+
+.bamboo.b1{
+    left:7%;
+    height:61%;
+    transform:rotate(-3deg);
+}
+
+.bamboo.b2{
+    left:15%;
+    height:49%;
+    transform:rotate(4deg);
+}
+
+.bamboo.b3{
+    right:8%;
+    height:66%;
+    transform:rotate(3deg);
+}
+
+.bamboo.b4{
+    right:17%;
+    height:52%;
+    transform:rotate(-4deg);
+}
+
+
+/* tiny warm particles */
+
+.firefly{
+    position:absolute;
+
+    width:3px;
+    height:3px;
+
+    border-radius:50%;
+
+    background:#d9c878;
+
+    box-shadow:
+        0 0 9px #d9c878;
+
+    animation:
+        firefly 4s ease-in-out infinite;
+}
+
+.firefly.f1{
+    left:27%;
+    bottom:36%;
+}
+
+.firefly.f2{
+    left:73%;
+    bottom:29%;
+    animation-delay:-2s;
+}
+
+.firefly.f3{
+    left:82%;
+    bottom:43%;
+    animation-delay:-1s;
+}
+
+@keyframes firefly{
+    0%,100%{
+        opacity:.1;
+        transform:translateY(0);
+    }
+
+    50%{
+        opacity:.9;
+        transform:translateY(-18px);
+    }
+}
+
+
+/* intro vignette */
+
+.introVignette{
+    position:absolute;
+    inset:0;
+
+    background:
+        radial-gradient(
+            circle,
+            transparent 20%,
+            #0002 55%,
+            #000d 100%
+        );
+}
+
+
+/* intro title decoration */
+
+.introLabel{
+    position:absolute;
+
+    left:50%;
+    top:9%;
+
+    transform:
+        translateX(-50%);
+
+    color:#d7c995;
+
+    font:
+        10px/1 Consolas,monospace;
+
+    letter-spacing:
+        clamp(3px,1vw,7px);
+
+    text-transform:uppercase;
+
+    opacity:.6;
+
+    white-space:nowrap;
+}
+
+
+/* =========================================================
+   START CARD
+========================================================= */
+
 .box{
+    position:relative;
+
     width:min(450px,90vw);
 
     max-height:90dvh;
+
     overflow:auto;
 
     padding:40px;
 
-    background:#fff;
+    background:
+        linear-gradient(
+            145deg,
+            #fdfdfd,
+            #edf2ed
+        );
+
+    border:
+        1px solid #ffffffaa;
 
     border-radius:25px;
 
     text-align:center;
 
     box-shadow:
-        0 20px 70px #0003;
+        0 25px 90px #000c,
+        0 0 0 1px #d8d0a622;
+
+    z-index:10;
 }
 
 .box h1{
@@ -110,7 +628,7 @@ img{
 }
 
 .box p{
-    color:#777;
+    color:#666;
 
     line-height:1.5;
 
@@ -187,7 +705,12 @@ img{
 
     border-radius:30px;
 
-    background:#5878ff;
+    background:
+        linear-gradient(
+            135deg,
+            #5878ff,
+            #405edc
+        );
 
     color:#fff;
 
@@ -197,7 +720,9 @@ img{
 
     cursor:pointer;
 
-    transition:.2s;
+    transition:
+        transform .2s,
+        box-shadow .2s;
 
     touch-action:manipulation;
 }
@@ -206,7 +731,7 @@ img{
     transform:scale(1.05);
 
     box-shadow:
-        0 10px 30px #5878ff55;
+        0 10px 35px #5878ff66;
 }
 
 .play:active{
@@ -254,9 +779,9 @@ img{
 
     padding:
         20px
-        max(20px, env(safe-area-inset-right))
+        max(20px,env(safe-area-inset-right))
         20px
-        max(20px, env(safe-area-inset-left));
+        max(20px,env(safe-area-inset-left));
 
     display:flex;
 
@@ -452,7 +977,7 @@ img{
     position:absolute;
 
     bottom:
-        max(25px, calc(15px + env(safe-area-inset-bottom)));
+        max(25px,calc(15px + env(safe-area-inset-bottom)));
 
     left:50%;
 
@@ -538,7 +1063,6 @@ img{
 }
 
 @keyframes toyPulseFound{
-
     50%{
         transform:
             scale(1.32)
@@ -549,7 +1073,6 @@ img{
                 0 0 20px #fff
             );
     }
-
 }
 
 
@@ -631,7 +1154,6 @@ img{
 }
 
 @keyframes wrongHit{
-
     50%{
         transform:
             scale(1.45)
@@ -643,7 +1165,6 @@ img{
     100%{
         transform:scale(1);
     }
-
 }
 
 
@@ -701,7 +1222,6 @@ img{
 }
 
 @keyframes eyeCollect{
-
     50%{
         transform:
             scale(1.8)
@@ -715,7 +1235,6 @@ img{
 
         opacity:0;
     }
-
 }
 
 
@@ -760,10 +1279,10 @@ img{
     position:absolute;
 
     left:
-        max(16px, env(safe-area-inset-left));
+        max(16px,env(safe-area-inset-left));
 
     bottom:
-        max(18px, env(safe-area-inset-bottom));
+        max(18px,env(safe-area-inset-bottom));
 
     max-width:min(360px,70vw);
 
@@ -861,10 +1380,10 @@ img{
     height:100dvh;
 
     padding:
-        max(20px, env(safe-area-inset-top))
-        max(20px, env(safe-area-inset-right))
-        max(20px, env(safe-area-inset-bottom))
-        max(20px, env(safe-area-inset-left));
+        max(20px,env(safe-area-inset-top))
+        max(20px,env(safe-area-inset-right))
+        max(20px,env(safe-area-inset-bottom))
+        max(20px,env(safe-area-inset-left));
 
     background:
         rgba(0,0,0,.86);
@@ -1055,10 +1574,10 @@ img{
     inset:0;
 
     padding:
-        max(35px, env(safe-area-inset-top))
-        max(25px, env(safe-area-inset-right))
-        max(35px, env(safe-area-inset-bottom))
-        max(25px, env(safe-area-inset-left));
+        max(35px,env(safe-area-inset-top))
+        max(25px,env(safe-area-inset-right))
+        max(35px,env(safe-area-inset-bottom))
+        max(25px,env(safe-area-inset-left));
 
     font-size:17px;
 
@@ -1183,75 +1702,31 @@ img{
         rotate(0deg);
 }
 
-.piece:nth-child(1){
-    background-position:0% 0%;
-}
+.piece:nth-child(1){background-position:0% 0%;}
+.piece:nth-child(2){background-position:33.33% 0%;}
+.piece:nth-child(3){background-position:66.66% 0%;}
+.piece:nth-child(4){background-position:100% 0%;}
 
-.piece:nth-child(2){
-    background-position:33.33% 0%;
-}
+.piece:nth-child(5){background-position:0% 33.33%;}
+.piece:nth-child(6){background-position:33.33% 33.33%;}
+.piece:nth-child(7){background-position:66.66% 33.33%;}
+.piece:nth-child(8){background-position:100% 33.33%;}
 
-.piece:nth-child(3){
-    background-position:66.66% 0%;
-}
+.piece:nth-child(9){background-position:0% 66.66%;}
+.piece:nth-child(10){background-position:33.33% 66.66%;}
+.piece:nth-child(11){background-position:66.66% 66.66%;}
+.piece:nth-child(12){background-position:100% 66.66%;}
 
-.piece:nth-child(4){
-    background-position:100% 0%;
-}
-
-.piece:nth-child(5){
-    background-position:0% 33.33%;
-}
-
-.piece:nth-child(6){
-    background-position:33.33% 33.33%;
-}
-
-.piece:nth-child(7){
-    background-position:66.66% 33.33%;
-}
-
-.piece:nth-child(8){
-    background-position:100% 33.33%;
-}
-
-.piece:nth-child(9){
-    background-position:0% 66.66%;
-}
-
-.piece:nth-child(10){
-    background-position:33.33% 66.66%;
-}
-
-.piece:nth-child(11){
-    background-position:66.66% 66.66%;
-}
-
-.piece:nth-child(12){
-    background-position:100% 66.66%;
-}
-
-.piece:nth-child(13){
-    background-position:0% 100%;
-}
-
-.piece:nth-child(14){
-    background-position:33.33% 100%;
-}
-
-.piece:nth-child(15){
-    background-position:66.66% 100%;
-}
-
-.piece:nth-child(16){
-    background-position:100% 100%;
-}
+.piece:nth-child(13){background-position:0% 100%;}
+.piece:nth-child(14){background-position:33.33% 100%;}
+.piece:nth-child(15){background-position:66.66% 100%;}
+.piece:nth-child(16){background-position:100% 100%;}
 
 #loadingImage{
     position:absolute;
 
     top:
-        max(25px, env(safe-area-inset-top));
+        max(25px,env(safe-area-inset-top));
 
     left:50%;
 
@@ -1284,7 +1759,6 @@ img{
 }
 
 @keyframes glitch{
-
     0%{
         transform:translate(0);
     }
@@ -1312,14 +1786,11 @@ img{
     100%{
         transform:translate(0);
     }
-
 }
 
 
 /* =========================================================
    IMMEDIATE WRONG-CLICK JUMPSCARE
-   IMPORTANT:
-   contain = seluruh gambar tidak terpotong.
 ========================================================= */
 
 #jumpscare{
@@ -1415,7 +1886,6 @@ img{
 }
 
 @keyframes horrorShake{
-
     0%{
         transform:
             translate(0,0)
@@ -1451,7 +1921,6 @@ img{
             translate(0,0)
             scale(1.01);
     }
-
 }
 
 .fullShockText{
@@ -1490,27 +1959,11 @@ img{
 }
 
 @keyframes shockText{
-
-    0%{
-        opacity:0;
-    }
-
-    25%{
-        opacity:1;
-    }
-
-    50%{
-        opacity:.1;
-    }
-
-    75%{
-        opacity:1;
-    }
-
-    100%{
-        opacity:0;
-    }
-
+    0%{opacity:0;}
+    25%{opacity:1;}
+    50%{opacity:.1;}
+    75%{opacity:1;}
+    100%{opacity:0;}
 }
 
 
@@ -1589,19 +2042,15 @@ img{
 }
 
 @keyframes errorAppear{
-
     from{
         transform:scale(.75);
-
         opacity:0;
     }
 
     to{
         transform:scale(1);
-
         opacity:1;
     }
-
 }
 
 
@@ -1665,9 +2114,9 @@ img{
 
     padding:
         25px
-        max(25px, env(safe-area-inset-right))
-        max(25px, env(safe-area-inset-bottom))
-        max(25px, env(safe-area-inset-left));
+        max(25px,env(safe-area-inset-right))
+        max(25px,env(safe-area-inset-bottom))
+        max(25px,env(safe-area-inset-left));
 
     background:
         radial-gradient(
@@ -1795,7 +2244,6 @@ img{
 }
 
 @keyframes endingGlitch{
-
     0%{
         transform:translate(0);
     }
@@ -1809,7 +2257,6 @@ img{
         transform:
             translate(-3px,2px);
     }
-
 }
 
 
@@ -1866,9 +2313,9 @@ img{
 
     padding:
         30px
-        max(20px, env(safe-area-inset-right))
-        max(50px, env(safe-area-inset-bottom))
-        max(20px, env(safe-area-inset-left));
+        max(20px,env(safe-area-inset-right))
+        max(50px,env(safe-area-inset-bottom))
+        max(20px,env(safe-area-inset-left));
 
     background:
         linear-gradient(
@@ -2054,14 +2501,23 @@ img{
         font-size:16px;
     }
 
+    .introHouse{
+        bottom:18%;
+    }
+
+    .introLabel{
+        top:5%;
+        font-size:8px;
+    }
+
     .gameHeader{
         min-height:62px;
 
         padding:
             10px
-            max(10px, env(safe-area-inset-right))
+            max(10px,env(safe-area-inset-right))
             10px
-            max(10px, env(safe-area-inset-left));
+            max(10px,env(safe-area-inset-left));
 
         gap:8px;
 
@@ -2071,11 +2527,6 @@ img{
     .hudLeft,
     .hudRight{
         gap:7px;
-    }
-
-    .hudLeft > div,
-    .hudRight > div{
-        white-space:nowrap;
     }
 
     .gameArea{
@@ -2130,7 +2581,7 @@ img{
             );
 
         left:
-            max(10px, env(safe-area-inset-left));
+            max(10px,env(safe-area-inset-left));
 
         max-width:55vw;
 
@@ -2163,10 +2614,10 @@ img{
 
     #terminal{
         padding:
-            max(22px, env(safe-area-inset-top))
-            max(16px, env(safe-area-inset-right))
-            max(22px, env(safe-area-inset-bottom))
-            max(16px, env(safe-area-inset-left));
+            max(22px,env(safe-area-inset-top))
+            max(16px,env(safe-area-inset-right))
+            max(22px,env(safe-area-inset-bottom))
+            max(16px,env(safe-area-inset-left));
 
         font-size:12px;
 
@@ -2204,9 +2655,9 @@ img{
 
         padding:
             20px
-            max(20px, env(safe-area-inset-right))
-            max(30px, env(safe-area-inset-bottom))
-            max(20px, env(safe-area-inset-left));
+            max(20px,env(safe-area-inset-right))
+            max(30px,env(safe-area-inset-bottom))
+            max(20px,env(safe-area-inset-left));
     }
 
     .badBadge{
@@ -2250,9 +2701,9 @@ img{
     .normalOverlay{
         padding:
             20px
-            max(15px, env(safe-area-inset-right))
-            max(35px, env(safe-area-inset-bottom))
-            max(15px, env(safe-area-inset-left));
+            max(15px,env(safe-area-inset-right))
+            max(35px,env(safe-area-inset-bottom))
+            max(15px,env(safe-area-inset-left));
     }
 
     .normalBadge{
@@ -2271,7 +2722,6 @@ img{
 
         font-size:11px;
     }
-
 }
 
 
@@ -2316,7 +2766,6 @@ img{
 
         letter-spacing:2px;
     }
-
 }
 
 
@@ -2381,7 +2830,6 @@ img{
     .badButtons{
         margin-top:15px;
     }
-
 }
 
 
@@ -2413,10 +2861,54 @@ img{
 
 
 <!-- =========================================================
-     START
+     START SCREEN
 ========================================================= -->
 
 <div id="awal">
+
+    <!-- SUNDA/JAWA CINEMATIC INTRO -->
+
+    <div class="introScene">
+
+        <div class="introMoon"></div>
+
+        <div class="introFog one"></div>
+        <div class="introFog two"></div>
+
+        <div class="introHill"></div>
+
+        <div class="bamboo b1"></div>
+        <div class="bamboo b2"></div>
+        <div class="bamboo b3"></div>
+        <div class="bamboo b4"></div>
+
+        <div class="introHouse">
+
+            <div class="introRoof"></div>
+
+            <div class="introWindow"></div>
+            <div class="introWindow two"></div>
+
+            <div class="introDoor"></div>
+
+        </div>
+
+        <div class="introGround"></div>
+
+        <div class="firefly f1"></div>
+        <div class="firefly f2"></div>
+        <div class="firefly f3"></div>
+
+        <div class="introVignette"></div>
+
+        <div class="introLabel">
+            A QUIET NIGHT IN THE VILLAGE
+        </div>
+
+    </div>
+
+
+    <!-- START CARD -->
 
     <div class="box">
 
@@ -2633,11 +3125,7 @@ img{
             </div>
 
             <div class="resultBar">
-
-                <span
-                    id="resultBarFill"
-                ></span>
-
+                <span id="resultBarFill"></span>
             </div>
 
             <p id="resultText">
@@ -2900,7 +3388,7 @@ img{
 
 /* =========================================================
    FIND THE HIDDEN TOY
-   RESPONSIVE FINAL EDITION
+   FINAL STABLE EDITION
 ========================================================= */
 
 
@@ -3071,6 +3559,11 @@ const ASSETS = {
     level2:
         "game/level2.png",
 
+    /*
+       IMPORTANT:
+       LEVEL 3 IS JPG
+    */
+
     level3:
         "game/level3.jpg",
 
@@ -3082,11 +3575,12 @@ const ASSETS = {
 
 /* =========================================================
    INTRO MUSIC
-   ADDED ONLY FOR START SCREEN
 ========================================================= */
 
 const introMusic =
-    new Audio("game/introgame.mp3");
+    new Audio(
+        "game/introgame.mp3"
+    );
 
 introMusic.loop =
     true;
@@ -3097,8 +3591,30 @@ introMusic.volume =
 introMusic.preload =
     "auto";
 
+let introFadeTimer =
+    null;
+
+let introMusicStarted =
+    false;
+
+let gameHasStarted =
+    false;
+
+
+/* =========================================================
+   START INTRO MUSIC
+========================================================= */
 
 function startIntroMusic(){
+
+    /*
+       Never start intro music after
+       the actual game has started.
+    */
+
+    if(gameHasStarted){
+        return;
+    }
 
     if(
         !introMusic.paused
@@ -3106,83 +3622,252 @@ function startIntroMusic(){
         return;
     }
 
+    if(
+        introFadeTimer
+    ){
+
+        clearInterval(
+            introFadeTimer
+        );
+
+        introFadeTimer =
+            null;
+
+    }
+
     introMusic.currentTime =
         0;
 
     introMusic.volume =
         0.65;
 
-    introMusic.play()
-        .catch(
+    const playPromise =
+        introMusic.play();
+
+    if(playPromise){
+
+        playPromise
+            .then(
+                ()=>{
+                    introMusicStarted =
+                        true;
+                }
+            )
+            .catch(
+                ()=>{
+                    /*
+                       Browser autoplay may be blocked.
+                       A later user interaction will retry.
+                    */
+
+                    introMusicStarted =
+                        false;
+                }
+            );
+
+    }else{
+
+        introMusicStarted =
+            true;
+
+    }
+
+}
+
+
+/* =========================================================
+   STOP INTRO MUSIC WITH FADE
+========================================================= */
+
+function stopIntroMusic(){
+
+    if(
+        introFadeTimer
+    ){
+
+        clearInterval(
+            introFadeTimer
+        );
+
+        introFadeTimer =
+            null;
+
+    }
+
+    if(
+        introMusic.paused
+    ){
+
+        introMusic.currentTime =
+            0;
+
+        introMusic.volume =
+            0.65;
+
+        introMusicStarted =
+            false;
+
+        return;
+
+    }
+
+    const originalVolume =
+        introMusic.volume || 0.65;
+
+    const steps =
+        12;
+
+    let step =
+        0;
+
+    introFadeTimer =
+        setInterval(
             ()=>{
-                /*
-                   Browser autoplay policy
-                   may block sound before
-                   user interaction.
-                */
-            }
+
+                step++;
+
+                introMusic.volume =
+                    Math.max(
+                        0,
+                        originalVolume *
+                        (
+                            1 -
+                            step / steps
+                        )
+                    );
+
+                if(
+                    step>=steps
+                ){
+
+                    clearInterval(
+                        introFadeTimer
+                    );
+
+                    introFadeTimer =
+                        null;
+
+                    introMusic.pause();
+
+                    introMusic.currentTime =
+                        0;
+
+                    introMusic.volume =
+                        0.65;
+
+                    introMusicStarted =
+                        false;
+
+                }
+
+            },
+            45
         );
 
 }
 
 
-function stopIntroMusic(){
+/* =========================================================
+   RETRY AUDIO AFTER USER INTERACTION
+========================================================= */
 
-    if(
-        introMusic.paused
-    ){
-        return;
+document.addEventListener(
+    "pointerdown",
+    e=>{
+
+        if(
+            gameHasStarted
+        ){
+            return;
+        }
+
+        if(
+            e.target.closest(
+                "#playButton"
+            )
+        ){
+            return;
+        }
+
+        startIntroMusic();
+
+    },
+    {
+        passive:true
     }
+);
 
-    introMusic.pause();
+document.addEventListener(
+    "keydown",
+    e=>{
 
-    introMusic.currentTime =
-        0;
+        if(
+            gameHasStarted
+        ){
+            return;
+        }
 
-    introMusic.volume =
-        0.65;
+        if(
+            e.key==="Enter" ||
+            e.key===" "
+        ){
+            return;
+        }
 
-}
+        startIntroMusic();
+
+    }
+);
 
 
 /* =========================================================
    GAME STATE
 ========================================================= */
 
-let audioCtx = null;
+let audioCtx =
+    null;
 
-let masterGain = null;
+let masterGain =
+    null;
 
-let timer = 15;
+let timer =
+    15;
 
-let timerInterval = null;
+let timerInterval =
+    null;
 
-let moveInterval = null;
+let moveInterval =
+    null;
 
-let eyeMoveInterval = null;
+let eyeMoveInterval =
+    null;
 
-let decoys = [];
+let decoys =
+    [];
 
-let sequenceStarted = false;
+let sequenceStarted =
+    false;
 
-let roundLocked = false;
+let roundLocked =
+    false;
 
-let level = 1;
+let level =
+    1;
 
-let score = 0;
+let score =
+    0;
 
-let wrongClicks = 0;
+let wrongClicks =
+    0;
 
-let eyesCollected = 0;
+let eyesCollected =
+    0;
 
-let eyeThisLevelCollected = false;
+let eyeThisLevelCollected =
+    false;
 
 let sessionId =
-    "#" +
-    Math.random()
-        .toString(16)
-        .slice(2,6)
-        .toUpperCase();
+    "";
 
 let currentBadReason =
     "timeout";
@@ -3190,9 +3875,11 @@ let currentBadReason =
 let endingSequenceRunning =
     false;
 
-let cursorTrace = null;
+let cursorTrace =
+    null;
 
-let lastEscape = 0;
+let lastEscape =
+    0;
 
 
 /* =========================================================
@@ -3203,38 +3890,59 @@ const levelConfig = {
 
     1:{
         time:15,
-
         moves:2400,
-
         decoys:2,
-
         label:
             "Watch carefully..."
     },
 
     2:{
         time:12,
-
         moves:1850,
-
         decoys:4,
-
         label:
             "It is moving faster..."
     },
 
     3:{
         time:9,
-
         moves:1450,
-
         decoys:6,
-
         label:
             "Something feels wrong..."
     }
 
 };
+
+
+/* =========================================================
+   SAFE CLEAR
+========================================================= */
+
+function clearGameTimers(){
+
+    clearInterval(
+        timerInterval
+    );
+
+    clearInterval(
+        moveInterval
+    );
+
+    clearInterval(
+        eyeMoveInterval
+    );
+
+    timerInterval =
+        null;
+
+    moveInterval =
+        null;
+
+    eyeMoveInterval =
+        null;
+
+}
 
 
 /* =========================================================
@@ -3289,7 +3997,8 @@ function resumeAudio(){
         audioCtx.state === "suspended"
     ){
 
-        audioCtx.resume()
+        audioCtx
+            .resume()
             .catch(
                 ()=>{}
             );
@@ -3349,7 +4058,9 @@ function tone(
             duration
         );
 
-        osc.connect(gain);
+        osc.connect(
+            gain
+        );
 
         gain.connect(
             masterGain
@@ -3434,7 +4145,9 @@ function noise(
         src.buffer =
             buffer;
 
-        src.connect(gain);
+        src.connect(
+            gain
+        );
 
         gain.connect(
             masterGain
@@ -3703,6 +4416,10 @@ function pushAnomaly(
     type=""
 ){
 
+    if(!anomalyFeed){
+        return;
+    }
+
     const line =
         document.createElement(
             "div"
@@ -3787,7 +4504,7 @@ function randomAnomaly(){
 
 
 /* =========================================================
-   POSITIONING
+   SAFE RANDOM POSITION
 ========================================================= */
 
 function randomPosition(
@@ -3795,7 +4512,10 @@ function randomPosition(
     bottomSafe=80
 ){
 
-    if(!el){
+    if(
+        !el ||
+        !gameArea
+    ){
         return;
     }
 
@@ -3811,6 +4531,9 @@ function randomPosition(
     const h =
         el.offsetHeight || 60;
 
+    const margin =
+        10;
+
     const safeBottom =
         Math.max(
             bottomSafe,
@@ -3819,46 +4542,42 @@ function randomPosition(
 
     const maxX =
         Math.max(
-            10,
+            margin,
             areaWidth -
             w -
-            10
+            margin
         );
 
     const maxY =
         Math.max(
-            10,
+            margin,
             areaHeight -
             h -
             safeBottom
         );
 
-    const usableX =
+    const x =
+        margin +
+        Math.random() *
         Math.max(
             0,
-            maxX - 10
+            maxX-margin
         );
 
-    const usableY =
+    const y =
+        margin +
+        Math.random() *
         Math.max(
             0,
-            maxY - 10
+            maxY-margin
         );
 
     el.style.left =
-        (
-            10 +
-            Math.random() *
-            usableX
-        ) +
+        Math.round(x) +
         "px";
 
     el.style.top =
-        (
-            10 +
-            Math.random() *
-            usableY
-        ) +
+        Math.round(y) +
         "px";
 
 }
@@ -3988,7 +4707,8 @@ function clearDecoys(){
         }
     );
 
-    decoys = [];
+    decoys =
+        [];
 
 }
 
@@ -4057,17 +4777,21 @@ function spawnDecoys(){
         d.addEventListener(
             "pointerdown",
             e=>{
+
                 if(
-                    e.pointerType === "touch"
+                    e.pointerType==="touch"
                 ){
 
                     e.preventDefault();
 
                 }
+
             }
         );
 
-        decoys.push(d);
+        decoys.push(
+            d
+        );
 
     }
 
@@ -4165,9 +4889,16 @@ function spawnSecretEye(){
 
             setTimeout(
                 ()=>{
-                    if(eye){
+
+                    if(
+                        eye &&
+                        eye.isConnected
+                    ){
+
                         eye.remove();
+
                     }
+
                 },
                 420
             );
@@ -4179,7 +4910,7 @@ function spawnSecretEye(){
 
 
 /* =========================================================
-   POINTER / TOUCH
+   POINTER
 ========================================================= */
 
 gameArea.addEventListener(
@@ -4194,7 +4925,7 @@ gameArea.addEventListener(
         }
 
         if(
-            e.pointerType === "touch"
+            e.pointerType==="touch"
         ){
             return;
         }
@@ -4310,6 +5041,8 @@ function wrongTarget(d){
             timer-2
         );
 
+    clearGameTimers();
+
     updateHUD();
 
     if(d){
@@ -4343,17 +5076,13 @@ function wrongTarget(d){
 
 function startLevel(){
 
-    clearInterval(
-        timerInterval
-    );
+    if(
+        gameHasStarted===false
+    ){
+        return;
+    }
 
-    clearInterval(
-        moveInterval
-    );
-
-    clearInterval(
-        eyeMoveInterval
-    );
+    clearGameTimers();
 
     clearDecoys();
 
@@ -4367,6 +5096,10 @@ function startLevel(){
 
     const cfg =
         levelConfig[level];
+
+    if(!cfg){
+        return;
+    }
 
     timer =
         cfg.time;
@@ -4509,17 +5242,7 @@ function startLevel(){
 
                 if(timer<=0){
 
-                    clearInterval(
-                        timerInterval
-                    );
-
-                    clearInterval(
-                        moveInterval
-                    );
-
-                    clearInterval(
-                        eyeMoveInterval
-                    );
+                    clearGameTimers();
 
                     currentBadReason =
                         "timeout";
@@ -4556,7 +5279,7 @@ toy.addEventListener(
     e=>{
 
         if(
-            e.pointerType === "touch"
+            e.pointerType==="touch"
         ){
 
             e.preventDefault();
@@ -4580,17 +5303,7 @@ function foundToy(){
     roundLocked =
         true;
 
-    clearInterval(
-        timerInterval
-    );
-
-    clearInterval(
-        moveInterval
-    );
-
-    clearInterval(
-        eyeMoveInterval
-    );
+    clearGameTimers();
 
     const gained =
         100 +
@@ -4698,17 +5411,7 @@ function gameOver(
     roundLocked =
         true;
 
-    clearInterval(
-        timerInterval
-    );
-
-    clearInterval(
-        moveInterval
-    );
-
-    clearInterval(
-        eyeMoveInterval
-    );
+    clearGameTimers();
 
     clearDecoys();
 
@@ -4774,12 +5477,12 @@ function gameOver(
                 reason==="completed"
             ){
 
+                game.style.display =
+                    "none";
+
                 if(
                     eyesCollected>=3
                 ){
-
-                    game.style.display =
-                        "none";
 
                     showNormalEnding(
                         ASSETS.secret,
@@ -4792,9 +5495,6 @@ function gameOver(
                     );
 
                 }else{
-
-                    game.style.display =
-                        "none";
 
                     showNormalEnding(
                         ASSETS.happy,
@@ -4823,7 +5523,7 @@ function gameOver(
 
 
 /* =========================================================
-   IMMEDIATE WRONG-CLICK JUMPSCARE
+   IMMEDIATE JUMPSCARE
 ========================================================= */
 
 function startImmediateJumpscare(){
@@ -4893,17 +5593,7 @@ function startBadSequence(){
     endingSequenceRunning =
         true;
 
-    clearInterval(
-        timerInterval
-    );
-
-    clearInterval(
-        moveInterval
-    );
-
-    clearInterval(
-        eyeMoveInterval
-    );
+    clearGameTimers();
 
     clearDecoys();
 
@@ -5172,7 +5862,8 @@ function startTerminal(){
     const logs =
         getLogs();
 
-    let i = 0;
+    let i =
+        0;
 
     const progress =
         document.createElement(
@@ -5189,7 +5880,8 @@ function startTerminal(){
         progress
     );
 
-    let p = 0;
+    let p =
+        0;
 
     const pInt =
         setInterval(
@@ -5355,6 +6047,7 @@ function startFirstErrorSpam(){
 
                     setTimeout(
                         ()=>{
+
                             errorSpam.style.display =
                                 "none";
 
@@ -5585,7 +6278,6 @@ function startFullCyberJumpscare(){
         },
         430
     );
-
 
     setTimeout(
         ()=>{
@@ -5927,6 +6619,10 @@ function resetToStart(){
 
     try{
 
+        clearGameTimers();
+
+        stopIntroMusic();
+
         if(
             document.fullscreenElement &&
             document.exitFullscreen
@@ -6038,10 +6734,14 @@ badExit.addEventListener(
 function mulai(){
 
     /*
-       INTRO MUSIC STOPS
-       EXACTLY WHEN PLAY NOW
-       IS PRESSED.
+       IMPORTANT:
+       Game state is marked BEFORE
+       stopping intro music so that
+       autoplay retry cannot restart it.
     */
+
+    gameHasStarted =
+        true;
 
     stopIntroMusic();
 
@@ -6068,6 +6768,8 @@ function mulai(){
 
     game.style.display =
         "block";
+
+    clearGameTimers();
 
     sequenceStarted =
         false;
@@ -6132,6 +6834,10 @@ function mulai(){
     anomalyFeed.innerHTML =
         "";
 
+    clearDecoys();
+
+    removeSecretEye();
+
     updateHUD();
 
     startLevel();
@@ -6159,10 +6865,13 @@ document.addEventListener(
 
         if(
             e.key==="Enter" &&
+            !gameHasStarted &&
             awal.style.display!=="none"
         ){
 
             mulai();
+
+            return;
 
         }
 
@@ -6170,17 +6879,22 @@ document.addEventListener(
             e.key==="Escape"
         ){
 
-            if(
-                document.fullscreenElement
-            ){
+            try{
 
-                document
-                    .exitFullscreen()
-                    .catch(
-                        ()=>{}
-                    );
+                if(
+                    document.fullscreenElement &&
+                    document.exitFullscreen
+                ){
 
-            }
+                    document
+                        .exitFullscreen()
+                        .catch(
+                            ()=>{}
+                        );
+
+                }
+
+            }catch(error){}
 
             location.reload();
 
@@ -6191,7 +6905,8 @@ document.addEventListener(
 
 
 /* =========================================================
-   ASSET PRELOAD + DEBUG
+   ASSET PRELOAD
+   IMAGE FILES ONLY
 ========================================================= */
 
 Object.entries(
@@ -6228,6 +6943,14 @@ Object.entries(
 
 
 /* =========================================================
+   AUDIO PRELOAD
+   MP3 IS NOT PART OF IMAGE PRELOAD
+========================================================= */
+
+introMusic.load();
+
+
+/* =========================================================
    PRELOAD JUMPSCARE
 ========================================================= */
 
@@ -6246,13 +6969,20 @@ updateHUD();
 
 
 /* =========================================================
-   GLOBAL TOUCH SAFETY
+   GLOBAL TOUCH AUDIO RESUME
 ========================================================= */
 
 document.addEventListener(
     "touchstart",
     ()=>{
         resumeAudio();
+
+        if(
+            !gameHasStarted
+        ){
+            startIntroMusic();
+        }
+
     },
     {
         passive:true
@@ -6261,14 +6991,64 @@ document.addEventListener(
 
 
 /* =========================================================
-   START INTRO MUSIC
-   PLAY BEFORE ENTERING LEVEL 1
+   PAGE LOAD
 ========================================================= */
 
 window.addEventListener(
     "load",
     ()=>{
+
+        /*
+           Start intro music immediately.
+           Browser policy may block it,
+           so pointer/keyboard interaction
+           will retry automatically.
+        */
+
         startIntroMusic();
+
+    }
+);
+
+
+/* =========================================================
+   VISIBILITY HANDLING
+========================================================= */
+
+document.addEventListener(
+    "visibilitychange",
+    ()=>{
+
+        if(
+            document.hidden
+        ){
+
+            /*
+               Don't allow music to continue
+               when the user leaves the page.
+            */
+
+            if(
+                !gameHasStarted &&
+                !introMusic.paused
+            ){
+
+                introMusic.pause();
+
+            }
+
+        }else{
+
+            if(
+                !gameHasStarted
+            ){
+
+                startIntroMusic();
+
+            }
+
+        }
+
     }
 );
 
