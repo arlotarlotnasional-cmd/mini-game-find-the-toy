@@ -6,6 +6,7 @@
 <title>Find The Hidden Toy</title>
 
 <style>
+
 *{
     box-sizing:border-box;
 }
@@ -17,94 +18,103 @@ body{
     height:100%;
     overflow:hidden;
     background:#000;
-    font-family:Arial,Helvetica,sans-serif;
-    color:#fff;
+    font-family:Consolas,monospace;
 }
 
-button{
-    font-family:inherit;
-}
-
-/* =========================================================
-   START SCREEN
-========================================================= */
+/* =========================
+   START
+========================= */
 
 #awal{
     position:fixed;
     inset:0;
-    z-index:1000;
     display:flex;
+    justify-content:center;
     align-items:center;
-    justify-content:center;
-    background:
-        radial-gradient(circle at center,#191919 0%,#050505 48%,#000 100%);
+    background:#eafaff;
+    font-family:Arial,sans-serif;
+    z-index:100;
 }
 
-.startBox{
-    width:min(620px,90vw);
-    padding:42px 35px;
+.box{
+    width:min(430px,90%);
+    padding:40px;
+    background:#fff;
+    border-radius:25px;
     text-align:center;
-    border:1px solid rgba(255,255,255,.15);
-    background:rgba(8,8,8,.92);
-    box-shadow:
-        0 0 60px rgba(255,0,0,.08),
-        inset 0 0 40px rgba(255,255,255,.02);
+    box-shadow:0 20px 70px #0003;
 }
 
-.startBox h1{
-    margin:0 0 15px;
-    font-size:clamp(30px,5vw,58px);
-    letter-spacing:2px;
-    text-shadow:0 0 20px rgba(255,255,255,.25);
+.box h1{
+    margin-top:0;
+    font-size:32px;
+    color:#202020;
 }
 
-.startBox p{
-    color:#aaa;
-    line-height:1.6;
+.box p{
+    color:#777;
+    margin-bottom:25px;
 }
 
-.startStats{
+.play{
+    margin-top:15px;
+    padding:16px 42px;
+    border:0;
+    border-radius:30px;
+    background:#5878ff;
+    color:#fff;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.startMeta{
     display:flex;
     justify-content:center;
-    gap:12px;
-    flex-wrap:wrap;
-    margin:28px 0;
-}
-
-.startStats span{
-    padding:9px 15px;
-    border:1px solid #292929;
-    background:#0d0d0d;
-    color:#aaa;
+    gap:10px;
+    margin:18px 0 10px;
+    color:#555;
     font-size:12px;
+    font-weight:700;
     letter-spacing:1px;
 }
 
-#playButton{
-    border:0;
-    padding:16px 38px;
-    background:#fff;
-    color:#000;
-    font-weight:bold;
-    letter-spacing:2px;
-    cursor:pointer;
-    transition:.2s;
+.startWarning{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    padding:8px 12px;
+    border-radius:999px;
+    background:#f3f7f8;
+    color:#718087;
+    font-size:10px;
+    letter-spacing:1px;
 }
 
-#playButton:hover{
-    transform:scale(1.04);
-    box-shadow:0 0 25px rgba(255,255,255,.35);
+.statusDot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:#42c96b;
+    box-shadow:0 0 9px #42c96b;
 }
 
-/* =========================================================
+.box small{
+    font-size:12px;
+    color:#999;
+}
+
+/* =========================
    GAME
-========================================================= */
+========================= */
 
 #game{
+    display:none;
     position:fixed;
     inset:0;
-    display:none;
-    background:#000;
+    background:#17231c;
+    color:#fff;
+    font-family:Arial,sans-serif;
 }
 
 .gameHeader{
@@ -112,1064 +122,1473 @@ button{
     top:0;
     left:0;
     right:0;
-    z-index:100;
-    height:72px;
+    padding:20px;
     display:flex;
-    align-items:center;
     justify-content:space-between;
-    padding:0 20px;
-    background:linear-gradient(
-        to bottom,
-        rgba(0,0,0,.92),
-        rgba(0,0,0,.35),
-        transparent
-    );
+    background:#0008;
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid #ffffff12;
+    z-index:20;
 }
 
-.gameHeader strong{
-    letter-spacing:2px;
-    font-size:14px;
-}
-
-.hud{
+.hudLeft,
+.hudRight{
     display:flex;
-    gap:8px;
+    gap:20px;
     align-items:center;
-    flex-wrap:wrap;
-    justify-content:flex-end;
 }
 
-.hudItem{
-    min-width:70px;
-    padding:7px 10px;
-    text-align:center;
-    border:1px solid rgba(255,255,255,.14);
-    background:rgba(0,0,0,.55);
-    backdrop-filter:blur(4px);
+#playerName{
+    font-weight:bold;
 }
 
-.hudItem small{
-    display:block;
-    color:#777;
-    font-size:9px;
-    letter-spacing:1px;
+.levelHud{
+    color:#8fb7a0;
 }
 
-.hudItem b{
-    font-size:13px;
+#level{
+    color:#7dff9a;
 }
 
-#secretEye{
-    cursor:pointer;
-    color:#aaa;
-    opacity:.65;
-    transition:.2s;
+#score{
+    color:#ffe36e;
 }
 
-#secretEye:hover{
-    opacity:1;
-    color:#fff;
+#timer{
+    color:#ff5555;
+    font-weight:bold;
+    min-width:24px;
+    display:inline-block;
+    text-align:right;
 }
 
-#secretEye.active{
-    color:#f00;
-    opacity:1;
-    animation:secretPulse .7s infinite alternate;
+#miss{
+    color:#ff8d8d;
 }
-
-@keyframes secretPulse{
-    from{ text-shadow:0 0 4px red; }
-    to{ text-shadow:0 0 22px red; }
-}
-
-/* =========================================================
-   GAME AREA
-========================================================= */
 
 .gameArea{
     position:absolute;
-    inset:0;
+    inset:75px 0 0;
     overflow:hidden;
-    background-position:center;
-    background-size:cover;
-    background-repeat:no-repeat;
-    transition:filter .4s,background-image .5s;
-}
 
-.gameArea.level3{
-    filter:brightness(.78) contrast(1.12);
+    background:
+        radial-gradient(
+            circle at 20% 30%,
+            #334d3a 0 2px,
+            transparent 3px
+        ),
+        radial-gradient(
+            circle at 70% 70%,
+            #24372b 0 3px,
+            transparent 4px
+        ),
+        #18251d;
 }
 
 .gameArea::before{
     content:"";
     position:absolute;
     inset:0;
-    z-index:2;
-    pointer-events:none;
     background:
         radial-gradient(
-            circle at center,
-            transparent 25%,
-            rgba(0,0,0,.25) 65%,
-            rgba(0,0,0,.72) 100%
+            circle at 50% 45%,
+            transparent 0 18%,
+            #00000008 42%,
+            #00000045 100%
+        ),
+        linear-gradient(
+            transparent 96%,
+            #ffffff05 100%
         );
+    pointer-events:none;
+}
+
+.ambientNoise{
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    opacity:.18;
+    background-image:
+        radial-gradient(
+            #fff 1px,
+            transparent 1px
+        );
+    background-size:47px 53px;
+    animation:drift 18s linear infinite;
+}
+
+@keyframes drift{
+    to{
+        background-position:180px 120px;
+    }
 }
 
 .gameInstruction{
     position:absolute;
-    top:88px;
+    bottom:25px;
     left:50%;
     transform:translateX(-50%);
-    z-index:20;
-    width:min(90vw,700px);
-    text-align:center;
-    pointer-events:none;
-}
 
-#hintText{
-    display:inline-block;
-    padding:9px 18px;
-    background:rgba(0,0,0,.68);
-    border:1px solid rgba(255,255,255,.13);
-    color:#ddd;
-    font-size:12px;
-    letter-spacing:1px;
-}
+    padding:12px 20px;
 
-#targetGlow{
-    position:absolute;
-    width:110px;
-    height:110px;
-    transform:translate(-50%,-50%);
-    border-radius:50%;
-    pointer-events:none;
-    z-index:8;
-    background:radial-gradient(
-        circle,
-        rgba(255,255,255,.15),
-        transparent 65%
-    );
-    opacity:0;
-    transition:opacity .15s;
+    background:#0009;
+    border-radius:20px;
+
+    font-size:14px;
+    white-space:nowrap;
+
+    z-index:15;
 }
 
 .toy{
     position:absolute;
-    z-index:15;
-    width:62px;
-    height:62px;
+    width:60px;
+    height:60px;
+
     display:flex;
-    align-items:center;
     justify-content:center;
-    font-size:39px;
+    align-items:center;
+
+    font-size:40px;
     cursor:pointer;
     user-select:none;
-    filter:drop-shadow(0 0 10px rgba(255,255,255,.18));
-    transition:transform .12s;
-    animation:toyPulse 1.2s infinite alternate;
+
+    z-index:8;
+
+    transition:
+        transform .15s,
+        left .15s,
+        top .15s;
+
+    filter:drop-shadow(0 0 7px #ffffff18);
+    will-change:left,top,transform;
+}
+
+.toy:hover{
+    transform:scale(1.15);
+}
+
+.toy.hunted{
+    animation:toyPulse .45s ease-out;
 }
 
 @keyframes toyPulse{
-    from{
-        filter:drop-shadow(0 0 5px rgba(255,255,255,.1));
-    }
-    to{
-        filter:drop-shadow(0 0 17px rgba(255,255,255,.45));
+    50%{
+        transform:scale(1.32) rotate(-6deg);
+        filter:drop-shadow(0 0 20px #fff);
     }
 }
 
-.toy.wrong{
-    animation:wrongShake .15s 3;
-}
-
-@keyframes wrongShake{
-    0%{transform:translateX(0)}
-    25%{transform:translateX(-10px)}
-    50%{transform:translateX(10px)}
-    75%{transform:translateX(-7px)}
-    100%{transform:translateX(0)}
-}
+/* =========================
+   RANDOM EMOJI DECOYS
+========================= */
 
 .decoy{
     position:absolute;
-    z-index:12;
-    width:45px;
-    height:45px;
+    width:58px;
+    height:58px;
+
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:29px;
-    opacity:.25;
-    filter:grayscale(1);
-    pointer-events:auto;
+
+    font-size:35px;
+    opacity:.62;
+
     cursor:pointer;
+    user-select:none;
+
+    z-index:7;
+
+    transition:
+        transform .12s,
+        opacity .12s;
+
+    filter:grayscale(.35);
 }
 
-#anomalyFeed{
+.decoy:hover{
+    transform:scale(1.12);
+    opacity:.9;
+}
+
+.decoy.wrong{
+    animation:wrongHit .25s ease-out;
+}
+
+@keyframes wrongHit{
+
+    50%{
+        transform:scale(1.5) rotate(18deg);
+        opacity:.2;
+    }
+
+    100%{
+        transform:scale(1);
+    }
+}
+
+/* =========================
+   SECRET EYE
+========================= */
+
+.secretEye{
     position:absolute;
-    left:15px;
-    bottom:18px;
-    z-index:30;
-    width:min(390px,60vw);
-    font-family:monospace;
-    font-size:10px;
-    color:rgba(255,255,255,.48);
-    line-height:1.6;
+
+    width:54px;
+    height:54px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:34px;
+
+    cursor:pointer;
+    user-select:none;
+
+    z-index:12;
+
+    border-radius:50%;
+
+    opacity:.82;
+
+    filter:
+        drop-shadow(0 0 7px #ff3030)
+        drop-shadow(0 0 18px #ff0000);
+
+    animation:
+        eyePulse 1.15s infinite alternate;
+
+    transition:
+        transform .2s,
+        opacity .2s;
+}
+
+.secretEye:hover{
+    transform:scale(1.25);
+}
+
+.secretEye.collected{
+    animation:eyeCollected .5s ease-out forwards;
+}
+
+@keyframes eyePulse{
+    from{
+        transform:scale(.92);
+        opacity:.55;
+    }
+
+    to{
+        transform:scale(1.12);
+        opacity:1;
+    }
+}
+
+@keyframes eyeCollected{
+
+    0%{
+        transform:scale(1);
+        opacity:1;
+    }
+
+    50%{
+        transform:scale(1.7);
+        opacity:1;
+    }
+
+    100%{
+        transform:scale(0);
+        opacity:0;
+    }
+}
+
+.secretCounter{
+    color:#ff7777;
+    font-weight:bold;
+}
+
+.secretCounter.found{
+    color:#ff3333;
+    text-shadow:0 0 10px red;
+}
+
+/* =========================
+   TARGET GLOW
+========================= */
+
+.targetGlow{
+    position:absolute;
+    width:120px;
+    height:120px;
+    border-radius:50%;
     pointer-events:none;
+    opacity:0;
+    filter:blur(20px);
+    background:#b9ffd0;
+    transition:opacity .2s;
 }
 
-.anomalyLine{
-    animation:lineIn .2s ease-out;
-}
+/* =========================
+   ANOMALY
+========================= */
 
-@keyframes lineIn{
-    from{opacity:0;transform:translateX(-8px)}
-    to{opacity:1;transform:translateX(0)}
-}
-
-#roundMessage{
+.anomalyFeed{
     position:absolute;
+    left:16px;
+    bottom:18px;
+    max-width:360px;
+
+    font:10px/1.5 monospace;
+    letter-spacing:1px;
+
+    color:#8cff9b;
+    opacity:.72;
+
+    pointer-events:none;
+
+    text-shadow:0 0 8px #0f0;
+
+    z-index:18;
+}
+
+.anomalyFeed .warn{
+    color:#ffd166;
+}
+
+.anomalyFeed .crit{
+    color:#ff6b6b;
+}
+
+/* =========================
+   ROUND MESSAGE
+========================= */
+
+.roundMessage{
+    position:fixed;
     left:50%;
     top:50%;
+
+    transform:
+        translate(-50%,-50%)
+        scale(.85);
+
     z-index:40;
-    transform:translate(-50%,-50%) scale(.8);
+
     opacity:0;
     pointer-events:none;
-    padding:15px 24px;
-    border:1px solid rgba(255,255,255,.2);
-    background:rgba(0,0,0,.78);
+
+    padding:16px 24px;
+
+    border:1px solid #ffffff35;
+    background:#07100bdd;
+
+    border-radius:12px;
+
+    color:#fff;
+    font-weight:bold;
     letter-spacing:2px;
-    font-size:13px;
+
     transition:.25s;
+
+    box-shadow:0 15px 60px #0008;
 }
 
-#roundMessage.show{
+.roundMessage.show{
     opacity:1;
-    transform:translate(-50%,-50%) scale(1);
+    transform:
+        translate(-50%,-50%)
+        scale(1);
 }
 
-/* =========================================================
-   TIMER DANGER
-========================================================= */
+/* =========================
+   RESULT
+========================= */
 
-.timerDanger{
-    color:#f00 !important;
-    animation:timerBlink .4s infinite alternate;
-}
-
-@keyframes timerBlink{
-    from{opacity:.5}
-    to{opacity:1}
-}
-
-/* =========================================================
-   RESULT OVERLAY
-========================================================= */
-
-#resultOverlay{
+.resultOverlay{
     position:fixed;
     inset:0;
-    z-index:500;
+
+    background:rgba(0,0,0,.86);
+
     display:none;
     align-items:center;
     justify-content:center;
-    background:rgba(0,0,0,.84);
-}
 
-.resultBox{
-    width:min(500px,90vw);
-    padding:35px;
-    text-align:center;
-    border:1px solid #252525;
-    background:#080808;
-}
+    z-index:70;
 
-#resultTitle{
-    font-size:32px;
-    margin-bottom:12px;
-}
-
-#resultText{
-    color:#999;
-    line-height:1.5;
-}
-
-.progress{
-    width:100%;
-    height:4px;
-    margin:25px 0;
-    background:#222;
-}
-
-#progressFill{
-    height:100%;
-    width:0;
-    background:#fff;
-    transition:width .3s;
-}
-
-#sessionReport{
-    color:#666;
-    font:11px monospace;
-}
-
-/* =========================================================
-   BAD ENDING SEQUENCE
-========================================================= */
-
-/* PHONE */
-
-#phoneAlert{
-    position:fixed;
-    inset:0;
-    z-index:9000;
-    display:none;
-    align-items:center;
-    justify-content:center;
-    background:#050505;
-}
-
-.phone{
-    width:290px;
-    height:560px;
-    border:7px solid #1d1d1d;
-    border-radius:38px;
-    background:#080808;
-    box-shadow:
-        0 0 50px rgba(255,0,0,.12),
-        inset 0 0 30px rgba(255,255,255,.03);
-    overflow:hidden;
-    position:relative;
-}
-
-.phoneNotch{
-    width:100px;
-    height:22px;
-    position:absolute;
-    top:0;
-    left:50%;
-    transform:translateX(-50%);
-    background:#000;
-    border-radius:0 0 15px 15px;
-}
-
-.phoneScreen{
-    position:absolute;
-    inset:35px 15px 15px;
-    padding:25px 15px;
     font-family:monospace;
-    color:#ddd;
 }
 
-.phoneTop{
+.resultCard{
+    width:min(430px,88vw);
+    padding:28px;
+
+    border:1px solid #4cff72;
+
+    background:#071009;
+
+    box-shadow:0 0 35px #0f52;
+
     text-align:center;
-    color:#555;
+}
+
+.resultTag{
     font-size:10px;
-    margin-bottom:40px;
-}
-
-.incoming{
-    margin-top:50px;
-    text-align:center;
-    color:#f00;
-    animation:phoneShake .4s infinite alternate;
-}
-
-.incoming .phoneIcon{
-    font-size:55px;
-    display:block;
-    margin-bottom:20px;
-}
-
-.incoming strong{
-    display:block;
-    letter-spacing:2px;
-    margin-bottom:8px;
-}
-
-.incoming span{
-    color:#555;
-    font-size:10px;
-}
-
-.phoneButtons{
-    position:absolute;
-    bottom:25px;
-    left:0;
-    right:0;
-    display:flex;
-    justify-content:space-around;
-    color:#555;
-    font-size:10px;
-}
-
-@keyframes phoneShake{
-    from{transform:translateX(-3px)}
-    to{transform:translateX(3px)}
-}
-
-/* BLACK */
-
-#black{
-    position:fixed;
-    inset:0;
-    z-index:8500;
-    display:none;
-    align-items:center;
-    justify-content:center;
-    background:#000;
-}
-
-#blackText{
-    width:90%;
-    text-align:center;
-    color:#555;
-    font:12px monospace;
     letter-spacing:3px;
-    line-height:2;
+    color:#6aff8a;
 }
 
-.blackBlink{
-    animation:blackTextBlink .8s infinite alternate;
+.resultCard h2{
+    font-size:22px;
+    margin:12px 0 20px;
+    color:#fff;
 }
 
-@keyframes blackTextBlink{
-    from{opacity:.15}
-    to{opacity:1}
-}
+.resultGrid{
+    display:grid;
+    grid-template-columns:1fr auto;
 
-/* TERMINAL */
+    gap:9px 24px;
 
-#terminal{
-    position:fixed;
-    inset:0;
-    z-index:8000;
-    display:none;
-    padding:80px 8%;
-    overflow:hidden;
-    background:
-        radial-gradient(
-            ellipse at center,
-            #071007 0%,
-            #020502 55%,
-            #000 100%
-        );
-    color:#35ff68;
-    font-family:"Courier New",monospace;
-}
+    text-align:left;
 
-.terminalHeader{
-    color:#15852f;
-    margin-bottom:25px;
     font-size:11px;
 }
 
-#terminalOutput{
-    height:70vh;
+.resultGrid span{
+    color:#7c8b82;
+}
+
+.resultGrid b{
+    color:#fff;
+}
+
+.resultBar{
+    height:5px;
+    background:#17251a;
+
+    margin:24px 0 14px;
+
     overflow:hidden;
-    white-space:pre-wrap;
-    font-size:clamp(10px,1.3vw,14px);
-    line-height:1.65;
-    text-shadow:0 0 7px rgba(50,255,100,.25);
 }
 
-.terminalLine{
-    animation:terminalLine .08s;
-}
-
-@keyframes terminalLine{
-    from{opacity:0}
-    to{opacity:1}
-}
-
-.terminalCursor{
-    display:inline-block;
-    width:8px;
-    height:15px;
-    background:#35ff68;
-    animation:cursorBlink .5s infinite;
-}
-
-@keyframes cursorBlink{
-    50%{opacity:0}
-}
-
-.terminalProgress{
-    position:absolute;
-    bottom:50px;
-    left:8%;
-    right:8%;
-    height:3px;
-    background:#09200f;
-}
-
-#terminalProgressFill{
+.resultBar span{
+    display:block;
     width:0;
     height:100%;
-    background:#35ff68;
-    box-shadow:0 0 10px #35ff68;
+
+    background:#55ff66;
+
+    transition:width 1.2s;
 }
 
-/* ERROR SPAM */
+.resultCard p{
+    font:11px/1.6 Arial;
+    color:#aeb8b0;
+}
 
-#errorSpam{
+.resultCard button{
+    margin-top:12px;
+
+    background:#55ff66;
+    color:#041006;
+
+    border:0;
+
+    padding:11px 24px;
+
+    font-weight:800;
+    letter-spacing:2px;
+
+    cursor:pointer;
+}
+
+/* =========================
+   TERMINAL
+========================= */
+
+#screen{
+    display:none;
+
     position:fixed;
     inset:0;
-    z-index:8200;
-    display:none;
-    overflow:hidden;
+
     background:#000;
-    font-family:monospace;
-    pointer-events:none;
+    color:#ddd;
+
+    overflow:hidden;
+
+    z-index:200;
 }
 
-.errorItem{
+#terminal{
     position:absolute;
-    color:#f00;
-    font-size:clamp(10px,1.7vw,20px);
-    text-shadow:0 0 10px red;
-    animation:errorGlitch .15s infinite alternate;
+    inset:0;
+
+    padding:35px;
+
+    font-size:17px;
+    line-height:1.75;
+
+    color:#ddd;
+
+    overflow:hidden;
 }
 
-@keyframes errorGlitch{
-    from{transform:translate(0,0)}
-    to{transform:translate(3px,-2px)}
+.red{
+    color:#ff2222;
 }
 
-/* GLITCH */
+.yellow{
+    color:#ffd000;
+}
 
-.glitchLayer{
+.green{
+    color:#32ff65;
+}
+
+.white{
+    color:#fff;
+}
+
+.dim{
+    color:#777;
+}
+
+/* =========================
+   GLITCH
+========================= */
+
+.glitch{
+    animation:glitch .07s infinite;
+}
+
+@keyframes glitch{
+
+    0%{
+        transform:translate(0);
+    }
+
+    20%{
+        transform:translate(-9px,4px);
+    }
+
+    40%{
+        transform:translate(8px,-5px);
+    }
+
+    60%{
+        transform:translate(-5px,-3px);
+    }
+
+    80%{
+        transform:translate(7px,4px);
+    }
+
+    100%{
+        transform:translate(0);
+    }
+}
+
+/* =========================
+   FLASH
+========================= */
+
+#flash{
     position:fixed;
     inset:0;
-    z-index:8300;
-    display:none;
+
+    background:red;
+
+    opacity:0;
+
+    z-index:9999;
+
     pointer-events:none;
-    background:
-        repeating-linear-gradient(
-            to bottom,
-            transparent 0px,
-            transparent 3px,
-            rgba(255,0,0,.12) 4px,
-            transparent 5px
-        );
-    mix-blend-mode:screen;
-    animation:glitchLayer .1s infinite;
 }
 
-@keyframes glitchLayer{
-    0%{transform:translate(0)}
-    25%{transform:translate(-4px,2px)}
-    50%{transform:translate(5px,-2px)}
-    75%{transform:translate(-2px,-3px)}
-    100%{transform:translate(2px,1px)}
+/* =========================
+   BLACK SCREEN
+========================= */
+
+#black{
+    display:none;
+
+    position:fixed;
+    inset:0;
+
+    background:#000;
+
+    z-index:300;
+
+    justify-content:center;
+    align-items:center;
+
+    color:#555;
+
+    font-size:18px;
+
+    text-align:center;
 }
 
-/* =========================================================
-   CYBER HORROR REVEAL
-========================================================= */
+/* =========================
+   REVEAL
+========================= */
 
 #reveal{
+    display:none;
+
     position:fixed;
     inset:0;
-    z-index:8400;
-    display:none;
-    overflow:hidden;
+
     background:#000;
+
+    z-index:400;
+
+    overflow:hidden;
 }
 
 #image{
     position:absolute;
     inset:0;
+
     width:100%;
     height:100%;
+
     object-fit:cover;
+
     opacity:0;
-    transition:opacity 1s;
+
+    transition:opacity .4s;
 }
 
 #pieces{
     position:absolute;
     inset:0;
+
     display:grid;
+
     grid-template-columns:repeat(4,1fr);
     grid-template-rows:repeat(4,1fr);
+
+    z-index:10;
 }
 
 .piece{
-    opacity:0;
     background-image:url("game/cyber-horror.png");
+
     background-size:400% 400%;
     background-repeat:no-repeat;
+
+    opacity:0;
+
+    transform:
+        scale(.15)
+        rotate(12deg);
+
     transition:
-        opacity .18s,
-        filter .12s;
-    filter:brightness(.4) contrast(1.5);
+        opacity .12s,
+        transform .35s cubic-bezier(.2,.8,.2,1);
 }
 
-.piece.revealed{
+.piece.show{
     opacity:1;
-    filter:brightness(1) contrast(1.1);
+
+    transform:
+        scale(1)
+        rotate(0deg);
 }
 
-.piece:nth-child(1){background-position:0% 0%}
-.piece:nth-child(2){background-position:33.333% 0%}
-.piece:nth-child(3){background-position:66.666% 0%}
-.piece:nth-child(4){background-position:100% 0%}
+.piece:nth-child(1){background-position:0% 0%;}
+.piece:nth-child(2){background-position:33.33% 0%;}
+.piece:nth-child(3){background-position:66.66% 0%;}
+.piece:nth-child(4){background-position:100% 0%;}
 
-.piece:nth-child(5){background-position:0% 33.333%}
-.piece:nth-child(6){background-position:33.333% 33.333%}
-.piece:nth-child(7){background-position:66.666% 33.333%}
-.piece:nth-child(8){background-position:100% 33.333%}
+.piece:nth-child(5){background-position:0% 33.33%;}
+.piece:nth-child(6){background-position:33.33% 33.33%;}
+.piece:nth-child(7){background-position:66.66% 33.33%;}
+.piece:nth-child(8){background-position:100% 33.33%;}
 
-.piece:nth-child(9){background-position:0% 66.666%}
-.piece:nth-child(10){background-position:33.333% 66.666%}
-.piece:nth-child(11){background-position:66.666% 66.666%}
-.piece:nth-child(12){background-position:100% 66.666%}
+.piece:nth-child(9){background-position:0% 66.66%;}
+.piece:nth-child(10){background-position:33.33% 66.66%;}
+.piece:nth-child(11){background-position:66.66% 66.66%;}
+.piece:nth-child(12){background-position:100% 66.66%;}
 
-.piece:nth-child(13){background-position:0% 100%}
-.piece:nth-child(14){background-position:33.333% 100%}
-.piece:nth-child(15){background-position:66.666% 100%}
-.piece:nth-child(16){background-position:100% 100%}
+.piece:nth-child(13){background-position:0% 100%;}
+.piece:nth-child(14){background-position:33.33% 100%;}
+.piece:nth-child(15){background-position:66.66% 100%;}
+.piece:nth-child(16){background-position:100% 100%;}
 
 #loadingImage{
     position:absolute;
+
+    top:25px;
     left:50%;
-    bottom:35px;
+
     transform:translateX(-50%);
-    z-index:10;
-    color:#aaa;
-    font:11px monospace;
-    letter-spacing:3px;
-    text-shadow:0 0 8px #000;
+
+    color:#ff2222;
+
+    font-size:18px;
+
+    z-index:30;
+
+    text-shadow:0 0 12px red;
+
+    white-space:nowrap;
 }
 
-/* =========================================================
+/* =========================
    JUMPSCARE
-========================================================= */
+========================= */
 
 #jumpscare{
     position:fixed;
     inset:0;
-    z-index:9500;
-    display:none;
+
     background:#000;
+
+    z-index:500;
+
+    display:none;
 }
 
-#jumpImage{
+#jumpscare img{
+    position:absolute;
+    inset:0;
+
     width:100%;
     height:100%;
-    object-fit:cover;
-    transform:scale(1.05);
-    animation:jumpscareZoom .4s ease-out;
-}
 
-@keyframes jumpscareZoom{
-    from{transform:scale(1.25)}
-    to{transform:scale(1.05)}
+    object-fit:cover;
 }
 
 #hacked{
     position:absolute;
-    inset:auto 0 9%;
+    inset:0;
+
+    z-index:550;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+    align-items:center;
+
+    background:rgba(0,0,0,.18);
+
     text-align:center;
-    color:#f00;
-    font-family:monospace;
-    font-size:clamp(14px,3vw,30px);
-    font-weight:bold;
-    letter-spacing:5px;
+
+    opacity:0;
+}
+
+#hacked.show{
+    opacity:1;
+}
+
+#hacked h1{
+    margin:0;
+
+    color:#ff1111;
+
+    font-size:clamp(
+        40px,
+        8vw,
+        110px
+    );
+
     text-shadow:
-        2px 0 #0ff,
-        -2px 0 #f00;
-    animation:hackedGlitch .08s infinite;
+        0 0 10px red,
+        0 0 30px red;
+
+    animation:textGlitch .08s infinite;
 }
 
-@keyframes hackedGlitch{
-    0%{transform:translate(0)}
-    25%{transform:translate(-3px,2px)}
-    50%{transform:translate(4px,-1px)}
-    75%{transform:translate(-2px,-2px)}
-    100%{transform:translate(2px,1px)}
+#hacked p{
+    color:#fff;
+
+    font-size:23px;
+
+    letter-spacing:4px;
 }
 
-/* =========================================================
-   ENDING
-========================================================= */
+@keyframes textGlitch{
 
-#ending{
+    0%{
+        transform:translate(0);
+    }
+
+    50%{
+        transform:translate(8px,-3px);
+    }
+
+    100%{
+        transform:translate(-6px,3px);
+    }
+}
+
+/* =========================
+   PHONE
+========================= */
+
+#phoneAlert{
     position:fixed;
     inset:0;
-    z-index:10000;
+
     display:none;
-    overflow:hidden;
-    background:#000;
-}
 
-#endingImage{
-    position:absolute;
-    inset:0;
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    opacity:0;
-    transition:opacity 1.5s;
-}
-
-.endingShade{
-    position:absolute;
-    inset:0;
-    background:
-        linear-gradient(
-            to bottom,
-            rgba(0,0,0,.15),
-            rgba(0,0,0,.55) 60%,
-            rgba(0,0,0,.92)
-        );
-}
-
-.endingContent{
-    position:absolute;
-    left:50%;
-    bottom:10%;
-    transform:translateX(-50%);
-    width:min(720px,90vw);
-    text-align:center;
-}
-
-#endingBadge{
-    color:#777;
-    font:11px monospace;
-    letter-spacing:4px;
-    margin-bottom:15px;
-}
-
-#endingTitle{
-    margin:0 0 15px;
-    font-size:clamp(35px,7vw,75px);
-    letter-spacing:3px;
-    text-shadow:0 0 30px rgba(0,0,0,.9);
-}
-
-#endingText{
-    margin:0 auto 28px;
-    max-width:600px;
-    color:#bbb;
-    line-height:1.6;
-}
-
-.endingButtons{
-    display:flex;
     justify-content:center;
-    gap:10px;
-    flex-wrap:wrap;
+    align-items:center;
+
+    background:#000;
+
+    z-index:600;
+
+    color:#fff;
+
+    text-align:center;
+
+    font-family:Arial,sans-serif;
+
+    backdrop-filter:blur(5px);
 }
 
-.endingButtons button{
-    padding:13px 24px;
-    border:1px solid rgba(255,255,255,.25);
-    background:rgba(0,0,0,.55);
+.phoneCard{
+    width:min(390px,88%);
+
+    padding:30px;
+
+    background:#101010;
+
+    border:1px solid #444;
+
+    border-radius:18px;
+
+    box-shadow:0 0 50px #000;
+
+    animation:phoneIn .35s ease-out;
+}
+
+.phoneIcon{
+    font-size:55px;
+
+    animation:ring .5s infinite alternate;
+}
+
+@keyframes ring{
+
+    from{
+        transform:rotate(-8deg);
+    }
+
+    to{
+        transform:rotate(8deg);
+    }
+}
+
+.calling{
+    color:#55ff66;
+
+    font-weight:bold;
+
+    letter-spacing:2px;
+}
+
+.fakeNumber{
+    margin-top:12px;
+
+    color:#aaa;
+
+    word-break:break-all;
+}
+
+.callProgress{
+    height:3px;
+
+    background:#333;
+
+    margin-top:18px;
+
+    border-radius:4px;
+
+    overflow:hidden;
+}
+
+.callProgress span{
+    display:block;
+
+    width:0;
+    height:100%;
+
+    background:#55ff66;
+
+    animation:callLoad 3.2s linear forwards;
+}
+
+@keyframes callLoad{
+    to{
+        width:100%;
+    }
+}
+
+@keyframes phoneIn{
+
+    from{
+        transform:translateY(20px) scale(.96);
+        opacity:0;
+    }
+
+    to{
+        transform:none;
+        opacity:1;
+    }
+}
+
+/* =========================
+   ERROR SPAM
+========================= */
+
+#errorSpam{
+    position:fixed;
+    inset:0;
+
+    z-index:700;
+
+    display:none;
+
+    pointer-events:none;
+}
+
+.errorBox{
+    position:absolute;
+
+    width:280px;
+
+    padding:20px;
+
+    background:#111;
+
+    border:2px solid #777;
+
     color:#fff;
+
+    box-shadow:0 0 20px #000;
+
+    font-family:Arial;
+
+    animation:errorAppear .14s ease-out;
+}
+
+.errorBox b{
+    color:#ff3333;
+}
+
+.errorClose{
+    padding:6px 18px;
+
     cursor:pointer;
 }
 
-.endingButtons button:hover{
-    background:#fff;
-    color:#000;
+@keyframes errorAppear{
+
+    from{
+        transform:scale(.75);
+        opacity:0;
+    }
+
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
 }
 
-#flash{
+/* =========================
+   FINAL PRANK
+========================= */
+
+#prank{
     position:fixed;
     inset:0;
-    z-index:11000;
-    pointer-events:none;
-    background:#f00;
-    opacity:0;
+
+    z-index:1000;
+
+    display:none;
+
+    justify-content:center;
+    align-items:center;
+
+    flex-direction:column;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #101c13 0,
+            #050505 55%
+        );
+
+    text-align:center;
+
+    padding:25px;
 }
 
-.flashNow{
-    animation:flashEffect .3s;
+#prank h1{
+    font-family:Arial;
+
+    font-size:clamp(
+        45px,
+        8vw,
+        70px
+    );
+
+    margin:0;
+
+    color:#55ff66;
+
+    text-shadow:
+        0 0 25px #22ff44;
 }
 
-@keyframes flashEffect{
-    0%{opacity:.85}
-    100%{opacity:0}
+#prank p{
+    color:#ddd;
+
+    font-family:Arial;
+
+    font-size:20px;
+
+    line-height:1.5;
 }
 
-/* =========================================================
+.finalBadge{
+    display:inline-block;
+
+    padding:7px 12px;
+
+    border:1px solid #55ff6655;
+
+    border-radius:999px;
+
+    color:#55ff66;
+
+    font:11px Arial;
+
+    letter-spacing:2px;
+
+    margin-bottom:18px;
+}
+
+.finalButtons{
+    display:flex;
+
+    gap:12px;
+
+    flex-wrap:wrap;
+
+    justify-content:center;
+}
+
+.playAgain,
+.exitButton{
+
+    margin-top:20px;
+
+    padding:14px 30px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    font-size:17px;
+}
+
+.playAgain{
+
+    border:1px solid #55ff66;
+
+    background:transparent;
+
+    color:#55ff66;
+}
+
+.exitButton{
+
+    border:1px solid #777;
+
+    background:#222;
+
+    color:#ddd;
+}
+
+/* =========================
    SCANLINES
-========================================================= */
+========================= */
 
 .scanlines{
     position:fixed;
+
     inset:0;
-    z-index:12000;
+
+    z-index:900;
+
     pointer-events:none;
-    opacity:.08;
+
     background:
         repeating-linear-gradient(
-            to bottom,
-            transparent 0px,
+            0deg,
+            rgba(255,255,255,.025) 0px,
+            rgba(255,255,255,.025) 1px,
             transparent 2px,
-            rgba(255,255,255,.25) 3px
+            transparent 5px
         );
 }
 
-/* =========================================================
-   MOBILE
-========================================================= */
+/* =========================
+   TIMER
+========================= */
 
-@media(max-width:700px){
+.timerDanger #timer{
+    animation:timerPulse .45s infinite alternate;
+}
+
+@keyframes timerPulse{
+
+    to{
+        transform:scale(1.15);
+        text-shadow:0 0 15px red;
+    }
+}
+
+/* =========================
+   PANIC
+========================= */
+
+.gameArea.panic{
+    animation:areaShake .16s linear 2;
+}
+
+@keyframes areaShake{
+
+    25%{
+        transform:translate(-3px,1px)
+    }
+
+    50%{
+        transform:translate(3px,-2px)
+    }
+
+    75%{
+        transform:translate(-2px,-1px)
+    }
+}
+
+/* =========================
+   CURSOR
+========================= */
+
+.cursorTrace{
+    position:absolute;
+
+    width:18px;
+    height:18px;
+
+    border:1px solid rgba(255,255,255,.12);
+
+    border-radius:50%;
+
+    pointer-events:none;
+
+    z-index:7;
+
+    transform:translate(-50%,-50%);
+
+    transition:left .08s,top .08s;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:600px){
+
+    .box{
+        padding:30px 22px;
+    }
+
+    .box h1{
+        font-size:26px;
+    }
 
     .gameHeader{
-        height:95px;
-        align-items:flex-start;
-        padding-top:13px;
+        padding:12px;
+        font-size:11px;
     }
 
-    .hud{
-        max-width:75%;
+    .hudLeft,
+    .hudRight{
+        gap:9px;
     }
 
-    .hudItem{
-        min-width:55px;
-        padding:5px 7px;
-    }
-
-    .hudItem small{
-        font-size:7px;
-    }
-
-    .hudItem b{
-        font-size:10px;
-    }
-
-    .gameInstruction{
-        top:105px;
+    .gameArea{
+        inset:60px 0 0;
     }
 
     .toy{
-        width:54px;
-        height:54px;
-        font-size:34px;
+        width:60px;
+        height:60px;
+        font-size:40px;
     }
 
-    #anomalyFeed{
-        width:75vw;
-        font-size:8px;
-    }
-
-    .phone{
-        transform:scale(.78);
+    .gameInstruction{
+        bottom:15px;
+        font-size:12px;
     }
 
     #terminal{
-        padding:100px 5%;
+        padding:22px;
+        font-size:14px;
+        line-height:1.65;
     }
 
-    #terminalOutput{
-        font-size:10px;
+    #hacked h1{
+        font-size:42px;
+    }
+
+    #hacked p{
+        font-size:16px;
+    }
+
+    .errorBox{
+        width:240px;
+        font-size:14px;
+    }
+
+    .anomalyFeed{
+        left:10px;
+        bottom:12px;
+        font-size:9px;
+        max-width:260px;
+    }
+
+    .resultCard{
+        padding:22px;
     }
 }
+
 </style>
 </head>
 
 <body>
 
-<!-- =========================================================
+<!-- =========================
      START
-========================================================= -->
+========================= -->
 
 <div id="awal">
-    <div class="startBox">
 
-        <h1>🧸 Find The Hidden Toy</h1>
+    <div class="box">
+
+        <h1>🧸 Find The Hidden Toy!</h1>
 
         <p>
-            Something is hiding inside the scene.<br>
-            Find it before time runs out.
+            Find the hidden toy before time runs out.
+            <br>
+            <small>It gets faster. Stay focused.</small>
         </p>
 
-        <div class="startStats">
-            <span>15 SEC</span>
-            <span>3 LEVELS</span>
-            <span>NO ACCOUNT</span>
-            <span>NO DATA</span>
+        <div class="startMeta">
+            <span>⏱ 15 SEC</span>
+            <span>•</span>
+            <span>🎯 3 LEVELS</span>
         </div>
 
-        <button id="playButton">START GAME</button>
+        <div class="startWarning">
+            <span class="statusDot"></span>
+            NO ACCOUNT • NO DATA REQUIRED
+        </div>
+
+        <button
+            class="play"
+            id="playButton"
+            type="button"
+        >
+            PLAY NOW
+        </button>
 
     </div>
+
 </div>
 
-<!-- =========================================================
+
+<!-- =========================
      GAME
-========================================================= -->
+========================= -->
 
 <div id="game">
 
     <div class="gameHeader">
 
-        <strong>FIND THE HIDDEN TOY</strong>
+        <div class="hudLeft">
 
-        <div class="hud">
-
-            <div class="hudItem">
-                <small>PLAYER</small>
-                <b id="playerName">PLAYER</b>
+            <div>
+                GUEST SESSION
+                <span id="playerName">#7F2A</span>
             </div>
 
-            <div class="hudItem">
-                <small>LEVEL</small>
-                <b id="level">1 / 3</b>
+            <div class="levelHud">
+                LEVEL
+                <span id="level">1</span>/3
             </div>
 
-            <div class="hudItem" id="secretEye">
-                <small>SECRET</small>
-                <b>◉</b>
+            <div class="secretCounter">
+                👁 <span id="eyeCount">0</span>/3
             </div>
 
-            <div class="hudItem">
-                <small>SCORE</small>
-                <b id="score">000</b>
+        </div>
+
+        <div class="hudRight">
+
+            <div>
+                SCORE:
+                <span id="score">0</span>
             </div>
 
-            <div class="hudItem">
-                <small>TIME</small>
-                <b id="timer">15</b>
+            <div>
+                TIME:
+                <span id="timer">15</span>
             </div>
 
-            <div class="hudItem">
-                <small>MISS</small>
-                <b id="miss">0</b>
+            <div>
+                MISS:
+                <span id="miss">0</span>
             </div>
 
         </div>
 
     </div>
+
 
     <div class="gameArea" id="gameArea">
 
+        <div class="ambientNoise"></div>
+
         <div class="gameInstruction">
-            <span id="hintText">Watch carefully...</span>
+            🧸 Find the hidden toy!
+            <span id="hintText">
+                Watch carefully...
+            </span>
         </div>
 
-        <div id="targetGlow"></div>
+        <div
+            class="targetGlow"
+            id="targetGlow">
+        </div>
 
-        <div class="toy" id="toy">🧸</div>
+        <div
+            class="toy"
+            id="toy"
+            title="Find me!">
+            🧸
+        </div>
 
-        <div id="anomalyFeed"></div>
+    </div>
 
-        <div id="roundMessage"></div>
+
+    <div
+        class="anomalyFeed"
+        id="anomalyFeed">
+    </div>
+
+
+    <div
+        class="roundMessage"
+        id="roundMessage">
+    </div>
+
+
+    <div
+        class="resultOverlay"
+        id="resultOverlay">
+
+        <div class="resultCard">
+
+            <div class="resultTag">
+                SESSION REPORT
+            </div>
+
+            <h2 id="resultTitle">
+                SESSION COMPLETE
+            </h2>
+
+            <div class="resultGrid">
+
+                <span>LEVEL</span>
+                <b id="resultLevel">3/3</b>
+
+                <span>SCORE</span>
+                <b id="resultScore">0</b>
+
+                <span>WRONG CLICKS</span>
+                <b id="resultMiss">0</b>
+
+                <span>SECRET EYES</span>
+                <b id="resultEyes">0/3</b>
+
+                <span>SESSION</span>
+                <b id="resultSession">#----</b>
+
+            </div>
+
+            <div class="resultBar">
+                <span id="resultBarFill"></span>
+            </div>
+
+            <p id="resultText">
+                Browser simulation complete.
+            </p>
+
+            <button
+                id="continueHorror"
+                type="button">
+                CONTINUE
+            </button>
+
+        </div>
 
     </div>
 
 </div>
 
-<!-- =========================================================
-     RESULT
-========================================================= -->
 
-<div id="resultOverlay">
+<!-- =========================
+     TERMINAL
+========================= -->
 
-    <div class="resultBox">
+<div id="screen">
 
-        <div id="resultTitle">LEVEL COMPLETE</div>
-
-        <div id="resultText">
-            Good job.
-        </div>
-
-        <div class="progress">
-            <div id="progressFill"></div>
-        </div>
-
-        <div id="sessionReport"></div>
-
-    </div>
+    <div id="terminal"></div>
 
 </div>
 
-<!-- =========================================================
-     FAKE PHONE
-========================================================= -->
 
-<div id="phoneAlert">
-
-    <div class="phone">
-
-        <div class="phoneNotch"></div>
-
-        <div class="phoneScreen">
-
-            <div class="phoneTop">
-                UNKNOWN DEVICE
-            </div>
-
-            <div class="incoming">
-
-                <span class="phoneIcon">📱</span>
-
-                <strong>INCOMING SIGNAL</strong>
-
-                <span>UNKNOWN SOURCE</span>
-
-            </div>
-
-            <div class="phoneButtons">
-                <span>DECLINE</span>
-                <span>ACCEPT</span>
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-<!-- =========================================================
-     BLACK SCREEN
-========================================================= -->
+<!-- =========================
+     BLACK
+========================= -->
 
 <div id="black">
-
-    <div id="blackText">
-        <span id="blackMessage">
-            SIGNAL LOST...
-        </span>
-    </div>
-
+    CONNECTION LOST...
 </div>
 
-<!-- =========================================================
-     TERMINAL
-========================================================= -->
 
-<div id="terminal">
-
-    <div class="terminalHeader">
-        SYSTEM TERMINAL // UNKNOWN SESSION
-    </div>
-
-    <div id="terminalOutput"></div>
-
-    <div class="terminalProgress">
-        <div id="terminalProgressFill"></div>
-    </div>
-
-</div>
-
-<!-- =========================================================
-     ERROR SPAM
-========================================================= -->
-
-<div id="errorSpam"></div>
-
-<div class="glitchLayer" id="glitchLayer"></div>
-
-<!-- =========================================================
-     CYBER HORROR REVEAL
-========================================================= -->
+<!-- =========================
+     REVEAL
+========================= -->
 
 <div id="reveal">
+
+    <div id="loadingImage">
+        LOADING IMAGE... 0%
+    </div>
 
     <img
         id="image"
@@ -1201,109 +1620,151 @@ button{
 
     </div>
 
-    <div id="loadingImage">
-        LOADING 00%
-    </div>
-
 </div>
 
-<!-- =========================================================
+
+<!-- =========================
      JUMPSCARE
-========================================================= -->
+========================= -->
 
 <div id="jumpscare">
 
     <img
-        id="jumpImage"
         src="game/jumpscare.png"
         alt=""
     >
 
     <div id="hacked">
-        CONNECTION COMPROMISED
-    </div>
 
-</div>
-
-<!-- =========================================================
-     ENDING
-========================================================= -->
-
-<div id="ending">
-
-    <img id="endingImage" src="" alt="">
-
-    <div class="endingShade"></div>
-
-    <div class="endingContent">
-
-        <div id="endingBadge">
-            ENDING
-        </div>
-
-        <h1 id="endingTitle">
-            YOU MADE IT
+        <h1>
+            YOUR SYSTEM
+            <br>
+            HAS BEEN HACKED
         </h1>
 
-        <p id="endingText">
-            You found the toy.
+        <p>
+            CONNECTION LOST...
         </p>
 
-        <div class="endingButtons">
+    </div>
 
-            <button id="playAgain">
-                PLAY AGAIN
-            </button>
+</div>
 
-            <button id="exitButton">
-                EXIT
-            </button>
 
+<!-- =========================
+     FAKE PHONE
+========================= -->
+
+<div id="phoneAlert">
+
+    <div class="phoneCard">
+
+        <div class="phoneIcon">
+            📞
+        </div>
+
+        <h2>
+            INCOMING CALL
+        </h2>
+
+        <div class="calling">
+            CALLING...
+        </div>
+
+        <h3 id="callName">
+            UNKNOWN CALLER
+        </h3>
+
+        <div
+            class="fakeNumber"
+            id="callNumber">
+            PRIVATE • SESSION ALERT
+        </div>
+
+        <p>
+            Unusual browser activity detected.
+        </p>
+
+        <div class="callProgress">
+            <span></span>
         </div>
 
     </div>
 
 </div>
+
+
+<!-- =========================
+     ERROR SPAM
+========================= -->
+
+<div id="errorSpam"></div>
+
+
+<!-- =========================
+     FINAL PRANK
+========================= -->
+
+<div id="prank">
+
+    <div class="finalBadge">
+        BROWSER SIMULATION • OFFLINE
+    </div>
+
+    <h1>
+        PRANKED! 😂
+    </h1>
+
+    <p>
+        The entire sequence was a browser simulation.
+        <br>
+        Nothing outside this page was accessed.
+    </p>
+
+    <p>
+        <b>No files were accessed.</b>
+        <br>
+        <b>No personal data was sent anywhere.</b>
+    </p>
+
+    <div class="finalButtons">
+
+        <button
+            class="playAgain"
+            id="playAgain"
+            type="button">
+            🎮 PLAY AGAIN
+        </button>
+
+        <button
+            class="exitButton"
+            id="exitButton"
+            type="button">
+            EXIT
+        </button>
+
+    </div>
+
+</div>
+
 
 <div id="flash"></div>
 
 <div class="scanlines"></div>
 
+
 <script>
 
 /* =========================================================
-   ASSETS
+   FIND THE HIDDEN TOY
+   GAMEPLAY + SECRET EYE + BAD ENDING
+   Everything is local browser simulation.
 ========================================================= */
 
-const ASSETS = {
 
-    cyber:
-        "game/cyber-horror.png",
-
-    happy:
-        "game/happy%20ending.png",
-
-    jumpscare:
-        "game/jumpscare.png",
-
-    level1:
-        "game/level1.png",
-
-    level2:
-        "game/level2.png",
-
-    level3:
-        "game/level3.jpeg",
-
-    secret:
-        "game/secret%20ending.png"
-
-};
-
-
-/* =========================================================
-   DOM
-========================================================= */
+/* =========================
+   ELEMENTS
+========================= */
 
 const awal =
     document.getElementById("awal");
@@ -1317,26 +1778,29 @@ const gameArea =
 const toy =
     document.getElementById("toy");
 
+const timerEl =
+    document.getElementById("timer");
+
+const playerName =
+    document.getElementById("playerName");
+
 const levelEl =
     document.getElementById("level");
 
 const scoreEl =
     document.getElementById("score");
 
-const timerEl =
-    document.getElementById("timer");
-
 const missEl =
     document.getElementById("miss");
 
+const eyeCountEl =
+    document.getElementById("eyeCount");
+
+const resultEyes =
+    document.getElementById("resultEyes");
+
 const hintText =
     document.getElementById("hintText");
-
-const secretEye =
-    document.getElementById("secretEye");
-
-const anomalyFeed =
-    document.getElementById("anomalyFeed");
 
 const targetGlow =
     document.getElementById("targetGlow");
@@ -1344,29 +1808,44 @@ const targetGlow =
 const roundMessage =
     document.getElementById("roundMessage");
 
-const phoneAlert =
-    document.getElementById("phoneAlert");
+const anomalyFeed =
+    document.getElementById("anomalyFeed");
 
-const black =
-    document.getElementById("black");
+const resultOverlay =
+    document.getElementById("resultOverlay");
 
-const blackMessage =
-    document.getElementById("blackMessage");
+const resultTitle =
+    document.getElementById("resultTitle");
+
+const resultLevel =
+    document.getElementById("resultLevel");
+
+const resultScore =
+    document.getElementById("resultScore");
+
+const resultMiss =
+    document.getElementById("resultMiss");
+
+const resultSession =
+    document.getElementById("resultSession");
+
+const resultBarFill =
+    document.getElementById("resultBarFill");
+
+const resultText =
+    document.getElementById("resultText");
+
+const continueHorror =
+    document.getElementById("continueHorror");
+
+const screen =
+    document.getElementById("screen");
 
 const terminal =
     document.getElementById("terminal");
 
-const terminalOutput =
-    document.getElementById("terminalOutput");
-
-const terminalProgressFill =
-    document.getElementById("terminalProgressFill");
-
-const errorSpam =
-    document.getElementById("errorSpam");
-
-const glitchLayer =
-    document.getElementById("glitchLayer");
+const black =
+    document.getElementById("black");
 
 const reveal =
     document.getElementById("reveal");
@@ -1375,7 +1854,7 @@ const image =
     document.getElementById("image");
 
 const pieces =
-    [...document.querySelectorAll(".piece")];
+    document.querySelectorAll(".piece");
 
 const loadingImage =
     document.getElementById("loadingImage");
@@ -1383,23 +1862,23 @@ const loadingImage =
 const jumpscare =
     document.getElementById("jumpscare");
 
-const jumpImage =
-    document.getElementById("jumpImage");
+const hacked =
+    document.getElementById("hacked");
 
-const ending =
-    document.getElementById("ending");
+const phoneAlert =
+    document.getElementById("phoneAlert");
 
-const endingImage =
-    document.getElementById("endingImage");
+const callName =
+    document.getElementById("callName");
 
-const endingBadge =
-    document.getElementById("endingBadge");
+const callNumber =
+    document.getElementById("callNumber");
 
-const endingTitle =
-    document.getElementById("endingTitle");
+const errorSpam =
+    document.getElementById("errorSpam");
 
-const endingText =
-    document.getElementById("endingText");
+const prank =
+    document.getElementById("prank");
 
 const flash =
     document.getElementById("flash");
@@ -1414,269 +1893,437 @@ const exitButton =
     document.getElementById("exitButton");
 
 
-/* =========================================================
+/* =========================
    GAME STATE
-========================================================= */
+========================= */
 
-let currentLevel = 1;
+let audioCtx = null;
+let masterGain = null;
 
-let score = 0;
-
-let wrongClicks = 0;
-
-let timeLeft = 15;
+let timer = 15;
 
 let timerInterval = null;
-
 let moveInterval = null;
 
 let decoys = [];
 
 let sequenceStarted = false;
 
-let locked = false;
+let level = 1;
 
-let secretUnlocked = false;
+let score = 0;
 
-let audioContext = null;
+let wrongClicks = 0;
 
-let masterGain = null;
+/*
+   SECRET EYE SYSTEM
+
+   Total:
+   Level 1 = 1 eye
+   Level 2 = 1 eye
+   Level 3 = 1 eye
+
+   Maximum = 3/3
+*/
+
+let collectedEyes = 0;
+
+let currentEye = null;
+
+let sessionId =
+    "#" +
+    Math.random()
+        .toString(16)
+        .slice(2,6)
+        .toUpperCase();
 
 
-/* =========================================================
+/* =========================
    LEVEL CONFIG
-========================================================= */
+========================= */
 
 const levelConfig = {
 
     1:{
         time:15,
         moves:1350,
-        decoys:2,
+        decoys:3,
         label:"Watch carefully..."
     },
 
     2:{
         time:12,
-        moves:1000,
-        decoys:4,
+        moves:1050,
+        decoys:5,
         label:"It is moving faster..."
     },
 
     3:{
         time:9,
-        moves:720,
-        decoys:6,
+        moves:760,
+        decoys:7,
         label:"Something feels wrong..."
     }
 
 };
 
 
-/* =========================================================
+/* =========================
+   RANDOM EMOJIS
+========================= */
+
+const emojiPool = [
+
+    "🧸",
+    "🪆",
+    "🎲",
+    "🧩",
+    "🎈",
+    "🪀",
+    "🛸",
+    "👾",
+    "🎮",
+    "🐻",
+    "🐰",
+    "🐱",
+    "🤖",
+    "👽",
+    "🎃",
+    "🍭",
+    "🦊",
+    "🐸",
+    "⭐",
+    "🌙",
+    "🎁",
+    "🧸"
+
+];
+
+
+/* =========================
    AUDIO
-========================================================= */
+========================= */
 
 function initAudio(){
 
-    if(audioContext) return;
+    if(audioCtx) return;
 
-    audioContext =
-        new (
-            window.AudioContext ||
-            window.webkitAudioContext
-        )();
+    const Ctx =
+        window.AudioContext ||
+        window.webkitAudioContext;
+
+    if(!Ctx) return;
+
+    audioCtx =
+        new Ctx();
 
     masterGain =
-        audioContext.createGain();
+        audioCtx.createGain();
 
-    masterGain.gain.value = .62;
+    masterGain.gain.value =
+        0.20;
 
     masterGain.connect(
-        audioContext.destination
+        audioCtx.destination
     );
 }
 
 
 function tone(
-    frequency,
-    duration=.12,
+    freq=440,
+    duration=.08,
     type="sine",
-    volume=.25
+    volume=.12,
+    when=0
 ){
 
-    if(!audioContext) return;
+    if(
+        !audioCtx ||
+        !masterGain
+    ) return;
 
-    const oscillator =
-        audioContext.createOscillator();
+    const osc =
+        audioCtx.createOscillator();
 
     const gain =
-        audioContext.createGain();
+        audioCtx.createGain();
 
-    oscillator.type = type;
+    osc.type = type;
 
-    oscillator.frequency.value =
-        frequency;
-
-    gain.gain.setValueAtTime(
-        0,
-        audioContext.currentTime
+    osc.frequency.setValueAtTime(
+        freq,
+        audioCtx.currentTime + when
     );
 
-    gain.gain.linearRampToValueAtTime(
-        volume,
-        audioContext.currentTime + .01
+    gain.gain.setValueAtTime(
+        .0001,
+        audioCtx.currentTime + when
     );
 
     gain.gain.exponentialRampToValueAtTime(
-        .001,
-        audioContext.currentTime + duration
+        Math.max(.001,volume),
+        audioCtx.currentTime + when + .008
     );
 
-    oscillator.connect(gain);
+    gain.gain.exponentialRampToValueAtTime(
+        .0001,
+        audioCtx.currentTime + when + duration
+    );
 
+    osc.connect(gain);
     gain.connect(masterGain);
 
-    oscillator.start();
+    osc.start(
+        audioCtx.currentTime + when
+    );
 
-    oscillator.stop(
-        audioContext.currentTime + duration + .03
+    osc.stop(
+        audioCtx.currentTime +
+        when +
+        duration +
+        .02
     );
 }
 
 
 function noise(
-    duration=.2,
-    volume=.25
+    duration=.12,
+    volume=.08,
+    when=0
 ){
 
-    if(!audioContext) return;
+    if(
+        !audioCtx ||
+        !masterGain
+    ) return;
 
     const buffer =
-        audioContext.createBuffer(
+        audioCtx.createBuffer(
             1,
-            audioContext.sampleRate * duration,
-            audioContext.sampleRate
+            audioCtx.sampleRate * duration,
+            audioCtx.sampleRate
         );
 
     const data =
         buffer.getChannelData(0);
 
-    for(let i=0;i<data.length;i++){
+    for(
+        let i=0;
+        i<data.length;
+        i++
+    ){
 
         data[i] =
-            Math.random()*2-1;
+            (Math.random()*2-1) *
+            (1-i/data.length);
 
     }
 
-    const source =
-        audioContext.createBufferSource();
+    const src =
+        audioCtx.createBufferSource();
 
     const gain =
-        audioContext.createGain();
+        audioCtx.createGain();
 
     gain.gain.value =
         volume;
 
-    source.buffer = buffer;
+    src.buffer =
+        buffer;
 
-    source.connect(gain);
+    src.connect(gain);
 
     gain.connect(masterGain);
 
-    source.start();
+    src.start(
+        audioCtx.currentTime + when
+    );
 }
 
 
 function clickSound(){
-
-    tone(500,.06,"square",.16);
+    tone(
+        520,
+        .045,
+        "square",
+        .055
+    );
 }
 
 
 function wrongSound(){
 
-    tone(95,.35,"sawtooth",.45);
-
-    setTimeout(
-        ()=>tone(58,.3,"sawtooth",.38),
-        80
+    tone(
+        120,
+        .12,
+        "sawtooth",
+        .11
     );
 
+    noise(
+        .08,
+        .055
+    );
 }
 
 
 function tickSound(){
 
-    tone(780,.05,"square",.11);
-
+    tone(
+        timer<=3 ? 210 : 300,
+        .045,
+        "square",
+        timer<=3 ? .09 : .04
+    );
 }
 
 
 function successSound(){
 
-    tone(480,.09,"sine",.18);
-
-    setTimeout(
-        ()=>tone(720,.14,"sine",.22),
-        90
+    tone(
+        660,
+        .08,
+        "sine",
+        .08
     );
 
+    tone(
+        880,
+        .12,
+        "sine",
+        .07,
+        .08
+    );
+}
+
+
+function eyeSound(){
+
+    tone(
+        420,
+        .10,
+        "sine",
+        .09
+    );
+
+    tone(
+        840,
+        .20,
+        "sine",
+        .08,
+        .10
+    );
+
+    tone(
+        1260,
+        .25,
+        "triangle",
+        .055,
+        .18
+    );
 }
 
 
 function glitchSound(){
 
-    noise(.12,.3);
-
-    tone(
-        Math.random()*500+100,
-        .12,
-        "sawtooth",
-        .18
+    noise(
+        .14,
+        .10
     );
 
+    tone(
+        70,
+        .18,
+        "sawtooth",
+        .055
+    );
 }
 
 
 function alarmSound(){
 
-    tone(700,.12,"square",.28);
-
-    setTimeout(
-        ()=>tone(420,.12,"square",.28),
-        130
+    tone(
+        180,
+        .18,
+        "square",
+        .10
     );
 
-    setTimeout(
-        ()=>tone(700,.12,"square",.28),
-        260
+    tone(
+        120,
+        .18,
+        "square",
+        .08,
+        .19
     );
-
 }
 
 
 function revealSound(){
 
-    noise(.35,.3);
+    tone(
+        90,
+        .5,
+        "sawtooth",
+        .08
+    );
 
-    tone(60,.5,"sawtooth",.35);
-
+    noise(
+        .4,
+        .06,
+        .05
+    );
 }
 
 
-/* =========================================================
+function jumpSound(){
+
+    tone(
+        55,
+        .55,
+        "sawtooth",
+        .15
+    );
+
+    tone(
+        110,
+        .25,
+        "square",
+        .08,
+        .04
+    );
+
+    noise(
+        .35,
+        .13,
+        .02
+    );
+}
+
+
+function typingSound(){
+
+    tone(
+        680,
+        .025,
+        "square",
+        .028
+    );
+}
+
+
+/* =========================
    FULLSCREEN
-========================================================= */
+========================= */
 
 function fullscreen(){
 
-    const element =
-        document.documentElement;
+    if(
+        document.documentElement.requestFullscreen
+    ){
 
-    if(element.requestFullscreen){
-
-        element.requestFullscreen()
+        document.documentElement
+            .requestFullscreen()
             .catch(()=>{});
 
     }
@@ -1684,152 +2331,174 @@ function fullscreen(){
 }
 
 
-/* =========================================================
-   HUD
-========================================================= */
+/* =========================
+   START
+========================= */
 
-function updateHUD(){
+function mulai(){
 
-    levelEl.textContent =
-        `${currentLevel} / 3`;
+    initAudio();
 
-    scoreEl.textContent =
-        String(score).padStart(3,"0");
+    if(
+        audioCtx &&
+        audioCtx.state === "suspended"
+    ){
 
-    timerEl.textContent =
-        timeLeft;
-
-    missEl.textContent =
-        wrongClicks;
-
-    if(timeLeft <= 5){
-
-        timerEl.classList.add(
-            "timerDanger"
-        );
-
-    }else{
-
-        timerEl.classList.remove(
-            "timerDanger"
-        );
+        audioCtx.resume();
 
     }
+
+    clickSound();
+
+    playerName.textContent =
+        sessionId;
+
+    awal.style.display =
+        "none";
+
+    game.style.display =
+        "block";
+
+    sequenceStarted =
+        false;
+
+    level =
+        1;
+
+    score =
+        0;
+
+    wrongClicks =
+        0;
+
+    collectedEyes =
+        0;
+
+    updateHUD();
+
+    fullscreen();
+
+    startLevel();
 
 }
 
 
-/* =========================================================
-   ANOMALY FEED
-========================================================= */
+/* =========================
+   HUD
+========================= */
 
-function addAnomaly(text){
+function updateHUD(){
+
+    levelEl.textContent =
+        level;
+
+    scoreEl.textContent =
+        score;
+
+    timerEl.textContent =
+        timer;
+
+    missEl.textContent =
+        wrongClicks;
+
+    eyeCountEl.textContent =
+        collectedEyes;
+
+    resultEyes.textContent =
+        collectedEyes + "/3";
+
+}
+
+
+/* =========================
+   ANOMALY
+========================= */
+
+function pushAnomaly(
+    text,
+    type=""
+){
 
     const line =
         document.createElement("div");
 
     line.className =
-        "anomalyLine";
+        type;
 
     line.textContent =
+        "[" +
+        (
+            type==="crit"
+                ? "CRITICAL"
+                : type==="warn"
+                    ? "WARNING"
+                    : "NOTICE"
+        ) +
+        "] " +
         text;
 
-    anomalyFeed.prepend(line);
+    anomalyFeed.appendChild(
+        line
+    );
 
-    while(anomalyFeed.children.length > 6){
+    while(
+        anomalyFeed.children.length > 3
+    ){
 
-        anomalyFeed.removeChild(
-            anomalyFeed.lastChild
-        );
+        anomalyFeed.firstChild.remove();
 
     }
 
 }
 
 
-/* =========================================================
-   RANDOM POSITION
-========================================================= */
+function randomAnomaly(){
 
-function randomPosition(
-    width=70,
-    height=70
-){
+    if(
+        sequenceStarted ||
+        Math.random() > .32
+    ) return;
 
-    const rect =
-        gameArea.getBoundingClientRect();
+    const events = [
 
-    const padding = 25;
+        "Rendering latency detected.",
+        "Input response variance detected.",
+        "Session clock drift detected.",
+        "Visual process resynchronized.",
+        "Signal interruption detected.",
+        "Unknown visual object detected.",
+        "Additional target detected.",
+        "Unidentified observer detected."
 
-    const x =
-        Math.random() *
-        Math.max(
-            1,
-            rect.width - width - padding*2
-        )
-        + padding;
+    ];
 
-    const y =
-        Math.random() *
-        Math.max(
-            1,
-            rect.height - height - padding*2
-        )
-        + padding;
+    const t =
+        events[
+            Math.floor(
+                Math.random()*events.length
+            )
+        ];
 
-    return {x,y};
-
-}
-
-
-/* =========================================================
-   TOY MOVEMENT
-========================================================= */
-
-function moveToy(){
-
-    const pos =
-        randomPosition(70,70);
-
-    toy.style.left =
-        `${pos.x}px`;
-
-    toy.style.top =
-        `${pos.y}px`;
-
-    targetGlow.style.left =
-        `${pos.x + 30}px`;
-
-    targetGlow.style.top =
-        `${pos.y + 30}px`;
-
-}
-
-
-function moveToyRandomly(){
-
-    moveToy();
-
-    targetGlow.style.opacity = ".45";
-
-    setTimeout(
-        ()=>{
-            targetGlow.style.opacity = "0";
-        },
-        180
+    pushAnomaly(
+        t,
+        Math.random()<.28
+            ? "warn"
+            : ""
     );
 
+    glitchSound();
+
 }
 
 
-/* =========================================================
+/* =========================
    DECOYS
-========================================================= */
+========================= */
 
 function clearDecoys(){
 
     decoys.forEach(
-        d => d.remove()
+        d=>d.remove()
     );
 
     decoys = [];
@@ -1837,20 +2506,94 @@ function clearDecoys(){
 }
 
 
-function spawnDecoys(count){
+function randomPosition(
+    el,
+    bottomSafe=80
+){
+
+    const areaWidth =
+        gameArea.clientWidth;
+
+    const areaHeight =
+        gameArea.clientHeight;
+
+    const w =
+        el.offsetWidth || 60;
+
+    const h =
+        el.offsetHeight || 60;
+
+    const maxX =
+        Math.max(
+            10,
+            areaWidth-w-10
+        );
+
+    const maxY =
+        Math.max(
+            10,
+            areaHeight-h-bottomSafe
+        );
+
+    el.style.left =
+        Math.random()*maxX + "px";
+
+    el.style.top =
+        Math.random()*maxY + "px";
+
+}
+
+
+/* =========================
+   MOVE TOY
+========================= */
+
+function moveToy(){
+
+    randomPosition(
+        toy,
+        90
+    );
+
+    randomAnomaly();
+
+    const x =
+        parseFloat(toy.style.left) || 0;
+
+    const y =
+        parseFloat(toy.style.top) || 0;
+
+    targetGlow.style.left =
+        (x-30) + "px";
+
+    targetGlow.style.top =
+        (y-30) + "px";
+
+    targetGlow.style.opacity =
+        level===3 &&
+        Math.random()<.12
+            ? ".22"
+            : "0";
+
+}
+
+
+/* =========================
+   SPAWN DECOYS
+========================= */
+
+function spawnDecoys(){
 
     clearDecoys();
 
-    const symbols = [
-        "🧸",
-        "🪆",
-        "🎭",
-        "👁️",
-        "🧸",
-        "🪀"
-    ];
+    const count =
+        levelConfig[level].decoys;
 
-    for(let i=0;i<count;i++){
+    for(
+        let i=0;
+        i<count;
+        i++
+    ){
 
         const d =
             document.createElement("div");
@@ -1859,20 +2602,22 @@ function spawnDecoys(count){
             "decoy";
 
         d.textContent =
-            symbols[
+            emojiPool[
                 Math.floor(
-                    Math.random()*symbols.length
+                    Math.random() *
+                    emojiPool.length
                 )
             ];
 
-        const pos =
-            randomPosition(50,50);
+        d.setAttribute(
+            "aria-label",
+            "Decoy"
+        );
 
-        d.style.left =
-            `${pos.x}px`;
-
-        d.style.top =
-            `${pos.y}px`;
+        randomPosition(
+            d,
+            90
+        );
 
         d.addEventListener(
             "click",
@@ -1881,7 +2626,9 @@ function spawnDecoys(count){
             }
         );
 
-        gameArea.appendChild(d);
+        gameArea.appendChild(
+            d
+        );
 
         decoys.push(d);
 
@@ -1890,173 +2637,289 @@ function spawnDecoys(count){
 }
 
 
-/* =========================================================
-   BACKGROUND
-========================================================= */
+/* =========================
+   SECRET EYE
+========================= */
 
-function setLevelBackground(){
+function clearEye(){
 
-    if(currentLevel === 1){
+    if(currentEye){
 
-        gameArea.style.backgroundImage =
-            `url("${ASSETS.level1}")`;
+        currentEye.remove();
 
-    }
-
-    if(currentLevel === 2){
-
-        gameArea.style.backgroundImage =
-            `url("${ASSETS.level2}")`;
-
-    }
-
-    if(currentLevel === 3){
-
-        gameArea.style.backgroundImage =
-            `url("${ASSETS.level3}")`;
-
-    }
-
-    gameArea.classList.toggle(
-        "level3",
-        currentLevel === 3
-    );
-
-}
-
-
-/* =========================================================
-   START LEVEL
-========================================================= */
-
-function startLevel(){
-
-    if(locked) return;
-
-    sequenceStarted = false;
-
-    clearInterval(timerInterval);
-
-    clearInterval(moveInterval);
-
-    timeLeft =
-        levelConfig[currentLevel].time;
-
-    hintText.textContent =
-        levelConfig[currentLevel].label;
-
-    updateHUD();
-
-    setLevelBackground();
-
-    moveToy();
-
-    spawnDecoys(
-        levelConfig[currentLevel].decoys
-    );
-
-    const moveSpeed =
-        levelConfig[currentLevel].moves;
-
-    moveInterval =
-        setInterval(
-            moveToyRandomly,
-            moveSpeed
-        );
-
-    timerInterval =
-        setInterval(
-            countdown,
-            1000
-        );
-
-    addAnomaly(
-        `[LEVEL ${currentLevel}] scanning scene...`
-    );
-
-}
-
-
-/* =========================================================
-   TIMER
-========================================================= */
-
-function countdown(){
-
-    if(locked) return;
-
-    timeLeft--;
-
-    updateHUD();
-
-    if(timeLeft <= 5){
-
-        tickSound();
-
-    }
-
-    if(timeLeft <= 0){
-
-        clearInterval(timerInterval);
-
-        clearInterval(moveInterval);
-
-        sequenceStarted = true;
-
-        clearDecoys();
-
-        timeoutBadEnding();
+        currentEye =
+            null;
 
     }
 
 }
 
 
-/* =========================================================
-   WRONG CLICK
-========================================================= */
+/*
+   One eye appears per level.
 
-function wrongTarget(target){
+   Clicking it:
+   - DOES NOT cause jumpscare
+   - DOES NOT count as wrong
+   - adds 1 to secret counter
+*/
+
+function spawnSecretEye(){
+
+    clearEye();
+
+    const eye =
+        document.createElement("div");
+
+    eye.className =
+        "secretEye";
+
+    eye.textContent =
+        "👁️";
+
+    eye.title =
+        "Something is watching...";
+
+    randomPosition(
+        eye,
+        120
+    );
+
+    eye.addEventListener(
+        "click",
+        collectSecretEye
+    );
+
+    gameArea.appendChild(
+        eye
+    );
+
+    currentEye =
+        eye;
+
+}
+
+
+function collectSecretEye(e){
+
+    e.stopPropagation();
 
     if(
-        locked ||
-        sequenceStarted
+        sequenceStarted ||
+        !currentEye
     ) return;
 
-    sequenceStarted = true;
+    collectedEyes++;
 
-    clearInterval(timerInterval);
+    updateHUD();
 
-    clearInterval(moveInterval);
+    currentEye.classList.add(
+        "collected"
+    );
+
+    eyeSound();
+
+    pushAnomaly(
+        "SECRET OBJECT ACQUIRED.",
+        "crit"
+    );
+
+    showRoundMessage(
+        "👁 SECRET EYE FOUND • " +
+        collectedEyes +
+        "/3"
+    );
+
+    if(
+        collectedEyes === 3
+    ){
+
+        hintText.textContent =
+            "THE HIDDEN TRUTH HAS BEEN FOUND.";
+
+    }
+
+    setTimeout(
+        clearEye,
+        500
+    );
+
+}
+
+
+/* =========================
+   POINTER MOVEMENT
+========================= */
+
+gameArea.addEventListener(
+    "pointermove",
+    e=>{
+
+        if(sequenceStarted)
+            return;
+
+        const r =
+            gameArea.getBoundingClientRect();
+
+        if(!window.cursorTrace){
+
+            const c =
+                document.createElement("div");
+
+            c.className =
+                "cursorTrace";
+
+            gameArea.appendChild(
+                c
+            );
+
+            window.cursorTrace =
+                c;
+
+        }
+
+        cursorTrace.style.left =
+            (e.clientX-r.left) +
+            "px";
+
+        cursorTrace.style.top =
+            (e.clientY-r.top) +
+            "px";
+
+        const tr =
+            toy.getBoundingClientRect();
+
+        const dx =
+            e.clientX -
+            (tr.left+tr.width/2);
+
+        const dy =
+            e.clientY -
+            (tr.top+tr.height/2);
+
+        if(
+            Math.hypot(dx,dy)<90 &&
+            Math.random()<.08
+        ){
+
+            randomPosition(
+                toy,
+                90
+            );
+
+            pushAnomaly(
+                "Target displacement detected."
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================
+   WRONG CLICK
+========================= */
+
+function wrongTarget(d){
+
+    if(sequenceStarted)
+        return;
+
+    sequenceStarted =
+        true;
 
     wrongClicks++;
 
+    score =
+        Math.max(
+            0,
+            score-40
+        );
+
     updateHUD();
 
-    target.classList.add("wrong");
+    d.classList.add(
+        "wrong"
+    );
+
+    gameArea.classList.add(
+        "panic"
+    );
 
     wrongSound();
 
     alarmSound();
 
-    flash.classList.remove(
-        "flashNow"
+    pushAnomaly(
+        "WRONG TARGET SELECTED.",
+        "crit"
     );
 
-    void flash.offsetWidth;
+    flash.style.opacity =
+        ".45";
 
-    flash.classList.add(
-        "flashNow"
-    );
-
-    addAnomaly(
-        "[WARNING] WRONG OBJECT DETECTED"
+    setTimeout(
+        ()=>{
+            flash.style.opacity="0";
+        },
+        100
     );
 
     setTimeout(
         ()=>{
-            game.style.display = "none";
-            startBadEnding(true);
+            d.classList.remove(
+                "wrong"
+            );
+        },
+        280
+    );
+
+    setTimeout(
+        ()=>{
+            gameArea.classList.remove(
+                "panic"
+            );
+        },
+        350
+    );
+
+    hintText.textContent =
+        "WRONG TARGET.";
+
+    clearInterval(
+        timerInterval
+    );
+
+    clearInterval(
+        moveInterval
+    );
+
+    clearDecoys();
+
+    clearEye();
+
+    /*
+       WRONG CLICK
+       ↓
+       JUMPSCARE
+       ↓
+       FAKE PHONE
+       ↓
+       BLACK SCREEN
+       ↓
+       TERMINAL
+       ↓
+       CYBER REVEAL
+       ↓
+       ERROR SPAM
+       ↓
+       PRANK
+    */
+
+    setTimeout(
+        ()=>{
+            startWrongClickBadEnding();
         },
         180
     );
@@ -2064,66 +2927,211 @@ function wrongTarget(target){
 }
 
 
-/* =========================================================
-   FOUND TOY
-========================================================= */
+/* =========================
+   START LEVEL
+========================= */
 
-function foundToy(){
+function startLevel(){
 
-    if(
-        locked ||
-        sequenceStarted
-    ) return;
+    sequenceStarted =
+        false;
 
-    sequenceStarted = true;
+    clearInterval(
+        timerInterval
+    );
 
-    clearInterval(timerInterval);
-
-    clearInterval(moveInterval);
-
-    const points =
-        100 + timeLeft * 10;
-
-    score += points;
-
-    updateHUD();
-
-    successSound();
-
-    toy.style.transform =
-        "scale(1.35)";
+    clearInterval(
+        moveInterval
+    );
 
     clearDecoys();
 
-    showRoundMessage(
-        `FOUND! +${points}`
+    clearEye();
+
+    const cfg =
+        levelConfig[level];
+
+    timer =
+        cfg.time;
+
+    hintText.textContent =
+        cfg.label;
+
+    game.classList.remove(
+        "timerDanger"
     );
 
-    addAnomaly(
-        `[LEVEL ${currentLevel}] target confirmed`
+    updateHUD();
+
+    moveToy();
+
+    spawnDecoys();
+
+    /*
+       Every level gets exactly
+       one Secret Eye.
+    */
+
+    spawnSecretEye();
+
+    moveInterval =
+        setInterval(
+            ()=>{
+
+                moveToy();
+
+                if(level>=2){
+
+                    decoys.forEach(
+                        d=>{
+                            randomPosition(
+                                d,
+                                90
+                            );
+                        }
+                    );
+
+                }
+
+                /*
+                   Eye remains hidden in
+                   its current position until
+                   collected.
+                */
+
+            },
+            cfg.moves
+        );
+
+    timerInterval =
+        setInterval(
+            ()=>{
+
+                timer--;
+
+                updateHUD();
+
+                tickSound();
+
+                if(timer<=5){
+
+                    game.classList.add(
+                        "timerDanger"
+                    );
+
+                }
+
+                if(timer<=0){
+
+                    clearInterval(
+                        timerInterval
+                    );
+
+                    clearInterval(
+                        moveInterval
+                    );
+
+                    sequenceStarted =
+                        true;
+
+                    clearDecoys();
+
+                    clearEye();
+
+                    game.style.display =
+                        "none";
+
+                    startBadEndingSequence(
+                        "timeout"
+                    );
+
+                }
+
+            },
+            1000
+        );
+
+}
+
+
+/* =========================
+   TOY FOUND
+========================= */
+
+toy.addEventListener(
+    "click",
+    foundToy
+);
+
+
+function foundToy(){
+
+    if(sequenceStarted)
+        return;
+
+    clearInterval(
+        timerInterval
+    );
+
+    clearInterval(
+        moveInterval
+    );
+
+    score +=
+        100 +
+        timer*10;
+
+    updateHUD();
+
+    toy.classList.add(
+        "hunted"
+    );
+
+    successSound();
+
+    clearDecoys();
+
+    /*
+       Eye remains if not collected.
+       But level is changing,
+       so remove old eye.
+    */
+
+    clearEye();
+
+    showRoundMessage(
+        level<3
+            ? `TARGET FOUND • +${100+timer*10}`
+            : "TARGET FOUND • SESSION COMPLETE"
     );
 
     setTimeout(
         ()=>{
-            toy.style.transform = "";
+            toy.classList.remove(
+                "hunted"
+            );
         },
-        400
+        500
     );
 
-    if(currentLevel < 3){
+    if(level<3){
 
-        currentLevel++;
+        level++;
 
         setTimeout(
             startLevel,
-            850
+            900
         );
 
     }else{
 
         setTimeout(
-            gameComplete,
-            900
+            ()=>{
+                gameOver(
+                    "completed"
+                );
+            },
+            1100
         );
 
     }
@@ -2131,11 +3139,13 @@ function foundToy(){
 }
 
 
-/* =========================================================
+/* =========================
    ROUND MESSAGE
-========================================================= */
+========================= */
 
-function showRoundMessage(text){
+function showRoundMessage(
+    text
+){
 
     roundMessage.textContent =
         text;
@@ -2150,189 +3160,323 @@ function showRoundMessage(text){
                 "show"
             );
         },
-        700
+        800
     );
 
 }
 
 
-/* =========================================================
-   GAME COMPLETE
-========================================================= */
+/* =========================
+   GAME OVER
+========================= */
 
-function gameComplete(){
+function gameOver(reason){
 
-    locked = true;
+    if(
+        sequenceStarted
+    ) return;
 
-    clearInterval(timerInterval);
+    sequenceStarted =
+        true;
 
-    clearInterval(moveInterval);
+    clearInterval(
+        timerInterval
+    );
+
+    clearInterval(
+        moveInterval
+    );
 
     clearDecoys();
 
-    if(secretUnlocked){
+    clearEye();
 
-        showEnding(
-            ASSETS.secret,
-            "SECRET ENDING",
-            "YOU FOUND WHAT WAS HIDDEN",
-            "You noticed something that was never meant to be noticed."
-        );
+    resultTitle.textContent =
+        reason === "completed"
+            ? "SESSION COMPLETE"
+            : "SESSION INTERRUPTED";
 
-    }else{
+    resultLevel.textContent =
+        level + "/3";
 
-        showEnding(
-            ASSETS.happy,
-            "ENDING 02 • HAPPY",
-            "YOU MADE IT!",
-            "You found the toy and completed all three levels."
-        );
+    resultScore.textContent =
+        score;
 
-    }
+    resultMiss.textContent =
+        wrongClicks;
 
-}
+    resultEyes.textContent =
+        collectedEyes + "/3";
 
+    resultSession.textContent =
+        playerName.textContent;
 
-/* =========================================================
-   SECRET EYE
-========================================================= */
+    resultText.textContent =
+        reason === "completed"
+            ? (
+                collectedEyes === 3
+                    ? "All hidden objects were discovered."
+                    : "You completed the game. But something remained hidden."
+              )
+            : "The session ended before all targets were found.";
 
-secretEye.addEventListener(
-    "click",
-    ()=>{
-        if(locked) return;
+    resultOverlay.style.display =
+        "flex";
 
-        if(secretUnlocked) return;
-
-        secretUnlocked = true;
-
-        secretEye.classList.add(
-            "active"
-        );
-
-        glitchSound();
-
-        addAnomaly(
-            "[???] SOMETHING NOTICED YOU"
-        );
-
-        showRoundMessage(
-            "SECRET FOUND"
-        );
-
-    }
-);
-
-
-/* =========================================================
-   BAD ENDING ENTRY
-========================================================= */
-
-function timeoutBadEnding(){
-
-    game.style.display =
-        "none";
-
-    startBadEnding(false);
-
-}
-
-
-/* =========================================================
-   BAD ENDING SEQUENCE
-========================================================= */
-
-function startBadEnding(
-    fromWrongClick=false
-){
-
-    locked = true;
-
-    clearInterval(timerInterval);
-
-    clearInterval(moveInterval);
-
-    clearDecoys();
-
-    /*
-        JIKA SALAH KLIK:
-        JUMPSCARE DAHULU
-    */
-
-    if(fromWrongClick){
-
-        jumpscareNow();
-
-    }else{
-
-        /*
-            JIKA TIMEOUT:
-            LANGSUNG MASUK KE PHONE/HACKING
-        */
-
-        fakePhoneSequence();
-
-    }
-
-}
-
-
-/* =========================================================
-   JUMPSCARE
-========================================================= */
-
-function jumpscareNow(){
-
-    jumpscare.style.display =
-        "block";
-
-    jumpImage.src =
-        ASSETS.jumpscare;
-
-    glitchSound();
-
-    wrongSound();
-
-    flash.classList.remove(
-        "flashNow"
-    );
-
-    void flash.offsetWidth;
-
-    flash.classList.add(
-        "flashNow"
-    );
-
-    setTimeout(
+    requestAnimationFrame(
         ()=>{
-            fakePhoneSequence();
-        },
-        1200
+            resultBarFill.style.width =
+                Math.min(
+                    100,
+                    Math.max(
+                        8,
+                        score/10
+                    )
+                ) + "%";
+        }
     );
+
+    continueHorror.onclick =
+        ()=>{
+
+            resultOverlay.style.display =
+                "none";
+
+            game.style.display =
+                "none";
+
+            /*
+               IMPORTANT:
+               3 eyes = SECRET ENDING
+
+               Otherwise:
+               HAPPY ENDING
+            */
+
+            if(
+                reason === "completed" &&
+                collectedEyes === 3
+            ){
+
+                showSecretEnding();
+
+            }else{
+
+                showHappyEnding();
+
+            }
+
+        };
 
 }
 
 
-/* =========================================================
-   FAKE PHONE
-========================================================= */
+/* =========================
+   HAPPY ENDING
+========================= */
 
-function fakePhoneSequence(){
+function showHappyEnding(){
 
-    jumpscare.style.display =
-        "none";
+    prank.innerHTML = `
 
-    phoneAlert.style.display =
+        <div class="finalBadge">
+            ENDING 02 • HAPPY
+        </div>
+
+        <h1>
+            YOU MADE IT! 🎉
+        </h1>
+
+        <p>
+            You found the toy and completed
+            all three levels.
+        </p>
+
+        <p>
+            <b>
+                Secret Eyes Found:
+                ${collectedEyes}/3
+            </b>
+        </p>
+
+        <div class="finalButtons">
+
+            <button
+                class="playAgain"
+                type="button"
+                onclick="location.reload()">
+                🎮 PLAY AGAIN
+            </button>
+
+            <button
+                class="exitButton"
+                type="button"
+                onclick="closeSimulation()">
+                EXIT
+            </button>
+
+        </div>
+
+    `;
+
+    prank.style.display =
+        "flex";
+
+    successSound();
+
+}
+
+
+/* =========================
+   SECRET ENDING
+========================= */
+
+function showSecretEnding(){
+
+    prank.innerHTML = `
+
+        <div
+            class="finalBadge"
+            style="
+                color:#ff3333;
+                border-color:#ff333355;
+            "
+        >
+            ENDING 03 • SECRET ENDING
+        </div>
+
+        <h1
+            style="
+                color:#ff3333;
+                text-shadow:
+                    0 0 20px red,
+                    0 0 45px red;
+            "
+        >
+            YOU FOUND THE TRUTH 👁️
+        </h1>
+
+        <p>
+            You collected all three hidden eyes.
+            <br>
+            Something was watching the entire time.
+        </p>
+
+        <p>
+            <b>
+                SECRET EYES:
+                3/3
+            </b>
+        </p>
+
+        <div class="finalButtons">
+
+            <button
+                class="playAgain"
+                type="button"
+                onclick="location.reload()">
+                🎮 PLAY AGAIN
+            </button>
+
+            <button
+                class="exitButton"
+                type="button"
+                onclick="closeSimulation()">
+                EXIT
+            </button>
+
+        </div>
+
+    `;
+
+    prank.style.display =
         "flex";
 
     glitchSound();
 
+    tone(
+        330,
+        .15,
+        "sawtooth",
+        .07
+    );
+
+    tone(
+        220,
+        .30,
+        "sawtooth",
+        .06,
+        .18
+    );
+
+}
+
+
+/* =========================
+   WRONG CLICK BAD ENDING
+========================= */
+
+function startWrongClickBadEnding(){
+
+    jumpscare.style.display =
+        "block";
+
+    hacked.classList.remove(
+        "show"
+    );
+
+    flash.style.opacity =
+        "1";
+
+    jumpSound();
+
     setTimeout(
         ()=>{
-            phoneAlert.style.display =
+            flash.style.opacity =
+                "0";
+        },
+        90
+    );
+
+    jumpscare.classList.add(
+        "glitch"
+    );
+
+    setTimeout(
+        ()=>{
+            jumpscare.classList.remove(
+                "glitch"
+            );
+        },
+        900
+    );
+
+    setTimeout(
+        ()=>{
+            hacked.classList.add(
+                "show"
+            );
+        },
+        450
+    );
+
+    /*
+       Jumpscare stays long enough
+       to be clearly seen.
+    */
+
+    setTimeout(
+        ()=>{
+            jumpscare.style.display =
                 "none";
 
-            blackSequence();
+            hacked.classList.remove(
+                "show"
+            );
+
+            showPhoneSimulation(
+                "wrong"
+            );
 
         },
         2600
@@ -2341,326 +3485,556 @@ function fakePhoneSequence(){
 }
 
 
-/* =========================================================
-   BLACK SCREEN
-========================================================= */
+/* =========================
+   BAD ENDING
+   TIMEOUT
+========================= */
 
-function blackSequence(){
+function startBadEndingSequence(
+    reason
+){
+
+    /*
+       TIMEOUT:
+       Phone first
+    */
+
+    showPhoneSimulation(
+        reason
+    );
+
+}
+
+
+/* =========================
+   PHONE
+========================= */
+
+function showPhoneSimulation(
+    reason
+){
+
+    callName.textContent =
+        reason === "wrong"
+            ? "UNKNOWN CALLER"
+            : "UNKNOWN CALLER";
+
+    callNumber.textContent =
+        reason === "wrong"
+            ? "PRIVATE • WRONG TARGET DETECTED"
+            : "PRIVATE • ACTIVITY DETECTED";
+
+    phoneAlert.style.display =
+        "flex";
+
+    alarmSound();
+
+    setTimeout(
+        ()=>{
+
+            phoneAlert.style.display =
+                "none";
+
+            startBlack();
+
+        },
+        3200
+    );
+
+}
+
+
+/* =========================
+   BLACK SCREEN
+========================= */
+
+function startBlack(){
 
     black.style.display =
         "flex";
 
-    blackMessage.innerHTML =
-        `SIGNAL LOST...<br>
-         <span class="blackBlink">
-         RECONNECTING...
-         </span>`;
+    black.textContent =
+        "CONNECTION LOST...";
 
-    noise(.25,.25);
+    glitchSound();
 
     setTimeout(
         ()=>{
-            blackMessage.innerHTML =
-                `UNKNOWN CONNECTION<br>
-                 <span class="blackBlink">
-                 CONNECTION RESTORED
-                 </span>`;
+            black.textContent =
+                "RECONNECTING...";
         },
-        1100
+        800
     );
 
     setTimeout(
         ()=>{
-            terminalSequence();
+            black.textContent =
+                "VERIFYING SESSION...";
         },
-        2100
+        1500
+    );
+
+    setTimeout(
+        ()=>{
+            black.textContent =
+                "UNEXPECTED RESPONSE";
+        },
+        2200
+    );
+
+    setTimeout(
+        ()=>{
+
+            black.style.display =
+                "none";
+
+            startTerminal();
+
+        },
+        3100
     );
 
 }
 
 
-/* =========================================================
+/* =========================
+   TERMINAL LOGS
+========================= */
+
+function getLogs(){
+
+    return [
+
+        ["SYSTEM INITIALIZATION...","white"],
+
+        ["> Browser runtime detected.","dim"],
+
+        ["> Local session handshake...","dim"],
+
+        ["> Connection established.","green"],
+
+        ["",""],
+
+        ["SESSION STATE","yellow"],
+
+        ["> Guest session: "+sessionId,"yellow"],
+
+        ["> Game progress: "+score+" points","dim"],
+
+        ["> Secret objects: "+collectedEyes+"/3","yellow"],
+
+        ["> External data access: NONE","green"],
+
+        ["",""],
+
+        ["ANOMALY SCAN STARTED","red"],
+
+        ["> Checking active page state...","dim"],
+
+        ["> Checking event listeners...","dim"],
+
+        ["> Checking rendering context...","dim"],
+
+        ["> Searching hidden objects...","dim"],
+
+        ["> Unexpected pattern detected.","yellow"],
+
+        ["",""],
+
+        ["WARNING: UNKNOWN ACTIVITY DETECTED","yellow"],
+
+        ["> Attempting to isolate event...","dim"],
+
+        ["> Isolation failed.","red"],
+
+        ["",""],
+
+        ["!!! SECURITY BREACH DETECTED !!!","red"],
+
+        ["> Control state: UNKNOWN","yellow"],
+
+        ["> Recovery channel: UNAVAILABLE","red"],
+
+        ["",""],
+
+        ["CRITICAL ERROR","red"],
+
+        ["> Visual subsystem unstable.","red"],
+
+        ["> Emergency shutdown sequence...","red"],
+
+        ["",""],
+
+        ["SYSTEM FAILURE","red"],
+
+        ["> Connection lost.","red"]
+
+    ];
+
+}
+
+
+/* =========================
    TERMINAL
-========================================================= */
+========================= */
 
-const terminalLines = [
+function startTerminal(){
 
-    "[SYSTEM] Initializing recovery protocol...",
-    "[SYSTEM] Searching active session...",
-    "[SCAN] Searching player signature...",
-    "[SCAN] Player signature detected.",
-    "[SCAN] Environment integrity: FAILED",
-    "[WARNING] Unauthorized observation detected.",
-    "[WARNING] External signal detected.",
-    "[ACCESS] Attempting emergency connection...",
-    "[ACCESS] Connection unstable.",
-    "[TRACE] Unknown source found.",
-    "[TRACE] Source location: UNKNOWN",
-    "[ERROR] Reality layer mismatch.",
-    "[ERROR] Session integrity compromised.",
-    "[SYSTEM] Attempting isolation...",
-    "[SYSTEM] Isolation failed.",
-    "[SYSTEM] Something is still connected.",
-    "[SYSTEM] DO NOT CLOSE THE SESSION.",
-    "[SYSTEM] Retrieving hidden image...",
-    "[SCAN] IMAGE DATA FOUND.",
-    "[SYSTEM] Preparing visual reconstruction..."
-
-];
-
-
-function terminalSequence(){
-
-    black.style.display =
-        "none";
-
-    terminal.style.display =
+    screen.style.display =
         "block";
 
-    terminalOutput.innerHTML =
+    terminal.innerHTML =
         "";
 
-    terminalProgressFill.style.width =
-        "0%";
+    const logs =
+        getLogs();
 
-    let index = 0;
+    let i = 0;
 
-    const interval =
-        setInterval(
-            ()=>{
-                if(index >= terminalLines.length){
-
-                    clearInterval(interval);
-
-                    setTimeout(
-                        errorSpamSequence,
-                        600
-                    );
-
-                    return;
-
-                }
-
-                const line =
-                    document.createElement("div");
-
-                line.className =
-                    "terminalLine";
-
-                line.textContent =
-                    terminalLines[index];
-
-                terminalOutput.appendChild(
-                    line
-                );
-
-                terminalOutput.scrollTop =
-                    terminalOutput.scrollHeight;
-
-                const percent =
-                    Math.round(
-                        ((index+1) /
-                        terminalLines.length) *
-                        100
-                    );
-
-                terminalProgressFill.style.width =
-                    `${percent}%`;
-
-                glitchSound();
-
-                index++;
-
-            },
-            220
+    let progress =
+        document.createElement(
+            "div"
         );
 
-}
+    progress.className =
+        "dim";
 
+    progress.textContent =
+        "> Processing: [                    ] 0%";
 
-/* =========================================================
-   ERROR SPAM
-========================================================= */
-
-const errorMessages = [
-
-    "ERROR // CONNECTION LOST",
-    "ERROR // UNKNOWN PROCESS",
-    "ERROR // IMAGE CORRUPTED",
-    "ERROR // MEMORY FAILURE",
-    "WARNING // EXTERNAL ENTITY",
-    "ERROR // SESSION LOCKED",
-    "ERROR // VISUAL DATA UNSTABLE",
-    "FATAL // UNKNOWN SIGNAL",
-    "ERROR // PLAYER DETECTED",
-    "ERROR // EXIT FAILED",
-    "WARNING // DO NOT LOOK AWAY",
-    "FATAL // RECOVERY FAILED"
-
-];
-
-
-function errorSpamSequence(){
-
-    terminal.style.display =
-        "none";
-
-    errorSpam.style.display =
-        "block";
-
-    glitchLayer.style.display =
-        "block";
-
-    let count = 0;
-
-    const spam =
-        setInterval(
-            ()=>{
-                createError();
-
-                glitchSound();
-
-                count++;
-
-                if(count >= 30){
-
-                    clearInterval(spam);
-
-                    setTimeout(
-                        ()=>{
-                            errorSpam.style.display =
-                                "none";
-
-                            glitchLayer.style.display =
-                                "none";
-
-                            showCyberReveal();
-
-                        },
-                        1000
-                    );
-
-                }
-
-            },
-            75
-        );
-
-}
-
-
-function createError(){
-
-    const error =
-        document.createElement("div");
-
-    error.className =
-        "errorItem";
-
-    error.textContent =
-        errorMessages[
-            Math.floor(
-                Math.random() *
-                errorMessages.length
-            )
-        ];
-
-    error.style.left =
-        `${Math.random()*95}%`;
-
-    error.style.top =
-        `${Math.random()*95}%`;
-
-    error.style.transform =
-        `rotate(${Math.random()*12-6}deg)`;
-
-    errorSpam.appendChild(
-        error
+    terminal.appendChild(
+        progress
     );
+
+    let p = 0;
+
+    const pInt =
+        setInterval(
+            ()=>{
+
+                p += 5;
+
+                const bars =
+                    Math.floor(
+                        p/5
+                    );
+
+                progress.textContent =
+                    `> Processing: [` +
+                    `${"█".repeat(bars)}` +
+                    `${" ".repeat(20-bars)}` +
+                    `] ${p}%`;
+
+                typingSound();
+
+                if(p>=100){
+
+                    clearInterval(
+                        pInt
+                    );
+
+                }
+
+            },
+            55
+        );
+
+
+    function next(){
+
+        if(i>=logs.length){
+
+            setTimeout(
+                startReveal,
+                900
+            );
+
+            return;
+
+        }
+
+        const [
+            text,
+            cls
+        ] =
+            logs[i++];
+
+        const div =
+            document.createElement(
+                "div"
+            );
+
+        div.className =
+            cls;
+
+        div.textContent =
+            text || " ";
+
+        terminal.appendChild(
+            div
+        );
+
+        terminal.scrollTop =
+            terminal.scrollHeight;
+
+        typingSound();
+
+        let delay =
+            145;
+
+        if(
+            text.includes("BREACH")
+        ){
+
+            delay =
+                700;
+
+            alarmSound();
+
+        }
+
+        else if(
+            text.includes("ERROR") ||
+            text.includes("FAILURE")
+        ){
+
+            delay =
+                500;
+
+            glitchSound();
+
+        }
+
+        setTimeout(
+            next,
+            delay
+        );
+
+    }
 
     setTimeout(
-        ()=>{
-            error.remove();
-        },
-        900
+        next,
+        650
     );
 
 }
 
 
-/* =========================================================
-   CYBER HORROR REVEAL
-========================================================= */
+/* =========================
+   CYBER REVEAL
+========================= */
 
-function showCyberReveal(){
+function startReveal(){
+
+    screen.style.display =
+        "none";
 
     reveal.style.display =
         "block";
 
-    image.src =
-        ASSETS.cyber;
-
     image.style.opacity =
         "0";
+
+    loadingImage.textContent =
+        "LOADING IMAGE... 0%";
+
+    reveal.classList.remove(
+        "glitch"
+    );
+
+    revealSound();
 
     pieces.forEach(
         piece=>{
             piece.classList.remove(
-                "revealed"
+                "show"
             );
+
+            piece.style.opacity =
+                "";
         }
     );
 
-    loadingImage.textContent =
-        "LOADING 00%";
+    const shuffled =
+        Array.from(
+            pieces
+        ).sort(
+            ()=>Math.random()-.5
+        );
 
-    revealSound();
+    shuffled.forEach(
+        (piece,index)=>{
 
-    /*
-        SHUFFLE URUTAN PIECE
-    */
+            setTimeout(
+                ()=>{
 
-    const order =
-        [...pieces]
-            .map(
-                (_,index)=>index
-            )
-            .sort(
-                ()=>Math.random()-.5
+                    piece.classList.add(
+                        "show"
+                    );
+
+                    const percent =
+                        Math.round(
+                            (
+                                (index+1) /
+                                pieces.length
+                            ) * 100
+                        );
+
+                    loadingImage.textContent =
+                        "LOADING IMAGE... " +
+                        percent +
+                        "%";
+
+                    if(
+                        index%3===0
+                    ){
+
+                        reveal.classList.add(
+                            "glitch"
+                        );
+
+                        glitchSound();
+
+                        setTimeout(
+                            ()=>{
+                                reveal.classList.remove(
+                                    "glitch"
+                                );
+                            },
+                            120
+                        );
+
+                    }
+
+                },
+                index*220
             );
 
-    let revealedCount = 0;
+        }
+    );
+
+
+    setTimeout(
+        ()=>{
+
+            image.style.opacity =
+                "1";
+
+            pieces.forEach(
+                piece=>{
+                    piece.style.opacity =
+                        "0";
+                }
+            );
+
+            loadingImage.textContent =
+                "IMAGE LOAD COMPLETE";
+
+        },
+        pieces.length*220+400
+    );
+
+
+    /*
+       Setelah cyber-horror muncul,
+       lanjut ke jumpscare + error spam.
+    */
+
+    setTimeout(
+        startCyberJumpscare,
+        pieces.length*220+1100
+    );
+
+}
+
+
+/* =========================
+   CYBER JUMPSCARE
+========================= */
+
+function startCyberJumpscare(){
+
+    reveal.style.display =
+        "none";
+
+    jumpscare.style.display =
+        "block";
+
+    hacked.classList.remove(
+        "show"
+    );
+
+    flash.style.opacity =
+        "1";
+
+    jumpSound();
+
+    setTimeout(
+        ()=>{
+            flash.style.opacity =
+                "0";
+        },
+        90
+    );
+
+    jumpscare.classList.add(
+        "glitch"
+    );
+
+    setTimeout(
+        ()=>{
+            jumpscare.classList.remove(
+                "glitch"
+            );
+        },
+        900
+    );
+
+    setTimeout(
+        ()=>{
+            hacked.classList.add(
+                "show"
+            );
+        },
+        450
+    );
+
+    setTimeout(
+        startErrorSpam,
+        2400
+    );
+
+}
+
+
+/* =========================
+   ERROR SPAM
+========================= */
+
+function startErrorSpam(){
+
+    hacked.classList.remove(
+        "show"
+    );
+
+    errorSpam.innerHTML =
+        "";
+
+    errorSpam.style.display =
+        "block";
+
+    let count = 0;
 
     const interval =
         setInterval(
             ()=>{
-                const pieceIndex =
-                    order[revealedCount];
 
-                pieces[
-                    pieceIndex
-                ].classList.add(
-                    "revealed"
-                );
+                createError();
 
-                revealedCount++;
-
-                const percent =
-                    Math.round(
-                        (revealedCount /
-                        pieces.length) *
-                        100
-                    );
-
-                loadingImage.textContent =
-                    `LOADING ${String(percent).padStart(2,"0")}%`;
-
-                /*
-                    GLITCH TIAP BEBERAPA BAGIAN
-                */
+                count++;
 
                 if(
-                    revealedCount % 3 === 0
+                    count%3===0
                 ){
 
                     glitchSound();
@@ -2668,98 +4042,264 @@ function showCyberReveal(){
                 }
 
                 if(
-                    revealedCount >= pieces.length
+                    count>=20
                 ){
 
-                    clearInterval(interval);
+                    clearInterval(
+                        interval
+                    );
 
                     setTimeout(
                         ()=>{
-                            image.style.opacity =
-                                "1";
 
-                            pieces.forEach(
-                                piece=>{
-                                    piece.style.opacity =
-                                        "0";
-                                }
+                            errorSpam.style.display =
+                                "none";
+
+                            jumpscare.style.display =
+                                "none";
+
+                            prank.innerHTML = `
+
+                                <div class="finalBadge">
+                                    ENDING 01 • BAD ENDING
+                                </div>
+
+                                <h1>
+                                    PRANKED! 😂
+                                </h1>
+
+                                <p>
+                                    The entire sequence was
+                                    a browser simulation.
+                                    <br>
+                                    Nothing outside this page
+                                    was accessed.
+                                </p>
+
+                                <p>
+                                    <b>
+                                        No files were accessed.
+                                    </b>
+
+                                    <br>
+
+                                    <b>
+                                        No personal data was
+                                        sent anywhere.
+                                    </b>
+                                </p>
+
+                                <div class="finalButtons">
+
+                                    <button
+                                        class="playAgain"
+                                        type="button"
+                                        onclick="location.reload()">
+                                        🎮 PLAY AGAIN
+                                    </button>
+
+                                    <button
+                                        class="exitButton"
+                                        type="button"
+                                        onclick="closeSimulation()">
+                                        EXIT
+                                    </button>
+
+                                </div>
+
+                            `;
+
+                            prank.style.display =
+                                "flex";
+
+                            tone(
+                                520,
+                                .12,
+                                "sine",
+                                .07
                             );
 
-                            loadingImage.textContent =
-                                "IMAGE RECOVERED";
-
-                            setTimeout(
-                                ()=>{
-                                    reveal.style.display =
-                                        "none";
-
-                                    showEnding(
-                                        ASSETS.cyber,
-                                        "ENDING 01 • BAD ENDING",
-                                        "YOU FAILED",
-                                        "Something was waiting behind the game."
-                                    );
-
-                                },
-                                1200
+                            tone(
+                                780,
+                                .18,
+                                "sine",
+                                .06,
+                                .12
                             );
 
                         },
-                        500
+                        1900
                     );
 
                 }
 
             },
-            190
+            155
         );
 
 }
 
 
-/* =========================================================
-   ENDING
-========================================================= */
+/* =========================
+   CREATE ERROR
+========================= */
 
-function showEnding(
-    src,
-    badge,
-    title,
-    text
-){
+function createError(){
 
-    ending.style.display =
-        "block";
+    const box =
+        document.createElement(
+            "div"
+        );
 
-    endingImage.style.opacity =
-        "0";
+    box.className =
+        "errorBox";
 
-    endingImage.src =
-        src;
+    const codes = [
 
-    endingBadge.textContent =
-        badge;
+        "0x00000005",
+        "0x00000013",
+        "0x0000001F",
+        "0x80004005",
+        "0xDEAD0001"
 
-    endingTitle.textContent =
-        title;
+    ];
 
-    endingText.textContent =
-        text;
+    const messages = [
 
-    setTimeout(
+        "Browser process has stopped responding.",
+
+        "Rendering context returned an unexpected state.",
+
+        "Session handshake could not be verified.",
+
+        "Recovery service failed to respond.",
+
+        "Visual subsystem timeout detected.",
+
+        "Unknown observer process detected.",
+
+        "Hidden object index corrupted.",
+
+        "Target reference returned an invalid state."
+
+    ];
+
+    box.innerHTML = `
+
+        <b>
+            ⚠ CRITICAL ERROR
+        </b>
+
+        <br><br>
+
+        ${
+            messages[
+                Math.floor(
+                    Math.random() *
+                    messages.length
+                )
+            ]
+        }
+
+        <br><br>
+
+        Error Code:
+
+        ${
+            codes[
+                Math.floor(
+                    Math.random() *
+                    codes.length
+                )
+            ]
+        }
+
+        <br><br>
+
+        <button
+            type="button"
+            class="errorClose">
+            OK
+        </button>
+
+    `;
+
+    box.style.left =
+        Math.random()*76 +
+        "%";
+
+    box.style.top =
+        Math.random()*76 +
+        "%";
+
+    box.style.zIndex =
+        700 +
+        Math.floor(
+            Math.random()*100
+        );
+
+    box.querySelector(
+        ".errorClose"
+    ).addEventListener(
+        "click",
         ()=>{
-            endingImage.style.opacity =
-                "1";
-        },
-        100
+            clickSound();
+            box.remove();
+        }
+    );
+
+    errorSpam.appendChild(
+        box
     );
 
 }
 
 
-/* =========================================================
-   PLAY AGAIN
-========================================================= */
+/* =========================
+   CLOSE SIMULATION
+========================= */
+
+function closeSimulation(){
+
+    prank.innerHTML = `
+
+        <div class="finalBadge">
+            SIMULATION CLOSED
+        </div>
+
+        <h1>
+            THANKS FOR PLAYING 👋
+        </h1>
+
+        <p>
+            You can safely close this tab.
+            <br>
+            <b>No files were accessed.</b>
+            <br>
+            <b>No personal data was sent anywhere.</b>
+        </p>
+
+        <div class="finalButtons">
+
+            <button
+                class="playAgain"
+                type="button"
+                onclick="location.reload()">
+                🎮 PLAY AGAIN
+            </button>
+
+        </div>
+
+    `;
+
+    clickSound();
+
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
 
 playAgain.addEventListener(
     "click",
@@ -2769,140 +4309,11 @@ playAgain.addEventListener(
 );
 
 
-/* =========================================================
-   EXIT
-========================================================= */
-
 exitButton.addEventListener(
     "click",
-    ()=>{
-
-        endingImage.style.opacity =
-            "0";
-
-        endingBadge.textContent =
-            "SIMULATION CLOSED";
-
-        endingTitle.textContent =
-            "SESSION ENDED";
-
-        endingText.textContent =
-            "You can close this window now.";
-
-        playAgain.style.display =
-            "none";
-
-    }
+    closeSimulation
 );
 
-
-/* =========================================================
-   TOY CLICK
-========================================================= */
-
-toy.addEventListener(
-    "click",
-    (event)=>{
-        event.stopPropagation();
-
-        clickSound();
-
-        foundToy();
-    }
-);
-
-
-/* =========================================================
-   MOVEMENT BASED ON CURSOR
-========================================================= */
-
-gameArea.addEventListener(
-    "pointermove",
-    event=>{
-
-        if(
-            locked ||
-            sequenceStarted
-        ) return;
-
-        const rect =
-            toy.getBoundingClientRect();
-
-        const dx =
-            event.clientX -
-            (rect.left + rect.width/2);
-
-        const dy =
-            event.clientY -
-            (rect.top + rect.height/2);
-
-        const distance =
-            Math.sqrt(
-                dx*dx + dy*dy
-            );
-
-        if(
-            distance < 90 &&
-            Math.random() < .08
-        ){
-
-            moveToy();
-
-        }
-
-    }
-);
-
-
-/* =========================================================
-   GAME START
-========================================================= */
-
-function mulai(){
-
-    initAudio();
-
-    if(
-        audioContext.state ===
-        "suspended"
-    ){
-
-        audioContext.resume();
-
-    }
-
-    awal.style.display =
-        "none";
-
-    game.style.display =
-        "block";
-
-    locked = false;
-
-    currentLevel = 1;
-
-    score = 0;
-
-    wrongClicks = 0;
-
-    secretUnlocked = false;
-
-    secretEye.classList.remove(
-        "active"
-    );
-
-    updateHUD();
-
-    fullscreen();
-
-    startLevel();
-
-}
-
-
-/* =========================================================
-   START BUTTON
-========================================================= */
 
 playButton.addEventListener(
     "click",
@@ -2910,33 +4321,38 @@ playButton.addEventListener(
 );
 
 
-/* =========================================================
+/* =========================
    KEYBOARD
-========================================================= */
+========================= */
 
 document.addEventListener(
     "keydown",
-    event=>{
+    e=>{
 
         if(
-            event.key === "Enter" &&
-            awal.style.display !== "none"
+            e.key==="Enter" &&
+            awal.style.display!=="none"
         ){
 
             mulai();
 
         }
 
-        if(event.key === "Escape"){
+        if(
+            e.key==="Escape"
+        ){
 
             if(
                 document.fullscreenElement
             ){
 
-                document.exitFullscreen()
+                document
+                    .exitFullscreen()
                     .catch(()=>{});
 
             }
+
+            location.reload();
 
         }
 
